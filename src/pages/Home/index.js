@@ -8,6 +8,7 @@ import ProductContent from "../../content/ProductContent.json";
 import ContactContent from "../../content/ContactContent.json";
 
 const ContactFrom = lazy(() => import("../../components/ContactForm"));
+const TeamBlock = lazy(() => import("../../components/TeamBlock"));
 const ContentBlock = lazy(() => import("../../components/ContentBlock"));
 const MiddleBlock = lazy(() => import("../../components/MiddleBlock"));
 const Container = lazy(() => import("../../common/Container"));
@@ -54,6 +55,9 @@ const Home = () => {
         icon="waving.svg"
         id="product"
       />
+
+      <TeamBlock />
+
       <ContactFrom
         title={ContactContent.title}
         content={ContactContent.text}

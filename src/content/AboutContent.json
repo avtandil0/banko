@@ -1,15 +1,15 @@
 {
-  "title": "Light, Fast & Responsive",
-  "text": "This template is ready to use, so you don't need to change anything at a component level, unless you want to customize the default styling.",
+  "title": "არ დაკარგო დრო!  ",
+  "text": "ბანკო არის ციფრული პლატფორმა, რომელიც მომხმარებელს შესაძლებლობას აძლევს მოიძიოს საუკეთესო შეთავაზება სასურველ საბანკო პროდუქტზე  .",
   "section": [
     {
-      "title": "Why Antd?",
-      "content": "Ant Design is a React UI library that has a lot of easy-to-use components for building elegant UI.",
+      "title": "რატომ ბანკო?",
+      "content": "ბანკო გაძლევთ შესაძლებლობას მიიღოთ სესხებზე საუკეთესო პირობები. აუქციონის პრინციპით ჩვენ ვავლენთ მინიმალურ საპროცენტო განაკვეათს თქვენთვის სასურველ პროდუქტზე და გაკავშირებთ ფინანსურ ინსტიტუტთან.",
       "icon": "notes.svg"
     },
     {
-      "title": "Why styled-components?",
-      "content": "Styled Components gives you total control over your components.",
+      "title": "როგორ მუშაობს?",
+      "content": "აუქციონის პრინციპის გამოყენებით ვადგენთ  მინიმალურ საპროცენტო განაკვეთს და მომხმარებელს ვაკავშირებთ ფინანსურ ინსტიტუტთან .",
       "icon": "notes.svg"
     }
   ]
