@@ -321,7 +321,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           </strong>
                         </li>
                         <li>
-                          <strong>გადამამუშავებელი წარმოების მოსაწყობად</strong>
+                          <strong>გადამამუშავებელი წარმოების მოსაწყობად1</strong>
                         </li>
                       </ul>
                       <div class="pricing-table-button">
