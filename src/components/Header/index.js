@@ -52,8 +52,8 @@ const Header = ({ t, onChaneMode }) => {
     // MySwal.fire({
     //   title: 'Multiple inputs',
     //   width: '923px',
-    //   html:'<input id="swal-input1" class="swal2-input" placeholder="test"> ' +
-    //   '<input id="swal-input2" class="swal2-input">',
+    //   html:'<input id="swal-input1" className="swal2-input" placeholder="test"> ' +
+    //   '<input id="swal-input2" className="swal2-input">',
     //   focusConfirm: false,
     //   preConfirm: () => {
     //     return [

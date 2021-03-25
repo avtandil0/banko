@@ -5,18 +5,18 @@ import * as S from "./styles.css";
 const Team = () => {
   return (
     <div id='team'>
-      <section class="our-webcoderskull padding-lg">
-        <div class="container">
-          <div class="row heading heading-icon">
+      <section className="our-webcoderskull padding-lg">
+        <div className="container">
+          <div className="row heading heading-icon">
             <h2>Our Team</h2>
           </div>
-          <ul class="row">
-            <li class="col-12 col-md-6 col-lg-3">
-              <div class="cnt-block equal-hight" style={{height: "349px"}}>
+          <ul className="row">
+            <li className="col-12 col-md-6 col-lg-3">
+              <div className="cnt-block equal-hight" style={{height: "349px"}}>
                 <figure>
                   <img
                     src="http://www.webcoderskull.com/img/team4.png"
-                    class="img-responsive"
+                    className="img-responsive"
                     alt=""
                   />
                 </figure>
@@ -24,31 +24,31 @@ const Team = () => {
                   <a href="http://www.webcoderskull.com/">Web coder skull</a>
                 </h3>
                 <p>Freelance Web Developer</p>
-                <ul class="follow-us clearfix">
+                <ul className="follow-us clearfix">
                   <li>
                     <a href="#">
-                      <i class="fa fa-facebook" ></i>
+                      <i className="fa fa-facebook" ></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-twitter" aria-hidden="true"></i>
+                      <i className="fa fa-twitter" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                      <i className="fa fa-linkedin" aria-hidden="true"></i>
                     </a>
                   </li>
                 </ul>
               </div>
             </li>
-            <li class="col-12 col-md-6 col-lg-3">
-              <div class="cnt-block equal-hight"style={{height: "349px"}}>
+            <li className="col-12 col-md-6 col-lg-3">
+              <div className="cnt-block equal-hight"style={{height: "349px"}}>
                 <figure>
                   <img
                     src="http://www.webcoderskull.com/img/team1.png"
-                    class="img-responsive"
+                    className="img-responsive"
                     alt=""
                   />
                 </figure>
@@ -56,31 +56,31 @@ const Team = () => {
                   <a href="#">Kappua </a>
                 </h3>
                 <p>Freelance Web Developer</p>
-                <ul class="follow-us clearfix">
+                <ul className="follow-us clearfix">
                   <li>
                     <a href="#">
-                      <i class="fa fa-facebook" aria-hidden="true"></i>
+                      <i className="fa fa-facebook" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-twitter" aria-hidden="true"></i>
+                      <i className="fa fa-twitter" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                      <i className="fa fa-linkedin" aria-hidden="true"></i>
                     </a>
                   </li>
                 </ul>
               </div>
             </li>
-            <li class="col-12 col-md-6 col-lg-3">
-              <div class="cnt-block equal-hight" style={{height: "349px"}}>
+            <li className="col-12 col-md-6 col-lg-3">
+              <div className="cnt-block equal-hight" style={{height: "349px"}}>
                 <figure>
                   <img
                     src="http://www.webcoderskull.com/img/team4.png"
-                    class="img-responsive"
+                    className="img-responsive"
                     alt=""
                   />
                 </figure>
@@ -88,31 +88,31 @@ const Team = () => {
                   <a href="http://www.webcoderskull.com/">Manish </a>
                 </h3>
                 <p>Freelance Web Developer</p>
-                <ul class="follow-us clearfix">
+                <ul className="follow-us clearfix">
                   <li>
                     <a href="#">
-                      <i class="fa fa-facebook" aria-hidden="true"></i>
+                      <i className="fa fa-facebook" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-twitter" aria-hidden="true"></i>
+                      <i className="fa fa-twitter" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                      <i className="fa fa-linkedin" aria-hidden="true"></i>
                     </a>
                   </li>
                 </ul>
               </div>
             </li>
-            <li class="col-12 col-md-6 col-lg-3">
-              <div class="cnt-block equal-hight" style={{height: "349px"}}>
+            <li className="col-12 col-md-6 col-lg-3">
+              <div className="cnt-block equal-hight" style={{height: "349px"}}>
                 <figure>
                   <img
                     src="http://www.webcoderskull.com/img/team2.png"
-                    class="img-responsive"
+                    className="img-responsive"
                     alt=""
                   />
                 </figure>
@@ -120,20 +120,20 @@ const Team = () => {
                   <a href="http://www.webcoderskull.com/">Atul </a>
                 </h3>
                 <p>Freelance Web Developer</p>
-                <ul class="follow-us clearfix">
+                <ul className="follow-us clearfix">
                   <li>
                     <a href="#">
-                      <i class="fa fa-facebook" aria-hidden="true"></i>
+                      <i className="fa fa-facebook" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-twitter" aria-hidden="true"></i>
+                      <i className="fa fa-twitter" aria-hidden="true"></i>
                     </a>
                   </li>
                   <li>
                     <a href="#">
-                      <i class="fa fa-linkedin" aria-hidden="true"></i>
+                      <i className="fa fa-linkedin" aria-hidden="true"></i>
                     </a>
                   </li>
                 </ul>

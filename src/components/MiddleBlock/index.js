@@ -48,28 +48,28 @@ const MiddleBlock = ({ title, content, button, t }) => {
     <S.MiddleBlock>
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
-          <section id="pricing" class="bg-white">
-            <div class="container">
-              <h2 class="text-center">პროდუქტები</h2>
-              <div class="spacer spacer-line border-primary">&nbsp;</div>
-              <div class="spacer">&nbsp;</div>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="pricing-table">
-                    <div class="pricing-table-title">
-                      <h5 class="pricing-title bg-info-hover text-white">
+          <section id="pricing" className="bg-white">
+            <div className="container">
+              <h2 className="text-center">პროდუქტები</h2>
+              <div className="spacer spacer-line border-primary">&nbsp;</div>
+              <div className="spacer">&nbsp;</div>
+              <div className="row">
+                <div className="col-md-3">
+                  <div className="pricing-table">
+                    <div className="pricing-table-title">
+                      <h5 className="pricing-title bg-info-hover text-white">
                         სამომხმარებლო
                       </h5>
                     </div>
-                    <div class="pricing-table-price text-center bg-info">
-                      <p class="title-font">
-                        <span class="pricing-period text-white mr-1">From</span>
-                        <span class="pricing-currency text-white">$</span>
-                        <span class="pricing-price text-white">1.99</span>
-                        <span class="pricing-period text-white">/ Mo.</span>
+                    <div className="pricing-table-price text-center bg-info">
+                      <p className="title-font">
+                        <span className="pricing-period text-white mr-1">From</span>
+                        <span className="pricing-currency text-white">$</span>
+                        <span className="pricing-price text-white">1.99</span>
+                        <span className="pricing-period text-white">/ Mo.</span>
                       </p>
                     </div>
-                    <div class="pricing-table-content">
+                    <div className="pricing-table-content">
                       <ul>
                         <li>
                           <strong>იმოგზაურე</strong>
@@ -88,8 +88,8 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           <strong>24/7 Support</strong>
                         </li>
                       </ul>
-                      <div class="pricing-table-button">
-                        <span class="btn btn-info" onClick={() => onDialog(1)}>
+                      <div className="pricing-table-button">
+                        <span className="btn btn-info" onClick={() => onDialog(1)}>
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
@@ -103,50 +103,50 @@ const MiddleBlock = ({ title, content, button, t }) => {
                   </Modal.Header>
                   <Modal.Body>
                     <form>
-                      <div class="form-row">
-                        <div class="form-group col-md-6">
+                      <div className="form-row">
+                        <div className="form-group col-md-6">
                           <label for="inputEmail4">Email</label>
-                          <input type="email" class="form-control" id="inputEmail4" placeholder="Email" />
+                          <input type="email" className="form-control" id="inputEmail4" placeholder="Email" />
                         </div>
-                        <div class="form-group col-md-6">
+                        <div className="form-group col-md-6">
                           <label for="inputPassword4">Password</label>
-                          <input type="password" class="form-control" id="inputPassword4" placeholder="Password" />
+                          <input type="password" className="form-control" id="inputPassword4" placeholder="Password" />
                         </div>
                       </div>
-                      <div class="form-group">
+                      <div className="form-group">
                         <label for="inputAddress">Address</label>
-                        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" />
+                        <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
                       </div>
-                      <div class="form-group">
+                      <div className="form-group">
                         <label for="inputAddress2">Address 2</label>
-                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
+                        <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
                       </div>
-                      <div class="form-row">
-                        <div class="form-group col-md-6">
+                      <div className="form-row">
+                        <div className="form-group col-md-6">
                           <label for="inputCity">City</label>
-                          <input type="text" class="form-control" id="inputCity" />
+                          <input type="text" className="form-control" id="inputCity" />
                         </div>
-                        <div class="form-group col-md-4">
+                        <div className="form-group col-md-4">
                           <label for="inputState">State</label>
-                          <select id="inputState" class="form-control">
+                          <select id="inputState" className="form-control">
                             <option selected>Choose...</option>
                             <option>...</option>
                           </select>
                         </div>
-                        <div class="form-group col-md-2">
+                        <div className="form-group col-md-2">
                           <label for="inputZip">Zip</label>
-                          <input type="text" class="form-control" id="inputZip" />
+                          <input type="text" className="form-control" id="inputZip" />
                         </div>
                       </div>
-                      <div class="form-group">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="gridCheck" />
-                          <label class="form-check-label" for="gridCheck">
+                      <div className="form-group">
+                        <div className="form-check">
+                          <input className="form-check-input" type="checkbox" id="gridCheck" />
+                          <label className="form-check-label" for="gridCheck">
                             Check me out
       </label>
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary">გაგზავნა</button>
+                      <button type="submit" className="btn btn-primary">გაგზავნა</button>
                     </form>
                     {/* <Form>
                       <Form.Row>
@@ -208,22 +208,22 @@ const MiddleBlock = ({ title, content, button, t }) => {
                   </Modal.Body>
                   <Modal.Footer></Modal.Footer>
                 </Modal>
-                <div class="col-md-3">
-                  <div class="pricing-table bg-lightgrey">
-                    <div class="pricing-table-title">
-                      <h5 class="pricing-title bg-primary-hover text-white">
+                <div className="col-md-3">
+                  <div className="pricing-table bg-lightgrey">
+                    <div className="pricing-table-title">
+                      <h5 className="pricing-title bg-primary-hover text-white">
                         იპოთეკური
                       </h5>
                     </div>
-                    <div class="pricing-table-price text-center bg-primary">
-                      <p class="title-font">
-                        <span class="pricing-period text-white mr-1">From</span>
-                        <span class="pricing-currency text-white">$</span>
-                        <span class="pricing-price text-white">5.99</span>
-                        <span class="pricing-period text-white">/ Mo.</span>
+                    <div className="pricing-table-price text-center bg-primary">
+                      <p className="title-font">
+                        <span className="pricing-period text-white mr-1">From</span>
+                        <span className="pricing-currency text-white">$</span>
+                        <span className="pricing-price text-white">5.99</span>
+                        <span className="pricing-period text-white">/ Mo.</span>
                       </p>
                     </div>
-                    <div class="pricing-table-content">
+                    <div className="pricing-table-content">
                       <ul>
                         
                         <li>
@@ -241,8 +241,8 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           <strong>მიწის ნაკვეთის შეძენა</strong>
                         </li>
                       </ul>
-                      <div class="pricing-table-button">
-                      <span class="btn btn-primary" onClick={() => onDialog(1)}>
+                      <div className="pricing-table-button">
+                      <span className="btn btn-primary" onClick={() => onDialog(1)}>
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
@@ -250,22 +250,22 @@ const MiddleBlock = ({ title, content, button, t }) => {
                   </div>
                 </div>
 
-                <div class="col-md-3">
-                  <div class="pricing-table">
-                    <div class="pricing-table-title">
-                      <h5 class="pricing-title bg-info-hover text-white">
+                <div className="col-md-3">
+                  <div className="pricing-table">
+                    <div className="pricing-table-title">
+                      <h5 className="pricing-title bg-info-hover text-white">
                         ბიზნეს სესხი
                       </h5>
                     </div>
-                    <div class="pricing-table-price text-center bg-info">
-                      <p class="title-font">
-                        <span class="pricing-period text-white mr-1">From</span>
-                        <span class="pricing-currency text-white">$</span>
-                        <span class="pricing-price text-white">9.99</span>
-                        <span class="pricing-period text-white">/ Mo.</span>
+                    <div className="pricing-table-price text-center bg-info">
+                      <p className="title-font">
+                        <span className="pricing-period text-white mr-1">From</span>
+                        <span className="pricing-currency text-white">$</span>
+                        <span className="pricing-price text-white">9.99</span>
+                        <span className="pricing-period text-white">/ Mo.</span>
                       </p>
                     </div>
-                    <div class="pricing-table-content">
+                    <div className="pricing-table-content">
                       <ul>
                         <li>
                           <strong>
@@ -283,8 +283,8 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           <strong> ახალი პროექტის დასაფინანსებლად</strong>
                         </li>
                       </ul>
-                      <div class="pricing-table-button">
-                      <span class="btn btn-info" onClick={() => onDialog(1)}>
+                      <div className="pricing-table-button">
+                      <span className="btn btn-info" onClick={() => onDialog(1)}>
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
@@ -292,22 +292,22 @@ const MiddleBlock = ({ title, content, button, t }) => {
                   </div>
                 </div>
 
-                <div class="col-md-3">
-                  <div class="pricing-table bg-lightgrey">
-                    <div class="pricing-table-title">
-                      <h5 class="pricing-title bg-primary-hover text-white">
+                <div className="col-md-3">
+                  <div className="pricing-table bg-lightgrey">
+                    <div className="pricing-table-title">
+                      <h5 className="pricing-title bg-primary-hover text-white">
                         აგრო
                       </h5>
                     </div>
-                    <div class="pricing-table-price text-center bg-primary">
-                      <p class="title-font">
-                        <span class="pricing-period text-white mr-1">From</span>
-                        <span class="pricing-currency text-white">$</span>
-                        <span class="pricing-price text-white">5.99</span>
-                        <span class="pricing-period text-white">/ Mo.</span>
+                    <div className="pricing-table-price text-center bg-primary">
+                      <p className="title-font">
+                        <span className="pricing-period text-white mr-1">From</span>
+                        <span className="pricing-currency text-white">$</span>
+                        <span className="pricing-price text-white">5.99</span>
+                        <span className="pricing-period text-white">/ Mo.</span>
                       </p>
                     </div>
-                    <div class="pricing-table-content">
+                    <div className="pricing-table-content">
                       <ul>
                         <li>
                           <strong>სოფლის მეურნეობისთვის</strong>
@@ -324,8 +324,8 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           <strong>გადამამუშავებელი წარმოების მოსაწყობად1</strong>
                         </li>
                       </ul>
-                      <div class="pricing-table-button">
-                      <span class="btn btn-primary" onClick={() => onDialog(1)}>
+                      <div className="pricing-table-button">
+                      <span className="btn btn-primary" onClick={() => onDialog(1)}>
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
