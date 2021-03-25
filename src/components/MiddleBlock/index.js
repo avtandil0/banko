@@ -72,16 +72,16 @@ const MiddleBlock = ({ title, content, button, t }) => {
                     <div class="pricing-table-content">
                       <ul>
                         <li>
-                          <strong>Basic Package</strong>
+                          <strong>იმოგზაურე</strong>
                         </li>
                         <li>
                           <strong>
-                            <del>Professional Features</del>
+                            შეიძინე
                           </strong>
                         </li>
                         <li>
                           <strong>
-                            <del>Extra Options</del>
+
                           </strong>
                         </li>
                         <li>
@@ -225,19 +225,20 @@ const MiddleBlock = ({ title, content, button, t }) => {
                     </div>
                     <div class="pricing-table-content">
                       <ul>
+                        
                         <li>
-                          <strong>Management Package</strong>
-                        </li>
-                        <li>
-                          <strong>Professional Features</strong>
+                          <strong>რემონტი</strong>
                         </li>
                         <li>
                           <strong>
-                            <del>Extra Options</del>
+                            მშენებლობა
                           </strong>
                         </li>
                         <li>
-                          <strong>24/7 Support</strong>
+                          <strong>სახლის  შეძენა</strong>
+                        </li>
+                        <li>
+                          <strong>მიწის ნაკვეთის შეძენა</strong>
                         </li>
                       </ul>
                       <div class="pricing-table-button">
@@ -267,16 +268,19 @@ const MiddleBlock = ({ title, content, button, t }) => {
                     <div class="pricing-table-content">
                       <ul>
                         <li>
-                          <strong>Business Package</strong>
+                          <strong>
+                            
+                          </strong>
                         </li>
                         <li>
-                          <strong>Professional Features</strong>
+                          <strong> ძირითადი საშუალებების შესაძენად
+</strong>
                         </li>
                         <li>
-                          <strong>Extra Options</strong>
+                          <strong>საბრუნავი საშუალებების გასაზრდელად</strong>
                         </li>
                         <li>
-                          <strong>24/7 Support</strong>
+                          <strong> ახალი პროექტის დასაფინანსებლად</strong>
                         </li>
                       </ul>
                       <div class="pricing-table-button">
@@ -306,18 +310,18 @@ const MiddleBlock = ({ title, content, button, t }) => {
                     <div class="pricing-table-content">
                       <ul>
                         <li>
-                          <strong>Management Package</strong>
+                          <strong>სოფლის მეურნეობისთვის</strong>
                         </li>
                         <li>
-                          <strong>Professional Features</strong>
+                          <strong>ტექნიკის შესაძენად</strong>
                         </li>
                         <li>
                           <strong>
-                            <del>Extra Options</del>
+                           ფერმის გაფართოებისთვის
                           </strong>
                         </li>
                         <li>
-                          <strong>24/7 Support</strong>
+                          <strong>გადამამუშავებელი წარმოების მოსაწყობად</strong>
                         </li>
                       </ul>
                       <div class="pricing-table-button">
