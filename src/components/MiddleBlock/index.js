@@ -13,7 +13,7 @@ const Button = lazy(() => import("../../common/Button"));
 
 const MiddleBlock = ({ title, content, button, t }) => {
   console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-  
+
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
@@ -49,7 +49,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
     <S.MiddleBlock>
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
-          <section id="pricing" className="bg-white">
+          <section id="pricing" className="bg-white"  id="products">
             <div className="container">
               <h2 className="text-center">პროდუქტები</h2>
               <div className="spacer spacer-line border-primary">&nbsp;</div>
