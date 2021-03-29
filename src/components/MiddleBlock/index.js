@@ -13,6 +13,7 @@ const Button = lazy(() => import("../../common/Button"));
 
 const MiddleBlock = ({ title, content, button, t }) => {
   console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+  
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
