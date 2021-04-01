@@ -40,13 +40,13 @@ const Home = () => {
         icon="graphs.svg"
         id="about"
       />
-      <ContentBlock
+      {/* <ContentBlock
         type="right"
         title={MissionContent.title}
         content={MissionContent.text}
         icon="product-launch.svg"
         id="mission"
-      />
+      /> */}
 
       <ContentBlock
         type="left"
