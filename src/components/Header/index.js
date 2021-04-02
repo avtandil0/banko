@@ -168,24 +168,24 @@ const Header = ({ t, onChaneMode }) => {
             </Modal.Footer>
           </Modal>
 
-          {/* <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
+          <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
             <S.Span>{t("მთავარი")}</S.Span>
-          </S.CustomNavLinkSmall> */}
+          </S.CustomNavLinkSmall>
           <S.CustomNavLinkSmall onClick={() => scrollTo("products")}>
             <S.Span>{t("პროდუქტი")}</S.Span>
           </S.CustomNavLinkSmall>
           <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
             <S.Span>{t("როგორ მუშაობს")}</S.Span>
           </S.CustomNavLinkSmall>
-          {/* <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
-            <S.Span>{t("3333333333")}</S.Span>
-          </S.CustomNavLinkSmall> */}
+          <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
+            <S.Span>{t("რაკეტა")}</S.Span>
+          </S.CustomNavLinkSmall>
           <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
             <S.Span>{t("ჩვენს შესახებ")}</S.Span>
           </S.CustomNavLinkSmall>
-          <S.CustomNavLinkSmall onClick={() => scrollTo("team")}>
+          {/* <S.CustomNavLinkSmall onClick={() => scrollTo("team")}>
             <S.Span>{t("გუნდი")}</S.Span>
-          </S.CustomNavLinkSmall>
+          </S.CustomNavLinkSmall> */}
           <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
             <S.Span>{t("კონტაქტი")}</S.Span>
           </S.CustomNavLinkSmall>
