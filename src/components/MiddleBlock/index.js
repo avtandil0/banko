@@ -10,6 +10,8 @@ import * as S from "./styles";
 import "./index.css"; // Tell webpack that Button.js uses these styles
 
 const Button = lazy(() => import("../../common/Button"));
+const SvgIcon = lazy(() => import("../../common/SvgIcon"));
+
 
 const MiddleBlock = ({ title, content, button, t }) => {
   console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
@@ -63,21 +65,16 @@ const MiddleBlock = ({ title, content, button, t }) => {
                       </h5>
                     </div>
                     <div className="pricing-table-price text-center bg-info">
-                      <p className="title-font">
-                        <span className="pricing-period text-white mr-1">From</span>
-                        <span className="pricing-currency text-white">$</span>
-                        <span className="pricing-price text-white">1.99</span>
-                        <span className="pricing-period text-white">/ Mo.</span>
-                      </p>
+                    <SvgIcon src="56.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
                         <li>
-                          <strong>იმოგზაურე</strong>
+                          <strong>მოგზაურობა</strong>
                         </li>
                         <li>
                           <strong>
-                            შეიძინე
+                            ნივთის შეძენა
                           </strong>
                         </li>
                         <li>
@@ -86,7 +83,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           </strong>
                         </li>
                         <li>
-                          <strong>24/7 Support</strong>
+                          <strong>გართობა</strong>
                         </li>
                       </ul>
                       <div className="pricing-table-button">
@@ -217,12 +214,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                       </h5>
                     </div>
                     <div className="pricing-table-price text-center bg-primary">
-                      <p className="title-font">
-                        <span className="pricing-period text-white mr-1">From</span>
-                        <span className="pricing-currency text-white">$</span>
-                        <span className="pricing-price text-white">5.99</span>
-                        <span className="pricing-period text-white">/ Mo.</span>
-                      </p>
+                    <SvgIcon src="55.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
@@ -238,9 +230,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                         <li>
                           <strong>სახლის  შეძენა</strong>
                         </li>
-                        <li>
-                          <strong>მიწის ნაკვეთის შეძენა</strong>
-                        </li>
+                       
                       </ul>
                       <div className="pricing-table-button">
                       <span className="btn btn-primary" onClick={() => onDialog(1)}>
@@ -259,12 +249,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                       </h5>
                     </div>
                     <div className="pricing-table-price text-center bg-info">
-                      <p className="title-font">
-                        <span className="pricing-period text-white mr-1">From</span>
-                        <span className="pricing-currency text-white">$</span>
-                        <span className="pricing-price text-white">9.99</span>
-                        <span className="pricing-period text-white">/ Mo.</span>
-                      </p>
+                    <SvgIcon src="54.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
@@ -274,14 +259,14 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           </strong>
                         </li>
                         <li>
-                          <strong> ძირითადი საშუალებების შესაძენად
+                          <strong> ძირითადი საშუალებები
 </strong>
                         </li>
                         <li>
-                          <strong>საბრუნავი საშუალებების გასაზრდელად</strong>
+                          <strong>საბრუნავი საშუალებები</strong>
                         </li>
                         <li>
-                          <strong> ახალი პროექტის დასაფინანსებლად</strong>
+                          <strong> ახალი პროექტი</strong>
                         </li>
                       </ul>
                       <div className="pricing-table-button">
@@ -300,13 +285,8 @@ const MiddleBlock = ({ title, content, button, t }) => {
                         აგრო
                       </h5>
                     </div>
-                    <div className="pricing-table-price text-center bg-primary">
-                      <p className="title-font">
-                        <span className="pricing-period text-white mr-1">From</span>
-                        <span className="pricing-currency text-white">$</span>
-                        <span className="pricing-price text-white">5.99</span>
-                        <span className="pricing-period text-white">/ Mo.</span>
-                      </p>
+                    <div className="pricing-table-price text-center bg-primary" >
+                    <SvgIcon src="57.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
@@ -321,9 +301,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                            ფერმის გაფართოებისთვის
                           </strong>
                         </li>
-                        <li>
-                          <strong>გადამამუშავებელი წარმოების მოსაწყობად1</strong>
-                        </li>
+                       
                       </ul>
                       <div className="pricing-table-button">
                       <span className="btn btn-primary" onClick={() => onDialog(1)}>

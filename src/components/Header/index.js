@@ -168,9 +168,9 @@ const Header = ({ t, onChaneMode }) => {
             </Modal.Footer>
           </Modal>
 
-          <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
+          {/* <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
             <S.Span>{t("მთავარი")}</S.Span>
-          </S.CustomNavLinkSmall>
+          </S.CustomNavLinkSmall> */}
           <S.CustomNavLinkSmall onClick={() => scrollTo("products")}>
             <S.Span>{t("პროდუქტი")}</S.Span>
           </S.CustomNavLinkSmall>
@@ -209,6 +209,8 @@ const Header = ({ t, onChaneMode }) => {
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
             <SvgIcon src="logo.svg" />
+            {/* <img src="../../public/img/svg/12.png" /> */}
+
           </S.LogoContainer>
           <S.NotHidden>
             <MenuItem />
