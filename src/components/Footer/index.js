@@ -124,23 +124,23 @@ const Footer = ({ t }) => {
               </S.NavLink>
               <S.FooterContainer>
                 <SocialLink
-                  href="https://github.com/Adrinlol/create-react-app-adrinlol"
+                  // href="https://github.com/Adrinlol/create-react-app-adrinlol"
                   src="github.svg"
                 />
                 <SocialLink
-                  href="https://twitter.com/Adrinlolx"
+                  // href="https://twitter.com/Adrinlolx"
                   src="twitter.svg"
                 />
                 <SocialLink
-                  href="https://www.linkedin.com/in/lasha-kakabadze/"
+                  // href="https://www.linkedin.com/in/lasha-kakabadze/"
                   src="linkedin.svg"
                 />
                 <SocialLink
-                  href="https://github.com/Adrinlol/"
+                  // href="https://github.com/Adrinlol/"
                   src="instagram.svg"
                 />
                 <SocialLink
-                  href="https://medium.com/@lashakakabadze/"
+                  // href="https://medium.com/@lashakakabadze/"
                   src="medium.svg"
                 />
               </S.FooterContainer>
