@@ -263,11 +263,12 @@ const MiddleBlock = ({ title, content, button, t }) => {
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem", marginLeft: "29px" }}
           >
             <div className="card-header">საკრედიტო ბარათები</div>
             <div className="card-body text-dark">
-              <h5 className="card-title">Dark card title</h5>
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="cards.svg" height="110px" />
               <p className="card-text">
                 Some quick example text to build on the card title
               </p>
@@ -285,7 +286,8 @@ const MiddleBlock = ({ title, content, button, t }) => {
           >
             <div className="card-header">ავტოლიზინგი</div>
             <div className="card-body text-dark">
-              <h5 className="card-title">Dark card title</h5>
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="auto.svg" height="110px" />
               <p className="card-text">
                 Some quick example text to build on the card title
               </p>
