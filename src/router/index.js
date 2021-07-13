@@ -62,7 +62,7 @@ const Router = () => {
           );
         })}
       </Switch>
-      {/* <Footer /> */}
+      <Footer />
 
     </Suspense>
   );
