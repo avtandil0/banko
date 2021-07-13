@@ -12,9 +12,8 @@ import "./index.css"; // Tell webpack that Button.js uses these styles
 const Button = lazy(() => import("../../common/Button"));
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 
-
 const MiddleBlock = ({ title, content, button, t }) => {
-  console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
@@ -51,13 +50,265 @@ const MiddleBlock = ({ title, content, button, t }) => {
     <S.MiddleBlock>
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
-          <section id="pricing" className="bg-white"  id="products">
+          <Modal show={show1} onHide={() => setShow1(false)} size="lg">
+            <Modal.Header closeButton>
+              <Modal.Title>განაცხადის შევსება</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <label for="inputEmail4">Email</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="inputEmail4"
+                      placeholder="Email"
+                    />
+                  </div>
+                  <div className="form-group col-md-6">
+                    <label for="inputPassword4">Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="inputPassword4"
+                      placeholder="Password"
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label for="inputAddress">Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputAddress"
+                    placeholder="1234 Main St"
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="inputAddress2">Address 2</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputAddress2"
+                    placeholder="Apartment, studio, or floor"
+                  />
+                </div>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <label for="inputCity">City</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="inputCity"
+                    />
+                  </div>
+                  <div className="form-group col-md-4">
+                    <label for="inputState">State</label>
+                    <select id="inputState" className="form-control">
+                      <option selected>Choose...</option>
+                      <option>...</option>
+                    </select>
+                  </div>
+                  <div className="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" className="form-control" id="inputZip" />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="checkbox"
+                      id="gridCheck"
+                    />
+                    <label className="form-check-label" for="gridCheck">
+                      Check me out
+                    </label>
+                  </div>
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  გაგზავნა
+                </button>
+              </form>
+              {/* <Form>
+                      <Form.Row>
+                        <Form.Group as={Col} controlId="formGridEmail">
+                          <Form.Label>Email</Form.Label>
+                          <Form.Control
+                            type="email"
+                            placeholder="Enter email"
+                          />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formGridPassword">
+                          <Form.Label>Password</Form.Label>
+                          <Form.Control
+                            type="password"
+                            placeholder="Password"
+                          />
+                        </Form.Group>
+                      </Form.Row>
+
+                      <Form.Group controlId="formGridAddress1">
+                        <Form.Label>Address</Form.Label>
+                        <Form.Control placeholder="1234 Main St" />
+                      </Form.Group>
+
+                      <Form.Group controlId="formGridAddress2">
+                        <Form.Label>Address 2</Form.Label>
+                        <Form.Control placeholder="Apartment, studio, or floor" />
+                      </Form.Group>
+
+                      <Form.Row>
+                        <Form.Group as={Col} controlId="formGridCity">
+                          <Form.Label>City</Form.Label>
+                          <Form.Control />
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formGridState">
+                          <Form.Label>State</Form.Label>
+                          <Form.Control as="select" defaultValue="Choose...">
+                            <option>Choose...</option>
+                            <option>...</option>
+                          </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group as={Col} controlId="formGridZip">
+                          <Form.Label>Zip</Form.Label>
+                          <Form.Control />
+                        </Form.Group>
+                      </Form.Row>
+
+                      <Form.Group id="formGridCheckbox">
+                        <Form.Check type="checkbox" label="Check me out" />
+                      </Form.Group>
+
+                      <Button variant="primary" type="submit">
+                        Submit
+                      </Button>
+                    </Form> */}
+            </Modal.Body>
+            <Modal.Footer></Modal.Footer>
+          </Modal>
+
+          <div className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
+            <div className="card-header">სამომხმარებლო</div>
+            <div className="card-body text-dark">
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="56.svg" height="110px" />
+              <p className="card-text">მოგზაურობა, ნივთის შეძენა, გართობა</p>
+              <span
+                className="btn btn-outline-info"
+                onClick={() => onDialog(1)}
+              >
+                <span>განაცხადის შევსება</span>
+              </span>
+            </div>
+          </div>
+          <div
+            className="card border-dark mb-3"
+            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+          >
+            <div className="card-header">იპოთეკური</div>
+            <div className="card-body text-dark">
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="55.svg" height="110px" />
+              <p className="card-text">რემონტი, მშენებლობა, სახლის შეძენა</p>
+              <span
+                className="btn btn-outline-info"
+                onClick={() => onDialog(1)}
+              >
+                <span>განაცხადის შევსება</span>
+              </span>
+            </div>
+          </div>
+          <div
+            className="card border-dark mb-3"
+            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+          >
+            <div className="card-header">ბიზნეს სესხი</div>
+            <div className="card-body text-dark">
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="54.svg" height="110px" />
+              <p className="card-text">
+                ძირითადი საშუალებები, საბრუნავი საშუალებები
+              </p>
+              <span
+                className="btn btn-outline-info"
+                onClick={() => onDialog(1)}
+              >
+                <span>განაცხადის შევსება</span>
+              </span>
+            </div>
+          </div>
+          <div
+            className="card border-dark mb-3"
+            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+          >
+            <div className="card-header">აგრო</div>
+            <div className="card-body text-dark">
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="57.svg" height="110px" />
+              <p className="card-text">
+                სოფლის მეურნეობისთვის, ტექნიკის შესაძენად
+              </p>
+              <span
+                className="btn btn-outline-info"
+                onClick={() => onDialog(1)}
+              >
+                <span>განაცხადის შევსება</span>
+              </span>
+            </div>
+          </div>
+          <div
+            className="card border-dark mb-3"
+            style={{ maxWidth: "18rem", marginLeft: "29px" }}
+          >
+            <div className="card-header">საკრედიტო ბარათები</div>
+            <div className="card-body text-dark">
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="cards.svg" height="110px" />
+              <p className="card-text">
+                Some quick example text to build on the card title
+              </p>
+              <span
+                className="btn btn-outline-info"
+                onClick={() => onDialog(1)}
+              >
+                <span>განაცხადის შევსება</span>
+              </span>
+            </div>
+          </div>
+          <div
+            className="card border-dark mb-3"
+            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+          >
+            <div className="card-header">ავტოლიზინგი</div>
+            <div className="card-body text-dark">
+              {/* <h5 className="card-title">Dark card title</h5> */}
+              <SvgIcon src="auto.svg" height="110px" />
+              <p className="card-text">
+                Some quick example text to build on the card title
+              </p>
+              <span
+                className="btn btn-outline-info"
+                onClick={() => onDialog(1)}
+              >
+                <span>განაცხადის შევსება</span>
+              </span>
+            </div>
+          </div>
+
+          <section id="pricing" className="bg-white" id="products">
             <div className="container">
-              <h2 className="text-center">პროდუქტები</h2>
+              {/* <h2 className="text-center">პროდუქტები</h2> */}
+
               <div className="spacer spacer-line border-primary">&nbsp;</div>
               <div className="spacer">&nbsp;</div>
+
               <div className="row">
-                <div className="col-md-3">
+                {/* <div className="col-md-3">
                   <div className="pricing-table">
                     <div className="pricing-table-title">
                       <h5 className="pricing-title bg-info-hover text-white">
@@ -65,7 +316,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                       </h5>
                     </div>
                     <div className="pricing-table-price text-center bg-info">
-                    <SvgIcon src="56.svg" />
+                      <SvgIcon src="56.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
@@ -73,27 +324,27 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           <strong>მოგზაურობა</strong>
                         </li>
                         <li>
-                          <strong>
-                            ნივთის შეძენა
-                          </strong>
+                          <strong>ნივთის შეძენა</strong>
                         </li>
                         <li>
-                          <strong>
-
-                          </strong>
+                          <strong></strong>
                         </li>
                         <li>
                           <strong>გართობა</strong>
                         </li>
                       </ul>
                       <div className="pricing-table-button">
-                        <span className="btn btn-info" onClick={() => onDialog(1)}>
+                        <span
+                          className="btn btn-info"
+                          onClick={() => onDialog(1)}
+                        >
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
+
                 {/* სამომხმარებლოს მოდალი */}
                 <Modal show={show1} onHide={() => setShow1(false)} size="lg">
                   <Modal.Header closeButton>
@@ -104,25 +355,49 @@ const MiddleBlock = ({ title, content, button, t }) => {
                       <div className="form-row">
                         <div className="form-group col-md-6">
                           <label for="inputEmail4">Email</label>
-                          <input type="email" className="form-control" id="inputEmail4" placeholder="Email" />
+                          <input
+                            type="email"
+                            className="form-control"
+                            id="inputEmail4"
+                            placeholder="Email"
+                          />
                         </div>
                         <div className="form-group col-md-6">
                           <label for="inputPassword4">Password</label>
-                          <input type="password" className="form-control" id="inputPassword4" placeholder="Password" />
+                          <input
+                            type="password"
+                            className="form-control"
+                            id="inputPassword4"
+                            placeholder="Password"
+                          />
                         </div>
                       </div>
                       <div className="form-group">
                         <label for="inputAddress">Address</label>
-                        <input type="text" className="form-control" id="inputAddress" placeholder="1234 Main St" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inputAddress"
+                          placeholder="1234 Main St"
+                        />
                       </div>
                       <div className="form-group">
                         <label for="inputAddress2">Address 2</label>
-                        <input type="text" className="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" />
+                        <input
+                          type="text"
+                          className="form-control"
+                          id="inputAddress2"
+                          placeholder="Apartment, studio, or floor"
+                        />
                       </div>
                       <div className="form-row">
                         <div className="form-group col-md-6">
                           <label for="inputCity">City</label>
-                          <input type="text" className="form-control" id="inputCity" />
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="inputCity"
+                          />
                         </div>
                         <div className="form-group col-md-4">
                           <label for="inputState">State</label>
@@ -133,18 +408,28 @@ const MiddleBlock = ({ title, content, button, t }) => {
                         </div>
                         <div className="form-group col-md-2">
                           <label for="inputZip">Zip</label>
-                          <input type="text" className="form-control" id="inputZip" />
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="inputZip"
+                          />
                         </div>
                       </div>
                       <div className="form-group">
                         <div className="form-check">
-                          <input className="form-check-input" type="checkbox" id="gridCheck" />
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id="gridCheck"
+                          />
                           <label className="form-check-label" for="gridCheck">
                             Check me out
-      </label>
+                          </label>
                         </div>
                       </div>
-                      <button type="submit" className="btn btn-primary">გაგზავნა</button>
+                      <button type="submit" className="btn btn-primary">
+                        გაგზავნა
+                      </button>
                     </form>
                     {/* <Form>
                       <Form.Row>
@@ -206,7 +491,7 @@ const MiddleBlock = ({ title, content, button, t }) => {
                   </Modal.Body>
                   <Modal.Footer></Modal.Footer>
                 </Modal>
-                <div className="col-md-3">
+                {/* <div className="col-md-3">
                   <div className="pricing-table bg-lightgrey">
                     <div className="pricing-table-title">
                       <h5 className="pricing-title bg-primary-hover text-white">
@@ -214,34 +499,33 @@ const MiddleBlock = ({ title, content, button, t }) => {
                       </h5>
                     </div>
                     <div className="pricing-table-price text-center bg-primary">
-                    <SvgIcon src="55.svg" />
+                      <SvgIcon src="55.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
-                        
                         <li>
                           <strong>რემონტი</strong>
                         </li>
                         <li>
-                          <strong>
-                            მშენებლობა
-                          </strong>
+                          <strong>მშენებლობა</strong>
                         </li>
                         <li>
-                          <strong>სახლის  შეძენა</strong>
+                          <strong>სახლის შეძენა</strong>
                         </li>
-                       
                       </ul>
                       <div className="pricing-table-button">
-                      <span className="btn btn-primary" onClick={() => onDialog(1)}>
+                        <span
+                          className="btn btn-primary"
+                          onClick={() => onDialog(1)}
+                        >
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="col-md-3">
+                {/* <div className="col-md-3">
                   <div className="pricing-table">
                     <div className="pricing-table-title">
                       <h5 className="pricing-title bg-info-hover text-white">
@@ -249,18 +533,15 @@ const MiddleBlock = ({ title, content, button, t }) => {
                       </h5>
                     </div>
                     <div className="pricing-table-price text-center bg-info">
-                    <SvgIcon src="54.svg" />
+                      <SvgIcon src="54.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
                         <li>
-                          <strong>
-                            
-                          </strong>
+                          <strong></strong>
                         </li>
                         <li>
-                          <strong> ძირითადი საშუალებები
-</strong>
+                          <strong> ძირითადი საშუალებები</strong>
                         </li>
                         <li>
                           <strong>საბრუნავი საშუალებები</strong>
@@ -270,23 +551,26 @@ const MiddleBlock = ({ title, content, button, t }) => {
                         </li>
                       </ul>
                       <div className="pricing-table-button">
-                      <span className="btn btn-info" onClick={() => onDialog(1)}>
+                        <span
+                          className="btn btn-info"
+                          onClick={() => onDialog(1)}
+                        >
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="col-md-3">
+                {/* <div className="col-md-3">
                   <div className="pricing-table bg-lightgrey">
                     <div className="pricing-table-title">
                       <h5 className="pricing-title bg-primary-hover text-white">
                         აგრო
                       </h5>
                     </div>
-                    <div className="pricing-table-price text-center bg-primary" >
-                    <SvgIcon src="57.svg" />
+                    <div className="pricing-table-price text-center bg-primary">
+                      <SvgIcon src="57.svg" />
                     </div>
                     <div className="pricing-table-content">
                       <ul>
@@ -297,20 +581,20 @@ const MiddleBlock = ({ title, content, button, t }) => {
                           <strong>ტექნიკის შესაძენად</strong>
                         </li>
                         <li>
-                          <strong>
-                           ფერმის გაფართოებისთვის
-                          </strong>
+                          <strong>ფერმის გაფართოებისთვის</strong>
                         </li>
-                       
                       </ul>
                       <div className="pricing-table-button">
-                      <span className="btn btn-primary" onClick={() => onDialog(1)}>
+                        <span
+                          className="btn btn-primary"
+                          onClick={() => onDialog(1)}
+                        >
                           <span>განაცხადის შევსება</span>
                         </span>
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </section>
