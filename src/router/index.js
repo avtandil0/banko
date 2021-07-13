@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import Profile from "../pages/Profile/index";
 
 import routes from "./config";
 import GlobalStyles from "../globalStyles";
@@ -46,16 +47,22 @@ const Router = () => {
       <Switch>
         {routes.map((routeItem) => {
           return (
-            <Route
-              key={routeItem.component}
-              path={routeItem.path}
-              exact={routeItem.exact}
-              component={lazy(() => import(`../pages/${routeItem.component}`))}
-            />
+            <div>
+              {/* <Route path="/profile">
+                <Profile />
+              </Route> */}
+              <Route
+                key={routeItem.component}
+                path={routeItem.path}
+                exact={routeItem.exact}
+                component={lazy(() => import(`../pages/${routeItem.component}`))}
+              />
+            </div>
+
           );
         })}
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
 
     </Suspense>
   );

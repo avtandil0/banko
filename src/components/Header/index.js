@@ -6,11 +6,16 @@ import { useHistory } from "react-router-dom";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 // import Sonnet from 'react-bootstrap/Sonnet';
+import {
+  UserOutlined
+} from '@ant-design/icons';
+import { Menu, Dropdown } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { Modal, Button as AntdButton, Form, Input, } from 'antd';
+
 
 
 
@@ -25,6 +30,9 @@ const MySwal = withReactContent(Swal)
 const Header = ({ t, onChaneMode }) => {
   const history = useHistory();
 
+  const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
+  const [formLayout, setFormLayout] = useState('horizontal');
+
   const [isNavVisible] = useState(false);
   const [isSmallScreen] = useState(false);
   const [visible, setVisibility] = useState(false);
@@ -33,6 +41,23 @@ const Header = ({ t, onChaneMode }) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">
+        <a onClick={() => setVisibleProfileDialog(true)}>
+          პროფილი
+        </a>
+      </Menu.Item>
+      <Menu.Item key="1">
+        <a >
+          გასვლა
+        </a>
+      </Menu.Item>
+      {/* <Menu.Divider /> */}
+    </Menu>
+  );
 
   useEffect(() => {
     // Good!
@@ -66,6 +91,27 @@ const Header = ({ t, onChaneMode }) => {
     // })
   };
 
+  const formItemLayout =
+    formLayout === 'horizontal'
+      ? {
+        labelCol: {
+          span: 4,
+        },
+        wrapperCol: {
+          span: 14,
+        },
+      }
+      : null;
+  const buttonItemLayout =
+    formLayout === 'horizontal'
+      ? {
+        wrapperCol: {
+          span: 14,
+          offset: 4,
+        },
+      }
+      : null;
+
   const MenuItem = () => {
     const scrollTo = (id) => {
       const element = document.getElementById(id);
@@ -76,8 +122,53 @@ const Header = ({ t, onChaneMode }) => {
       });
       setVisibility(false);
     };
+
+
     return (
       <Fragment >
+        <Modal
+          title="პროფილი"
+          centered
+          visible={visibleProfileDialog}
+          onOk={() => setVisibleProfileDialog(false)}
+          okText="შენახვა"
+          onCancel={() => setVisibleProfileDialog(false)}
+          cancelText="დახურვა"
+          width={1000}
+        >
+          <Form
+            {...formItemLayout}
+            layout={formLayout}
+            // form={form}
+            initialValues={{
+              layout: formLayout,
+            }}
+          >
+            <Row>
+              <Col span={12}><Form.Item label="სახელი">
+                <Input placeholder="სახელი" />
+              </Form.Item>
+                <Form.Item label="გვარი">
+                  <Input placeholder="გვარი" />
+                </Form.Item>
+                <Form.Item label="პირადი N">
+                  <Input placeholder="პირადი N" />
+                </Form.Item></Col>
+              <Col span={12}>   <Form.Item label="მისამართი">
+                <Input placeholder="მისამართი" />
+              </Form.Item>
+                <Form.Item label="ელ. ფოსტა">
+                  <Input placeholder="ელ.ფოსტა" />
+                </Form.Item>
+                <Form.Item label="მობილური">
+                  <Input placeholder="მობილური" />
+                </Form.Item>
+              </Col>
+            </Row>
+
+
+          </Form>
+        </Modal>
         <div >
           <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton>
@@ -146,7 +237,7 @@ const Header = ({ t, onChaneMode }) => {
 
                       <Form.Group as={Col} controlId="formGridZip">
                         <Form.Label>მობილური</Form.Label>
-                        <Form.Control  placeholder="555 555 555" />
+                        <Form.Control placeholder="555 555 555" />
                       </Form.Group>
                     </Form.Row>
 
@@ -191,10 +282,16 @@ const Header = ({ t, onChaneMode }) => {
           </S.CustomNavLinkSmall>
           <S.CustomNavLinkSmall
             style={{ width: "180px" }}
-            onClick={onDialog}
+
           >
             <S.Span>
-              <Button>{t("რეგისტრაცია")}</Button>
+              {/* <Button onClick={onDialog}>{t("რეგისტრაცია")}</Button> */}
+
+              <Dropdown overlay={menu}>
+                <div>
+                  Avto Zenaishvili   <UserOutlined style={{ fontSize: '30px', marginTop: '14px', color: '#08c' }} />
+                </div>
+              </Dropdown>
             </S.Span>
           </S.CustomNavLinkSmall>
         </div>
