@@ -1,5 +1,4 @@
-import { useState, Fragment, lazy, useEffect } from "react";
-import { Row, Col, Drawer } from "antd";
+import React, { useState, Fragment, lazy, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import { withTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
@@ -14,13 +13,14 @@ import {
 } from '@ant-design/icons';
 import { Menu, Dropdown } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
-import { Modal, Button as AntdButton, Form, Input, } from 'antd';
+import { Modal, Button as AntdButton, Form, Input,  Row, Col, Drawer,  Select, DatePicker } from 'antd';
 
 
 
 
 import * as S from "./styles";
 import 'bootstrap/dist/css/bootstrap.min.css';
+const { Option } = Select;
 
 
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
@@ -36,6 +36,7 @@ const Header = ({ t, onChaneMode }) => {
   const [isNavVisible] = useState(false);
   const [isSmallScreen] = useState(false);
   const [visible, setVisibility] = useState(false);
+  const [visibleDrawer, setVisibleDrawer] = useState(false);
 
   const [show, setShow] = useState(false);
 
@@ -43,13 +44,21 @@ const Header = ({ t, onChaneMode }) => {
   const handleShow = () => setShow(true);
 
 
+  const showProfileDrawer = () => {
+    // setVisibleDrawer(true)
+  };
+
+  const onCloseProfileDrawer = () => {
+    setVisibleDrawer(true)
+  }
+
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <a onClick={() => setVisibleProfileDialog(true)}>
+      {/* <Menu.Item key="0">
+        <a onClick={() => setVisibleDrawer(true)}>
           პროფილი
         </a>
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item key="1">
         <a >
           გასვლა
@@ -73,6 +82,7 @@ const Header = ({ t, onChaneMode }) => {
   };
 
   const onDialog = () => {
+    console.log('aaaaaa')
     setShow(true)
     // MySwal.fire({
     //   title: 'Multiple inputs',
@@ -126,6 +136,63 @@ const Header = ({ t, onChaneMode }) => {
 
     return (
       <Fragment >
+        {/* <Drawer
+        title="Basic Drawer"
+        placement="right"
+        closable={false}
+        visible={visibleDrawer}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Drawer> */}
+        {/* <Drawer
+          title="პროფილი"
+          width={720}
+          onClose={onClose}
+          visible={visibleDrawer}
+          bodyStyle={{ paddingBottom: 80 }}
+          footer={
+            <div
+              style={{
+                textAlign: 'right',
+              }}
+            >
+              <AntdButton onClick={() => setvisibleDrawer(false)} style={{ marginRight: 8 }}>
+                დახურვა
+              </AntdButton>
+              <AntdButton onClick={() => setvisibleDrawer(false)} type="primary">
+                შენახვა
+              </AntdButton>
+            </div>
+          }
+        >
+          <Form layout="vertical" hideRequiredMark>
+          <Row gutter={16}>
+              <Col span={12}><Form.Item label="სახელი">
+                <Input placeholder="სახელი" />
+              </Form.Item>
+                <Form.Item label="გვარი">
+                  <Input placeholder="გვარი" />
+                </Form.Item>
+                <Form.Item label="პირადი N">
+                  <Input placeholder="პირადი N" />
+                </Form.Item></Col>
+              <Col span={12}>   <Form.Item label="მისამართი">
+                <Input placeholder="მისამართი" />
+              </Form.Item>
+                <Form.Item label="ელ. ფოსტა">
+                  <Input placeholder="ელ.ფოსტა" />
+                </Form.Item>
+                <Form.Item label="მობილური">
+                  <Input placeholder="მობილური" />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </Drawer> */}
+
+
         <Modal
           title="პროფილი"
           centered
@@ -285,13 +352,13 @@ const Header = ({ t, onChaneMode }) => {
 
           >
             <S.Span>
-              {/* <Button onClick={onDialog}>{t("რეგისტრაცია")}</Button> */}
+              <Button onClick={onDialog}>{t("რეგისტრაცია")}</Button>
 
-              <Dropdown overlay={menu}>
+              {/* <Dropdown overlay={menu}>
                 <div>
                   Avto Zenaishvili   <UserOutlined style={{ fontSize: '30px', marginTop: '14px', color: '#08c' }} />
                 </div>
-              </Dropdown>
+              </Dropdown> */}
             </S.Span>
           </S.CustomNavLinkSmall>
         </div>

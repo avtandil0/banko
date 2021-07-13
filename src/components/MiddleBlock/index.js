@@ -1,5 +1,5 @@
 import { useState, Fragment, lazy, useEffect } from "react";
-import { Row, Col } from "antd";
+import { Row, Col, Card } from "antd";
 import { withTranslation } from "react-i18next";
 import Fade from "react-reveal/Fade";
 import Modal from "react-bootstrap/Modal";
@@ -58,12 +58,12 @@ const MiddleBlock = ({ title, content, button, t }) => {
               <form>
                 <div className="form-row">
                   <div className="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
+                    <label for="inputEmail4">მოთხოვნილი თანხა</label>
                     <input
-                      type="email"
+                      type="number"
                       className="form-control"
                       id="inputEmail4"
-                      placeholder="Email"
+                      placeholder="თანხა"
                     />
                   </div>
                   <div className="form-group col-md-6">
@@ -192,6 +192,8 @@ const MiddleBlock = ({ title, content, button, t }) => {
             <Modal.Footer></Modal.Footer>
           </Modal>
 
+
+          <br></br>
           <div className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
             <div className="card-header">სამომხმარებლო</div>
             <div className="card-body text-dark">
@@ -354,77 +356,124 @@ const MiddleBlock = ({ title, content, button, t }) => {
                     <form>
                       <div className="form-row">
                         <div className="form-group col-md-6">
-                          <label for="inputEmail4">Email</label>
+                          <label for="inputEmail4">მოთხოვნილი თანხა</label>
                           <input
-                            type="email"
+                            type="number"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Email"
+                            placeholder="თანხა"
                           />
                         </div>
                         <div className="form-group col-md-6">
-                          <label for="inputPassword4">Password</label>
+                          <label for="inputPassword4">ვადა</label>
                           <input
-                            type="password"
+                            type="number"
                             className="form-control"
                             id="inputPassword4"
-                            placeholder="Password"
+                            placeholder="ვადა"
                           />
                         </div>
-                      </div>
-                      <div className="form-group">
-                        <label for="inputAddress">Address</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="inputAddress"
-                          placeholder="1234 Main St"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label for="inputAddress2">Address 2</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          id="inputAddress2"
-                          placeholder="Apartment, studio, or floor"
-                        />
-                      </div>
-                      <div className="form-row">
                         <div className="form-group col-md-6">
-                          <label for="inputCity">City</label>
+                          <label for="inputPassword4">თვიური საშუალო შემოსავალი</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control"
-                            id="inputCity"
+                            id="inputPassword4"
+                            placeholder="შემოსავალი"
                           />
                         </div>
-                        <div className="form-group col-md-4">
-                          <label for="inputState">State</label>
+                        <div className="form-group col-md-6">
+                          <label for="inputPassword4">შენატანი</label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="inputPassword4"
+                            placeholder="შენატანი"
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label for="inputState">შემოსავლის წყარო</label>
                           <select id="inputState" className="form-control">
-                            <option selected>Choose...</option>
-                            <option>...</option>
+                            <option selected>აირჩიეთ...</option>
+                            <option>თვითდასაქმებული</option>
+                            <option>ხელფასი</option>
+                            <option>გზავნილი</option>
+                            <option>ბიზნესი</option>
+                            <option>აგრო</option>
+                            <option>იჯარა</option>
+                            <option>სხვა</option>
                           </select>
                         </div>
-                        <div className="form-group col-md-2">
-                          <label for="inputZip">Zip</label>
+                        <div className="form-group col-md-6">
+                          <label for="inputPassword4">სხვა შემოსავლის წყარო</label>
                           <input
                             type="text"
                             className="form-control"
-                            id="inputZip"
+                            id="inputPassword4"
+                            placeholder="წყარო"
                           />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label for="inputState">სად გერიცებათ ხელფასი</label>
+                          <select id="inputState" className="form-control">
+                            <option selected>აირჩიეთ...</option>
+                            <option>ბანკში</option>
+                            <option>ხელზე</option>
+                          </select>
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label for="inputPassword4">დამსაქმებელი</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="inputPassword4"
+                            placeholder="დამსაქმებელი"
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label for="inputState">სამუშო გამოცდილება - სტაჯი</label>
+                          <select id="inputState" className="form-control">
+                            <option selected>აირჩიეთ...</option>
+                            <option>1 წელზე ნაკლები</option>
+                            <option>1 - 3 წელი</option>
+                            <option>3 წელზე მეტი</option>
+                          </select>
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label for="inputPassword4">ფაქტობრივი მისამართი</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            id="inputPassword4"
+                            placeholder="დამსაქმებელი"
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label for="inputPassword4">სხვა არსებული სესხები (ჯამურად)</label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="inputPassword4"
+                            placeholder="ჯამი"
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label for="inputPassword4">რამდენს იხდით სესხებში ყოველთვიურად?</label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            id="inputPassword4"
+                            placeholder="თანხა"
+                          />
+                        </div>
+                        <div className="form-group col-md-6">
+                          <label>გავქთ მიმდინარე ვადაგადაცილება? <input type="checkbox" value="" /></label>
+
                         </div>
                       </div>
                       <div className="form-group">
                         <div className="form-check">
-                          <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="gridCheck"
-                          />
-                          <label className="form-check-label" for="gridCheck">
-                            Check me out
-                          </label>
+                        <label> <input type="checkbox" value="" />   გავეცანი და ვეთანხმები</label>
                         </div>
                       </div>
                       <button type="submit" className="btn btn-primary">
