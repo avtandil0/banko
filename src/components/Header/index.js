@@ -2,36 +2,43 @@ import React, { useState, Fragment, lazy, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 import { withTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import Tabs from 'react-bootstrap/Tabs';
-import Tab from 'react-bootstrap/Tab';
 // import Sonnet from 'react-bootstrap/Sonnet';
+import { Menu, Dropdown } from "antd";
+import { Modal } from "react-bootstrap";
+
 import {
-  UserOutlined
-} from '@ant-design/icons';
-import { Menu, Dropdown } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import { Modal, Button as AntdButton, Form, Input,  Row, Col, Drawer,  Select, DatePicker } from 'antd';
+  Button as AntdButton,
+  Form,
+  Input,
+  Row,
+  Col,
+  Drawer,
+  Select,
+  DatePicker,
+  Checkbox,
+  Tabs,
+} from "antd";
 
-
-
-
+import { LockOutlined } from "@ant-design/icons";
 import * as S from "./styles";
-import 'bootstrap/dist/css/bootstrap.min.css';
 const { Option } = Select;
-
+const { TabPane } = Tabs;
 
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 const Button = lazy(() => import("../../common/Button"));
-const MySwal = withReactContent(Swal)
+const MySwal = withReactContent(Swal);
 
-const Header = ({ t, onChaneMode }) => {
+const Header = ({ t, setInProfileMOde }) => {
   const history = useHistory();
 
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
-  const [formLayout, setFormLayout] = useState('horizontal');
+  const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
+    useState(false);
+  const [formLayout, setFormLayout] = useState("horizontal");
 
   const [isNavVisible] = useState(false);
   const [isSmallScreen] = useState(false);
@@ -43,26 +50,25 @@ const Header = ({ t, onChaneMode }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const onFinish = () => {
+    console.log("Received values of form: ");
+  };
 
   const showProfileDrawer = () => {
     // setVisibleDrawer(true)
   };
 
   const onCloseProfileDrawer = () => {
-    setVisibleDrawer(true)
-  }
+    setVisibleDrawer(true);
+  };
 
   const menu = (
     <Menu>
-      {/* <Menu.Item key="0">
-        <a onClick={() => setVisibleDrawer(true)}>
-          პროფილი
-        </a>
-      </Menu.Item> */}
+      <Menu.Item key="0">
+        <a onClick={() => setInProfileMOde(true)}>პროფილი</a>
+      </Menu.Item>
       <Menu.Item key="1">
-        <a >
-          გასვლა
-        </a>
+        <a>გასვლა</a>
       </Menu.Item>
       {/* <Menu.Divider /> */}
     </Menu>
@@ -70,7 +76,7 @@ const Header = ({ t, onChaneMode }) => {
 
   useEffect(() => {
     // Good!
-    console.log('111')
+    console.log("111");
   }, []);
 
   const showDrawer = () => {
@@ -82,8 +88,8 @@ const Header = ({ t, onChaneMode }) => {
   };
 
   const onDialog = () => {
-    console.log('aaaaaa')
-    setShow(true)
+    console.log("aaaaaa");
+    setVisibleLoginRegisterDialog(true);
     // MySwal.fire({
     //   title: 'Multiple inputs',
     //   width: '923px',
@@ -102,30 +108,32 @@ const Header = ({ t, onChaneMode }) => {
   };
 
   const formItemLayout =
-    formLayout === 'horizontal'
+    formLayout === "horizontal"
       ? {
-        labelCol: {
-          span: 4,
-        },
-        wrapperCol: {
-          span: 14,
-        },
-      }
+          labelCol: {
+            span: 4,
+          },
+          wrapperCol: {
+            span: 14,
+          },
+        }
       : null;
   const buttonItemLayout =
-    formLayout === 'horizontal'
+    formLayout === "horizontal"
       ? {
-        wrapperCol: {
-          span: 14,
-          offset: 4,
-        },
-      }
+          wrapperCol: {
+            span: 14,
+            offset: 4,
+          },
+        }
       : null;
 
   const MenuItem = () => {
     const scrollTo = (id) => {
+      console.log("header setInProfileMOde", setInProfileMOde);
+      setInProfileMOde(false);
       const element = document.getElementById(id);
-      element.scrollIntoView({
+      element?.scrollIntoView({
         behavior: "smooth",
         block: "center",
         inline: "nearest",
@@ -133,9 +141,8 @@ const Header = ({ t, onChaneMode }) => {
       setVisibility(false);
     };
 
-
     return (
-      <Fragment >
+      <Fragment>
         {/* <Drawer
         title="Basic Drawer"
         placement="right"
@@ -192,59 +199,329 @@ const Header = ({ t, onChaneMode }) => {
           </Form>
         </Drawer> */}
 
-
-        <Modal
-          title="პროფილი"
-          centered
-          visible={visibleProfileDialog}
-          onOk={() => setVisibleProfileDialog(false)}
-          okText="შენახვა"
-          onCancel={() => setVisibleProfileDialog(false)}
-          cancelText="დახურვა"
-          width={1000}
+        {/* <BModal
+          show={visibleLoginRegisterDialog}
+          size="lg"
         >
-          <Form
-            {...formItemLayout}
-            layout={formLayout}
-            // form={form}
-            initialValues={{
-              layout: formLayout,
-            }}
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="ავტორიზაცია" key="1">
+            <Form
+            name="normal_login"
+            className="login-form"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            style={{ maxWidth: "300px" }}
           >
-            <Row>
-              <Col span={12}><Form.Item label="სახელი">
-                <Input placeholder="სახელი" />
+            <Form.Item
+              name="username"
+              rules={[
+                { required: true, message: "Please input your Username!" },
+              ]}
+            >
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Username"
+              />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[
+                { required: true, message: "Please input your Password!" },
+              ]}
+            >
+              <Input
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder="Password"
+              />
+            </Form.Item>
+            {/* <Form.Item>
+              <Form.Item name="remember" valuePropName="checked" noStyle>
+                <Checkbox>Remember me</Checkbox>
               </Form.Item>
-                <Form.Item label="გვარი">
-                  <Input placeholder="გვარი" />
-                </Form.Item>
-                <Form.Item label="პირადი N">
-                  <Input placeholder="პირადი N" />
-                </Form.Item></Col>
-              <Col span={12}>   <Form.Item label="მისამართი">
-                <Input placeholder="მისამართი" />
-              </Form.Item>
-                <Form.Item label="ელ. ფოსტა">
-                  <Input placeholder="ელ.ფოსტა" />
-                </Form.Item>
-                <Form.Item label="მობილური">
-                  <Input placeholder="მობილური" />
-                </Form.Item>
-              </Col>
-            </Row>
 
+              <a className="login-form-forgot" href="">
+                Forgot password
+              </a>
+            </Form.Item>
 
+            <Form.Item>
+              <AntdButton
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+              >
+                შესვლა
+              </AntdButton>
+            </Form.Item>
           </Form>
-        </Modal>
-        <div >
-          <Modal show={show} onHide={handleClose} size="lg">
+            </TabPane>
+            <TabPane tab="რეგისტრაცია" key="2">
+              Content of Tab Pane 2
+            </TabPane>
+          </Tabs>
+
+
+        </BModal> */}
+
+        <div>
+          <Modal size="lg">
             <Modal.Header closeButton>
-              <Modal.Title>სისტემაში შესვლა</Modal.Title>
+              <Modal.Title>განაცხადის შევსება</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
-                <Tab eventKey="login" title="ავტორიზაცია">
-                  <br></br>
+              <div className="form-row">
+                <div className="form-group col-md-6">
+                  <label for="inputEmail4">მოთხოვნილი თანხა</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="inputEmail4"
+                    placeholder="თანხა"
+                  />
+                </div>
+                <div className="form-group col-md-6">
+                  <label for="inputPassword4">Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="inputPassword4"
+                    placeholder="Password"
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <label for="inputAddress">Address</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputAddress"
+                  placeholder="1234 Main St"
+                />
+              </div>
+              <div className="form-group">
+                <label for="inputAddress2">Address 2</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputAddress2"
+                  placeholder="Apartment, studio, or floor"
+                />
+              </div>
+              <div className="form-row">
+                <div className="form-group col-md-6">
+                  <label for="inputCity">City</label>
+                  <input type="text" className="form-control" id="inputCity" />
+                </div>
+                <div className="form-group col-md-4">
+                  <label for="inputState">State</label>
+                  <select id="inputState" className="form-control">
+                    <option selected>Choose...</option>
+                    <option>...</option>
+                  </select>
+                </div>
+                <div className="form-group col-md-2">
+                  <label for="inputZip">Zip</label>
+                  <input type="text" className="form-control" id="inputZip" />
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="gridCheck"
+                  />
+                  <label className="form-check-label" for="gridCheck">
+                    Check me out
+                  </label>
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={() => {
+                  console.log("aaaaaaaaaaaa");
+                  setVisibleLoginRegisterDialog(false);
+                }}
+              >
+                გაგზავნა1111
+              </button>
+            </Modal.Body>
+            <Modal.Footer></Modal.Footer>
+          </Modal>
+
+          <Modal
+            show={visibleLoginRegisterDialog}
+            onHide={() => setVisibleLoginRegisterDialog(false)}
+            size="lg"
+          >
+            {/* <Modal.Header closeButton>
+              <Modal.Title>სისტემაში შესვლა</Modal.Title>
+            </Modal.Header> */}
+            <Modal.Body>
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="ავტორიზაცია" key="1">
+                  <Form
+                    name="basic"
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 14 }}
+                    initialValues={{ remember: true }}
+                  >
+                    <Form.Item
+                      label="მობილურის ნომერი"
+                      name="phoneNumber"
+                      rules={[
+                        {
+                          required: true,
+                          message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="პაროლი"
+                      name="password"
+                      rules={[
+                        {
+                          required: true,
+                          message: "შეიყვანეთ პაროლი!",
+                        },
+                      ]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+
+                    {/* <Form.Item
+                      name="remember"
+                      valuePropName="checked"
+                      wrapperCol={{ offset: 8, span: 16 }}
+                    >
+                      <Checkbox>Remember me</Checkbox>
+                    </Form.Item> */}
+
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                      <AntdButton type="primary" htmlType="submit">
+                        შესვლა
+                      </AntdButton>
+                    </Form.Item>
+                  </Form>
+                </TabPane>
+                <TabPane tab="რეგისტრაცია" key="2">
+                  <Form
+                    name="basic"
+                    labelCol={{ span: 6 }}
+                    wrapperCol={{ span: 14 }}
+                    initialValues={{ remember: true }}
+                  >
+                    <Form.Item
+                      label="მობილურის ნომერი"
+                      name="phoneNumber"
+                      rules={[
+                        {
+                          required: true,
+                          message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="ელ. ფოსტა"
+                      name="mail"
+                      rules={[
+                        {
+                          required: true,
+                          message: "შეიყვანეთ ელ. ფოსტა!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label="სახლი"
+                      name="firstName"
+                      rules={[
+                        {
+                          required: true,
+                          message: "შეიყვანეთ სახელი!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label="გვარი"
+                      name="lastName"
+                      rules={[
+                        {
+                          required: true,
+                          message: "შეიყვანეთ გვარი!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="პირადი ნომერი"
+                      name="personalNumber"
+                      rules={[
+                        {
+                          required: true,
+                          message: "შეიყვანეთ პირადი ნომერი!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="დაბადების თარიღი"
+                      name="birthDate"
+                      rules={[
+                        {
+                          required: true,
+                          message: "შეიყვანეთ დაბადების თარიღი!",
+                        },
+                      ]}
+                    >
+                      <DatePicker />
+                    </Form.Item>
+
+                    <Form.Item
+                      label="მისამართი"
+                      name="personalNumber"
+                      rules={[
+                        {
+                          required: true,
+                          message: "შეიყვანეთ მისამართი!",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    {/* <Form.Item
+                      name="remember"
+                      valuePropName="checked"
+                      wrapperCol={{ offset: 8, span: 16 }}
+                    >
+                      <Checkbox>Remember me</Checkbox>
+                    </Form.Item> */}
+
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                      <AntdButton type="primary" htmlType="submit">
+                        რეგისტრაცია
+                      </AntdButton>
+                    </Form.Item>
+                  </Form>
+                </TabPane>
+              </Tabs>
+              {/* <Tabs defaultActiveKey="1" >
+                <TabPane tab="Tab 1" key="1">
                   <Form>
                     <Form.Group controlId="formBasicEmail">
                       <Form.Label>ელ. ფოსტა</Form.Label>
@@ -262,9 +539,8 @@ const Header = ({ t, onChaneMode }) => {
                       შესვლა
                     </Button>
                   </Form>
-                </Tab>
-                <Tab eventKey="register" title="რეგისტრაცია">
-                  <br></br>
+                </TabPane>
+                <TabPane tab="Tab 2" key="2">
                   <Form>
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridEmail">
@@ -286,7 +562,6 @@ const Header = ({ t, onChaneMode }) => {
                       <Form.Label>მისამართი</Form.Label>
                       <Form.Control placeholder="მისამართი" />
                     </Form.Group>
-
 
                     <Form.Row>
                       <Form.Group as={Col} controlId="formGridCity">
@@ -314,16 +589,13 @@ const Header = ({ t, onChaneMode }) => {
                     <Button variant="primary" type="submit">
                       რეგისტრაცია
                     </Button>
-
                   </Form>
-                </Tab>
-
-              </Tabs>
-
+                </TabPane>
+                <TabPane tab="Tab 3" key="3">
+                  Content of Tab Pane 3
+                </TabPane>
+              </Tabs> */}
             </Modal.Body>
-            <Modal.Footer>
-
-            </Modal.Footer>
           </Modal>
 
           <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
@@ -347,34 +619,43 @@ const Header = ({ t, onChaneMode }) => {
           <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
             <S.Span>{t("კონტაქტი")}</S.Span>
           </S.CustomNavLinkSmall>
-          <S.CustomNavLinkSmall
-            style={{ width: "180px" }}
-
-          >
+          <S.CustomNavLinkSmall style={{ width: "180px" }}>
             <S.Span>
-              <Button onClick={onDialog}>{t("რეგისტრაცია")}</Button>
+              <Button onClick={onDialog}>{t("შესვლა/რეგისტრაცია")}</Button>
 
               {/* <Dropdown overlay={menu}>
                 <div>
-                  Avto Zenaishvili   <UserOutlined style={{ fontSize: '30px', marginTop: '14px', color: '#08c' }} />
+                  Avto Zenaishvili{" "}
+                  <UserOutlined
+                    style={{
+                      fontSize: "30px",
+                      marginTop: "14px",
+                      color: "#08c",
+                    }}
+                  />
                 </div>
               </Dropdown> */}
             </S.Span>
           </S.CustomNavLinkSmall>
         </div>
-
       </Fragment>
     );
   };
 
   return (
-    <S.Header style={{ position: 'fixed', width: '100%', background: '#fff', zIndex: 100 }}>
+    <S.Header
+      style={{
+        position: "fixed",
+        width: "100%",
+        background: "#fff",
+        zIndex: 100,
+      }}
+    >
       <S.Container>
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
             <SvgIcon src="logo.svg" />
             {/* <img src="../../public/img/svg/12.png" /> */}
-
           </S.LogoContainer>
           <S.NotHidden>
             <MenuItem />

@@ -5,9 +5,9 @@ const routes = [
     component: "Home",
   },
   {
-    path: ["/register"],
+    path: ["/profile"],
     exact: true,
-    component: "Register",
+    component: "Profile",
   },
 ];
 

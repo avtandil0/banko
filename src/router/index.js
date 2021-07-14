@@ -10,22 +10,25 @@ import routes from "./config";
 import GlobalStyles from "../globalStyles";
 
 const Router = () => {
-  const [inRegisterMOde, setInRegisterMOde] = useState(false);
+  const [inProfileMOde, setInProfileMOde] = useState(false);
   const onRegisterPage = () => {
-    console.log('aaaaa');
-    setInRegisterMOde(true)
+    console.log("aaaaa");
+    setInProfileMOde(true);
     // history.push("/register");
-
   };
 
   useEffect(() => {
     // Good!
-    console.log('inRegisterMOde', inRegisterMOde)
+    console.log("inProfileMOde", inProfileMOde);
+
   }, []);
   return (
     <Suspense fallback={null}>
       <GlobalStyles />
-      <Header onChaneMode={onRegisterPage} />
+      <Header
+        onChaneMode={onRegisterPage}
+        setInProfileMOde={setInProfileMOde}
+      />
       {/* {inRegisterMOde ? <div> Rgeister</div> :
         <div>
           <Switch>
@@ -43,27 +46,34 @@ const Router = () => {
           <Footer />
         </div>
       } */}
+      {inProfileMOde ? (
+        <Profile />
+      ) : (
+        <Route
 
-      <Switch>
-        {routes.map((routeItem) => {
-          return (
-            <div>
-              {/* <Route path="/profile">
-                <Profile />
-              </Route> */}
-              <Route
-                key={routeItem.component}
-                path={routeItem.path}
-                exact={routeItem.exact}
-                component={lazy(() => import(`../pages/${routeItem.component}`))}
-              />
-            </div>
+        component={lazy(() =>
+          import(`../pages/${'Home'}`)
+        )}
+      />
+        // <Switch>
+        //   {routes.map((routeItem) => {
+        //     return (
+        //       <div>
+        //         <Route
+        //           key={routeItem.component}
+        //           path={routeItem.path}
+        //           exact={routeItem.exact}
+        //           component={lazy(() =>
+        //             import(`../pages/${routeItem.component}`)
+        //           )}
+        //         />
+        //       </div>
+        //     );
+        //   })}
+        // </Switch>
+      )}
 
-          );
-        })}
-      </Switch>
       <Footer />
-
     </Suspense>
   );
 };
