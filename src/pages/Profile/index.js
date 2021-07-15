@@ -18,8 +18,15 @@ import {
 } from "antd";
 
 const Profile = () => {
+
+  const [user, setUser] = useState();
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    console.log(JSON.parse(localStorage.getItem('user')))
+    let us = JSON.parse(localStorage.getItem('user'));
+    // setUser(localStorage.getItem('user'))
+     setUser(us)
   }, []);
   const columns = [
     {
@@ -112,73 +119,96 @@ const Profile = () => {
             <div className="form-group col-md-6">
               <label for="inputEmail4">სახელი</label>
               <input
+              disabled
                 type="text"
                 className="form-control"
                 id="inputEmail4"
                 placeholder="სახელი"
+                value={user?.name}
               />
             </div>
             <div className="form-group col-md-6">
               <label for="inputPassword4">გვარი</label>
               <input
+              disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
                 placeholder="გვარი"
+                value={user?.lastName}
               />
             </div>
             <div className="form-group col-md-6">
               <label for="inputPassword4">მობილური</label>
               <input
+              disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
                 placeholder="მობილური"
+                value={user?.phoneNumber}
               />
             </div>
             <div className="form-group col-md-6">
               <label for="inputPassword4">ელ.ფოსტა</label>
               <input
+              disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
                 placeholder="ელ.ფოსტა"
+                value={user?.email}
               />
             </div>
             <div className="form-group col-md-6">
               <label for="inputPassword4">დაბ.თარიღი</label>
+              {/* <DatePicker
+                  value={user?.birthDate}
+                  onChange={handleChangeDate}
+                /> */}
               <input
+              disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
                 placeholder="დაბ.თარიღი"
+                value={user?.birthDate}
               />
             </div>
 
             <div className="form-group col-md-6">
               <label for="inputPassword4">მისამართი</label>
               <input
+              disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
                 placeholder="წყარო"
+                value={user?.address}
               />
             </div>
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <div className="form-check">
               <label>
                 {" "}
                 <input type="checkbox" value="" /> გავეცანი და ვეთანხმები
               </label>
             </div>
-          </div>
+          </div> */}
 
-          <Button type="primary">შენახვა</Button>
+          {/* <Button type="primary">შენახვა</Button> */}
 
           <br></br>
           <br></br>
           <Table columns={columns} dataSource={data} />
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
           <br></br>
           <br></br>
         </Col>

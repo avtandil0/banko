@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import { lazy,useEffect } from "react";
 
 import IntroContent from "../../content/IntroContent.json";
 import MiddleBlockContent from "../../content/MiddleBlockContent.json";
@@ -14,7 +14,12 @@ const MiddleBlock = lazy(() => import("../../components/MiddleBlock"));
 const Container = lazy(() => import("../../common/Container"));
 const ScrollToTop = lazy(() => import("../../common/ScrollToTop"));
 
-const Home = () => {
+const Home = ({isAuthorize, setIsAuthorize}) => {
+
+  useEffect(() => {
+    // Good!
+    console.log("isAuthorize", isAuthorize);
+  }, [isAuthorize]);
   return (
     <Container>
       <ScrollToTop />
@@ -31,6 +36,8 @@ const Home = () => {
         title={MiddleBlockContent.title}
         content={MiddleBlockContent.text}
         button={MiddleBlockContent.button}
+        isAuthorize = {isAuthorize}
+        setIsAuthorize={setIsAuthorize}
       />
       <ContentBlock
         type="left"

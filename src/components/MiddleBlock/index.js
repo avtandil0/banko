@@ -1,5 +1,5 @@
 import { useState, Fragment, lazy, useEffect } from "react";
-import { Row, Col, Card } from "antd";
+import { Row, Col, Card, message, notification  } from "antd";
 import { withTranslation } from "react-i18next";
 import Fade from "react-reveal/Fade";
 import Modal from "react-bootstrap/Modal";
@@ -12,7 +12,7 @@ import "./index.css"; // Tell webpack that Button.js uses these styles
 const Button = lazy(() => import("../../common/Button"));
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 
-const MiddleBlock = ({ title, content, button, t }) => {
+const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize }) => {
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
   const [show1, setShow1] = useState(false);
@@ -28,6 +28,17 @@ const MiddleBlock = ({ title, content, button, t }) => {
   };
 
   const onDialog = (index) => {
+
+    if(!isAuthorize){
+      // message.warning('განცხადების შესატანად გაიარეთ ავტორიზაცია');
+      notification['info']({
+        message: 'შეცდომა !',
+        description:
+          'განცხადების შესატანად გაიარეთ ავტორიზაცია.',
+          placement: 'bottomRight'
+      });
+      return;
+    }
     switch (index) {
       case 1:
         setShow1(true);

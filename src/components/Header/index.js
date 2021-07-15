@@ -7,10 +7,15 @@ import withReactContent from "sweetalert2-react-content";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // import Sonnet from 'react-bootstrap/Sonnet';
-import { Menu, Dropdown } from "antd";
-import { Modal } from "react-bootstrap";
+// import { Menu, Dropdown } from "antd";
+// import { Modal } from "react-bootstrap";
+
+import axios from "axios";
 
 import {
+  message,
+  Menu,
+  Modal,
   Button as AntdButton,
   Form,
   Input,
@@ -21,9 +26,10 @@ import {
   DatePicker,
   Checkbox,
   Tabs,
+  Dropdown,
 } from "antd";
 
-import { LockOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import * as S from "./styles";
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -32,10 +38,11 @@ const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 const Button = lazy(() => import("../../common/Button"));
 const MySwal = withReactContent(Swal);
 
-const Header = ({ t, setInProfileMOde }) => {
+const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
   const history = useHistory();
 
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
+  const [loginLoading, setLoginLoading] = useState(false);
   const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
     useState(false);
   const [formLayout, setFormLayout] = useState("horizontal");
@@ -46,6 +53,8 @@ const Header = ({ t, setInProfileMOde }) => {
   const [visibleDrawer, setVisibleDrawer] = useState(false);
 
   const [show, setShow] = useState(false);
+  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -62,12 +71,17 @@ const Header = ({ t, setInProfileMOde }) => {
     setVisibleDrawer(true);
   };
 
+  const logOut = () => {
+    localStorage.removeItem("user");
+    setIsAuthorize(false);
+    // history.push('/')
+  };
   const menu = (
     <Menu>
       <Menu.Item key="0">
         <a onClick={() => setInProfileMOde(true)}>პროფილი</a>
       </Menu.Item>
-      <Menu.Item key="1">
+      <Menu.Item key="1" onClick={logOut}>
         <a>გასვლა</a>
       </Menu.Item>
       {/* <Menu.Divider /> */}
@@ -76,8 +90,74 @@ const Header = ({ t, setInProfileMOde }) => {
 
   useEffect(() => {
     // Good!
-    console.log("111");
+    console.log("111111111111111111");
+
+    let us = JSON.parse(localStorage.getItem('user'));
+    // setUser(localStorage.getItem('user'))
+     setCurrentUser(us)
   }, []);
+
+  const handleKeypress = e => {
+    //it triggers by pressing the enter key
+    console.log('key code',e.keyCode,e)
+    if (e.charCode === 13) {
+      if (!user.userName || !user.password) {
+        return;
+      }
+      handleLogin();
+    }
+
+
+  };
+
+  const handleLogin = async () => {
+    console.log("user", user);
+    setLoginLoading(true);
+    var result = await axios.get(
+      "http://avtandil-002-site2.ftempurl.com/Login",
+      {
+        params: { ...user },
+      }
+    );
+    if (result.data.token) {
+      // message.success(result.data.meessage);
+      localStorage.setItem("user", JSON.stringify(result.data));
+      setVisibleLoginRegisterDialog(false);
+      setIsAuthorize(true);
+      setCurrentUser(result.data)
+    } else {
+      message.error("მომხმარებელი ან პაროლი არასწორია");
+    }
+    setLoginLoading(false);
+    console.log("result ", result);
+  };
+  const onClickRegister = async () => {
+    console.log("aaaaaaa", user);
+    console.log('valdiate', Object.entries(user))
+    return;
+    // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
+    var result = await axios.post(
+      "http://avtandil-002-site2.ftempurl.com/api/Registration",
+      user
+    );
+    if (result.data.isSuccess) {
+      message.success(result.data.meessage);
+      setVisibleLoginRegisterDialog(false);
+    } else {
+      message.error(result.data.meessage);
+    }
+    console.log("result ", result);
+  };
+
+  const handleChangeInput = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+    console.log("user", user);
+  };
+
+  const handleChangeDate = (date, dateString) => {
+    console.log(date, dateString);
+    setUser({ ...user, ["birthDate"]: dateString });
+  };
 
   const showDrawer = () => {
     setVisibility(!visible);
@@ -87,8 +167,13 @@ const Header = ({ t, setInProfileMOde }) => {
     setVisibility(!visible);
   };
 
+  const registerFormValidate = () =>{
+    console.log('valdiate', Object.entries(user))
+  };
+
   const onDialog = () => {
     console.log("aaaaaa");
+    setUser(null);
     setVisibleLoginRegisterDialog(true);
     // MySwal.fire({
     //   title: 'Multiple inputs',
@@ -265,7 +350,7 @@ const Header = ({ t, setInProfileMOde }) => {
         </BModal> */}
 
         <div>
-          <Modal size="lg">
+          {/* <Modal size="lg">
             <Modal.Header closeButton>
               <Modal.Title>განაცხადის შევსება</Modal.Title>
             </Modal.Header>
@@ -349,254 +434,7 @@ const Header = ({ t, setInProfileMOde }) => {
               </button>
             </Modal.Body>
             <Modal.Footer></Modal.Footer>
-          </Modal>
-
-          <Modal
-            show={visibleLoginRegisterDialog}
-            onHide={() => setVisibleLoginRegisterDialog(false)}
-            size="lg"
-          >
-            {/* <Modal.Header closeButton>
-              <Modal.Title>სისტემაში შესვლა</Modal.Title>
-            </Modal.Header> */}
-            <Modal.Body>
-              <Tabs defaultActiveKey="1">
-                <TabPane tab="ავტორიზაცია" key="1">
-                  <Form
-                    name="basic"
-                    labelCol={{ span: 6 }}
-                    wrapperCol={{ span: 14 }}
-                    initialValues={{ remember: true }}
-                  >
-                    <Form.Item
-                      label="მობილურის ნომერი"
-                      name="phoneNumber"
-                      rules={[
-                        {
-                          required: true,
-                          message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                      label="პაროლი"
-                      name="password"
-                      rules={[
-                        {
-                          required: true,
-                          message: "შეიყვანეთ პაროლი!",
-                        },
-                      ]}
-                    >
-                      <Input.Password />
-                    </Form.Item>
-
-                    {/* <Form.Item
-                      name="remember"
-                      valuePropName="checked"
-                      wrapperCol={{ offset: 8, span: 16 }}
-                    >
-                      <Checkbox>Remember me</Checkbox>
-                    </Form.Item> */}
-
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                      <AntdButton type="primary" htmlType="submit">
-                        შესვლა
-                      </AntdButton>
-                    </Form.Item>
-                  </Form>
-                </TabPane>
-                <TabPane tab="რეგისტრაცია" key="2">
-                  <Form
-                    name="basic"
-                    labelCol={{ span: 6 }}
-                    wrapperCol={{ span: 14 }}
-                    initialValues={{ remember: true }}
-                  >
-                    <Form.Item
-                      label="მობილურის ნომერი"
-                      name="phoneNumber"
-                      rules={[
-                        {
-                          required: true,
-                          message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                      label="ელ. ფოსტა"
-                      name="mail"
-                      rules={[
-                        {
-                          required: true,
-                          message: "შეიყვანეთ ელ. ფოსტა!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    <Form.Item
-                      label="სახლი"
-                      name="firstName"
-                      rules={[
-                        {
-                          required: true,
-                          message: "შეიყვანეთ სახელი!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    <Form.Item
-                      label="გვარი"
-                      name="lastName"
-                      rules={[
-                        {
-                          required: true,
-                          message: "შეიყვანეთ გვარი!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                      label="პირადი ნომერი"
-                      name="personalNumber"
-                      rules={[
-                        {
-                          required: true,
-                          message: "შეიყვანეთ პირადი ნომერი!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-
-                    <Form.Item
-                      label="დაბადების თარიღი"
-                      name="birthDate"
-                      rules={[
-                        {
-                          required: true,
-                          message: "შეიყვანეთ დაბადების თარიღი!",
-                        },
-                      ]}
-                    >
-                      <DatePicker />
-                    </Form.Item>
-
-                    <Form.Item
-                      label="მისამართი"
-                      name="personalNumber"
-                      rules={[
-                        {
-                          required: true,
-                          message: "შეიყვანეთ მისამართი!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    {/* <Form.Item
-                      name="remember"
-                      valuePropName="checked"
-                      wrapperCol={{ offset: 8, span: 16 }}
-                    >
-                      <Checkbox>Remember me</Checkbox>
-                    </Form.Item> */}
-
-                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                      <AntdButton type="primary" htmlType="submit">
-                        რეგისტრაცია
-                      </AntdButton>
-                    </Form.Item>
-                  </Form>
-                </TabPane>
-              </Tabs>
-              {/* <Tabs defaultActiveKey="1" >
-                <TabPane tab="Tab 1" key="1">
-                  <Form>
-                    <Form.Group controlId="formBasicEmail">
-                      <Form.Label>ელ. ფოსტა</Form.Label>
-                      <Form.Control type="email" placeholder="ელ. ფოსტა" />
-                    </Form.Group>
-
-                    <Form.Group controlId="formBasicPassword">
-                      <Form.Label>პაროლი</Form.Label>
-                      <Form.Control type="password" placeholder="პაროლი" />
-                    </Form.Group>
-                    <Form.Group controlId="formBasicCheckbox">
-                      <Form.Check type="checkbox" label="დამახსოვრება" />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                      შესვლა
-                    </Button>
-                  </Form>
-                </TabPane>
-                <TabPane tab="Tab 2" key="2">
-                  <Form>
-                    <Form.Row>
-                      <Form.Group as={Col} controlId="formGridEmail">
-                        <Form.Label>ელ. ფოსტა</Form.Label>
-                        <Form.Control type="email" placeholder="ელ. ფოსტა" />
-                      </Form.Group>
-
-                      <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Label>სახელი</Form.Label>
-                        <Form.Control type="text" placeholder="სახელი" />
-                      </Form.Group>
-                      <Form.Group as={Col} controlId="formGridPassword">
-                        <Form.Label>გვარი</Form.Label>
-                        <Form.Control type="text" placeholder="გვარი" />
-                      </Form.Group>
-                    </Form.Row>
-
-                    <Form.Group controlId="formGridAddress1">
-                      <Form.Label>მისამართი</Form.Label>
-                      <Form.Control placeholder="მისამართი" />
-                    </Form.Group>
-
-                    <Form.Row>
-                      <Form.Group as={Col} controlId="formGridCity">
-                        <Form.Label>ქალაქი</Form.Label>
-                        <Form.Control />
-                      </Form.Group>
-
-                      <Form.Group as={Col} controlId="formGridState">
-                        <Form.Label>სქესი</Form.Label>
-                        <Form.Control as="select" defaultValue="Choose...">
-                          <option>აირჩიეთ...</option>
-                          <option>...</option>
-                        </Form.Control>
-                      </Form.Group>
-
-                      <Form.Group as={Col} controlId="formGridZip">
-                        <Form.Label>მობილური</Form.Label>
-                        <Form.Control placeholder="555 555 555" />
-                      </Form.Group>
-                    </Form.Row>
-
-                    <Form.Group id="formGridCheckbox">
-                      <Form.Check type="checkbox" label="გავეცანი პირობებს" />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                      რეგისტრაცია
-                    </Button>
-                  </Form>
-                </TabPane>
-                <TabPane tab="Tab 3" key="3">
-                  Content of Tab Pane 3
-                </TabPane>
-              </Tabs> */}
-            </Modal.Body>
-          </Modal>
+          </Modal> */}
 
           <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
             <S.Span>{t("მთავარი")}</S.Span>
@@ -621,20 +459,22 @@ const Header = ({ t, setInProfileMOde }) => {
           </S.CustomNavLinkSmall>
           <S.CustomNavLinkSmall style={{ width: "180px" }}>
             <S.Span>
-              <Button onClick={onDialog}>{t("შესვლა/რეგისტრაცია")}</Button>
-
-              {/* <Dropdown overlay={menu}>
-                <div>
-                  Avto Zenaishvili{" "}
-                  <UserOutlined
-                    style={{
-                      fontSize: "30px",
-                      marginTop: "14px",
-                      color: "#08c",
-                    }}
-                  />
-                </div>
-              </Dropdown> */}
+              {isAuthorize ? (
+                <Dropdown overlay={menu}>
+                  <div>
+                    {currentUser?.name} {" "}
+                    <UserOutlined
+                      style={{
+                        fontSize: "30px",
+                        marginTop: "14px",
+                        color: "#08c",
+                      }}
+                    />
+                  </div>
+                </Dropdown>
+              ) : (
+                <Button onClick={onDialog}>{t("ავტორიზაცია")}</Button>
+              )}
             </S.Span>
           </S.CustomNavLinkSmall>
         </div>
@@ -651,6 +491,267 @@ const Header = ({ t, setInProfileMOde }) => {
         zIndex: 100,
       }}
     >
+      <Modal
+        visible={visibleLoginRegisterDialog}
+        onCancel={() => setVisibleLoginRegisterDialog(false)}
+        footer={null}
+        width={700}
+      >
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="ავტორიზაცია" key="1">
+            <Form
+              name="basic"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
+              initialValues={{ remember: true }}
+            >
+              {/* <Form.Item
+                label="მობილურის ნომერი"
+                name="phoneNumber"
+                rules={[
+                  {
+                    required: true,
+                    message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="phoneNumber"
+                  value={user?.phoneNumber}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item> */}
+              <Form.Item
+                label="მომხმარებლის სახელი"
+                name="userName"
+                rules={[
+                  {
+                    required: true,
+                    message: "გთხოვთ, შეიყვანოთ მომხმარებლის სახელი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="userName"
+                  value={user?.userName}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="პაროლი"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ პაროლი!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  name="password"
+                  value={user?.password}
+                  onChange={handleChangeInput}
+                  onKeyPress={handleKeypress}
+                />
+              </Form.Item>
+
+              {/* <Form.Item
+                      name="remember"
+                      valuePropName="checked"
+                      wrapperCol={{ offset: 8, span: 16 }}
+                    >
+                      <Checkbox>Remember me</Checkbox>
+                    </Form.Item> */}
+
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <AntdButton
+                  type="primary"
+                  onClick={handleLogin}
+                  loading={loginLoading}
+                  disabled={!user?.userName || !user?.password}
+                >
+                  შესვლა
+                </AntdButton>
+              </Form.Item>
+            </Form>
+          </TabPane>
+          <TabPane tab="რეგისტრაცია" key="2">
+            <Form
+              name="basic"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
+              initialValues={{ remember: true }}
+            >
+              <Form.Item
+                label="მობილურის ნომერი"
+                name="phoneNumberlabel"
+                rules={[
+                  {
+                    required: true,
+                    message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="phoneNumber"
+                  value={user?.phoneNumber}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+              <Form.Item
+                label="მომხმარებლის სახელი"
+                name="userName"
+                rules={[
+                  {
+                    required: true,
+                    message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="userName"
+                  value={user?.userName}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+              <Form.Item
+                label="პაროლი"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ პაროლი!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  name="password"
+                  value={user?.password}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+              <Form.Item
+                label="ელ. ფოსტა"
+                name="mail"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ ელ. ფოსტა!",
+                  },
+                ]}
+              >
+                <Input
+                  name="mail"
+                  value={user?.mail}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+              <Form.Item
+                label="სახლი"
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ სახელი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="name"
+                  value={user?.name}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+              <Form.Item
+                label="გვარი"
+                name="lastName"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ გვარი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="lastName"
+                  value={user?.lastName}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="პირადი ნომერი"
+                name="personalNumber"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ პირადი ნომერი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="personalNumber"
+                  value={user?.personalNumber}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="დაბადების თარიღი"
+                name="birthDate"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ დაბადების თარიღი!",
+                  },
+                ]}
+              >
+                <DatePicker
+                  value={user?.birthDate}
+                  onChange={handleChangeDate}
+                />
+              </Form.Item>
+
+              <Form.Item
+                label="მისამართი"
+                name="address"
+                rules={[
+                  {
+                    required: true,
+                    message: "შეიყვანეთ მისამართი!",
+                  },
+                ]}
+              >
+                <Input
+                  name="address"
+                  value={user?.address}
+                  onChange={handleChangeInput}
+                />
+              </Form.Item>
+              {/* <Form.Item
+                      name="remember"
+                      valuePropName="checked"
+                      wrapperCol={{ offset: 8, span: 16 }}
+                    >
+                      <Checkbox>Remember me</Checkbox>
+                    </Form.Item> */}
+
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <AntdButton
+                  disabled={registerFormValidate}
+                  type="primary"
+                  htmlType="submit"
+                  onClick={onClickRegister}
+                >
+                  რეგისტრაცია
+                </AntdButton>
+              </Form.Item>
+            </Form>
+          </TabPane>
+        </Tabs>
+      </Modal>
+
       <S.Container>
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
