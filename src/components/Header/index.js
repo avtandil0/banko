@@ -114,7 +114,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     console.log("user", user);
     setLoginLoading(true);
     var result = await axios.get(
-      "https://avtandil-002-site2.ftempurl.com/Login",
+      "http://avtandil-002-site2.ftempurl.com/Login",
       {
         params: { ...user },
       }
@@ -136,7 +136,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     var result = await axios.post(
-      "https://avtandil-002-site2.ftempurl.com/api/Registration",
+      "http://avtandil-002-site2.ftempurl.com/api/Registration",
       user
     );
     if (result.data.isSuccess) {
