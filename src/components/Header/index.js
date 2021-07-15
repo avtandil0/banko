@@ -114,7 +114,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     console.log("user", user);
     setLoginLoading(true);
     var result = await axios.get(
-      "http://avtandil-002-site2.ftempurl.com/Login",
+      "https://avtandil-002-site2.ftempurl.com/Login",
       {
         params: { ...user },
       }
@@ -134,10 +134,9 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
   const onClickRegister = async () => {
     console.log("aaaaaaa", user);
     console.log('valdiate', Object.entries(user))
-    return;
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     var result = await axios.post(
-      "http://avtandil-002-site2.ftempurl.com/api/Registration",
+      "https://avtandil-002-site2.ftempurl.com/api/Registration",
       user
     );
     if (result.data.isSuccess) {
@@ -495,7 +494,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
         visible={visibleLoginRegisterDialog}
         onCancel={() => setVisibleLoginRegisterDialog(false)}
         footer={null}
-        width={700}
+        width={800}
       >
         <Tabs defaultActiveKey="1">
           <TabPane tab="ავტორიზაცია" key="1">
