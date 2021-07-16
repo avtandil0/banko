@@ -43,6 +43,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
   const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
     useState(false);
   const [formLayout, setFormLayout] = useState("horizontal");
@@ -53,7 +54,8 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
   const [visibleDrawer, setVisibleDrawer] = useState(false);
 
   const [show, setShow] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
+  const [test, setTest] = useState(444444);
   const [currentUser, setCurrentUser] = useState(null);
 
   const handleClose = () => setShow(false);
@@ -114,7 +116,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     console.log("user", user);
     setLoginLoading(true);
     var result = await axios.get(
-      "http://avtandil-002-site2.ftempurl.com/Login",
+      "https://weblive.com.ge/Login",
       {
         params: { ...user },
       }
@@ -133,8 +135,9 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
   };
   const onClickRegister = async () => {
     console.log("aaaaaaa", user);
-    console.log('valdiate', Object.entries(user))
+    // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
+    setRegisterLoading(true)
     var result = await axios.post(
       "http://avtandil-002-site2.ftempurl.com/api/Registration",
       user
@@ -142,6 +145,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
+      setRegisterLoading(false)
     } else {
       message.error(result.data.meessage);
     }
@@ -171,46 +175,11 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
   };
 
   const onDialog = () => {
-    console.log("aaaaaa");
-    setUser(null);
+    console.log("aaaaaa",user);
+    setUser({...user, userName: ''});
     setVisibleLoginRegisterDialog(true);
-    // MySwal.fire({
-    //   title: 'Multiple inputs',
-    //   width: '923px',
-    //   html:'<input id="swal-input1" className="swal2-input" placeholder="test"> ' +
-    //   '<input id="swal-input2" className="swal2-input">',
-    //   focusConfirm: false,
-    //   preConfirm: () => {
-    //     return [
-    //       document.getElementById('swal-input1').value,
-    //       document.getElementById('swal-input2').value
-    //     ]
-    //   }
-    // }).then(() => {
-    //   return MySwal.fire(<p>Shorthand works too</p>)
-    // })
   };
 
-  const formItemLayout =
-    formLayout === "horizontal"
-      ? {
-          labelCol: {
-            span: 4,
-          },
-          wrapperCol: {
-            span: 14,
-          },
-        }
-      : null;
-  const buttonItemLayout =
-    formLayout === "horizontal"
-      ? {
-          wrapperCol: {
-            span: 14,
-            offset: 4,
-          },
-        }
-      : null;
 
   const MenuItem = () => {
     const scrollTo = (id) => {
@@ -227,214 +196,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
     return (
       <Fragment>
-        {/* <Drawer
-        title="Basic Drawer"
-        placement="right"
-        closable={false}
-        visible={visibleDrawer}
-      >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-      </Drawer> */}
-        {/* <Drawer
-          title="პროფილი"
-          width={720}
-          onClose={onClose}
-          visible={visibleDrawer}
-          bodyStyle={{ paddingBottom: 80 }}
-          footer={
-            <div
-              style={{
-                textAlign: 'right',
-              }}
-            >
-              <AntdButton onClick={() => setvisibleDrawer(false)} style={{ marginRight: 8 }}>
-                დახურვა
-              </AntdButton>
-              <AntdButton onClick={() => setvisibleDrawer(false)} type="primary">
-                შენახვა
-              </AntdButton>
-            </div>
-          }
-        >
-          <Form layout="vertical" hideRequiredMark>
-          <Row gutter={16}>
-              <Col span={12}><Form.Item label="სახელი">
-                <Input placeholder="სახელი" />
-              </Form.Item>
-                <Form.Item label="გვარი">
-                  <Input placeholder="გვარი" />
-                </Form.Item>
-                <Form.Item label="პირადი N">
-                  <Input placeholder="პირადი N" />
-                </Form.Item></Col>
-              <Col span={12}>   <Form.Item label="მისამართი">
-                <Input placeholder="მისამართი" />
-              </Form.Item>
-                <Form.Item label="ელ. ფოსტა">
-                  <Input placeholder="ელ.ფოსტა" />
-                </Form.Item>
-                <Form.Item label="მობილური">
-                  <Input placeholder="მობილური" />
-                </Form.Item>
-              </Col>
-            </Row>
-          </Form>
-        </Drawer> */}
-
-        {/* <BModal
-          show={visibleLoginRegisterDialog}
-          size="lg"
-        >
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="ავტორიზაცია" key="1">
-            <Form
-            name="normal_login"
-            className="login-form"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            style={{ maxWidth: "300px" }}
-          >
-            <Form.Item
-              name="username"
-              rules={[
-                { required: true, message: "Please input your Username!" },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Username"
-              />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Please input your Password!" },
-              ]}
-            >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Item>
-            {/* <Form.Item>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <a className="login-form-forgot" href="">
-                Forgot password
-              </a>
-            </Form.Item>
-
-            <Form.Item>
-              <AntdButton
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-              >
-                შესვლა
-              </AntdButton>
-            </Form.Item>
-          </Form>
-            </TabPane>
-            <TabPane tab="რეგისტრაცია" key="2">
-              Content of Tab Pane 2
-            </TabPane>
-          </Tabs>
-
-
-        </BModal> */}
-
         <div>
-          {/* <Modal size="lg">
-            <Modal.Header closeButton>
-              <Modal.Title>განაცხადის შევსება</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="form-row">
-                <div className="form-group col-md-6">
-                  <label for="inputEmail4">მოთხოვნილი თანხა</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="inputEmail4"
-                    placeholder="თანხა"
-                  />
-                </div>
-                <div className="form-group col-md-6">
-                  <label for="inputPassword4">Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="inputPassword4"
-                    placeholder="Password"
-                  />
-                </div>
-              </div>
-              <div className="form-group">
-                <label for="inputAddress">Address</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputAddress"
-                  placeholder="1234 Main St"
-                />
-              </div>
-              <div className="form-group">
-                <label for="inputAddress2">Address 2</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="inputAddress2"
-                  placeholder="Apartment, studio, or floor"
-                />
-              </div>
-              <div className="form-row">
-                <div className="form-group col-md-6">
-                  <label for="inputCity">City</label>
-                  <input type="text" className="form-control" id="inputCity" />
-                </div>
-                <div className="form-group col-md-4">
-                  <label for="inputState">State</label>
-                  <select id="inputState" className="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                  </select>
-                </div>
-                <div className="form-group col-md-2">
-                  <label for="inputZip">Zip</label>
-                  <input type="text" className="form-control" id="inputZip" />
-                </div>
-              </div>
-              <div className="form-group">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="gridCheck"
-                  />
-                  <label className="form-check-label" for="gridCheck">
-                    Check me out
-                  </label>
-                </div>
-              </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={() => {
-                  console.log("aaaaaaaaaaaa");
-                  setVisibleLoginRegisterDialog(false);
-                }}
-              >
-                გაგზავნა1111
-              </button>
-            </Modal.Body>
-            <Modal.Footer></Modal.Footer>
-          </Modal> */}
-
           <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
             <S.Span>{t("მთავარი")}</S.Span>
           </S.CustomNavLinkSmall>
@@ -502,7 +264,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               name="basic"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 14 }}
-              initialValues={{ remember: true }}
+              // initialValues={{ userNameLabel: '77' }}
             >
               {/* <Form.Item
                 label="მობილურის ნომერი"
@@ -522,7 +284,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               </Form.Item> */}
               <Form.Item
                 label="მომხმარებლის სახელი"
-                name="userName"
+                name="userNameLabel"
                 rules={[
                   {
                     required: true,
@@ -539,7 +301,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
               <Form.Item
                 label="პაროლი"
-                name="password"
+                name="passwordLabel"
                 rules={[
                   {
                     required: true,
@@ -581,6 +343,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 14 }}
               initialValues={{ remember: true }}
+              onFinish={onClickRegister}
             >
               <Form.Item
                 label="მობილურის ნომერი"
@@ -600,11 +363,11 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               </Form.Item>
               <Form.Item
                 label="მომხმარებლის სახელი"
-                name="userName"
+                name="userNameLabel"
                 rules={[
                   {
                     required: true,
-                    message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
+                    message: "გთხოვთ, შეიყვანოთ მომხმარებლის სახელი!",
                   },
                 ]}
               >
@@ -616,7 +379,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               </Form.Item>
               <Form.Item
                 label="პაროლი"
-                name="password"
+                name="passwordLabel"
                 rules={[
                   {
                     required: true,
@@ -632,7 +395,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               </Form.Item>
               <Form.Item
                 label="ელ. ფოსტა"
-                name="mail"
+                name="mailLabel"
                 rules={[
                   {
                     required: true,
@@ -648,7 +411,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               </Form.Item>
               <Form.Item
                 label="სახლი"
-                name="name"
+                name="nameLabel"
                 rules={[
                   {
                     required: true,
@@ -664,7 +427,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               </Form.Item>
               <Form.Item
                 label="გვარი"
-                name="lastName"
+                name="lastNameLabel"
                 rules={[
                   {
                     required: true,
@@ -681,7 +444,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
               <Form.Item
                 label="პირადი ნომერი"
-                name="personalNumber"
+                name="personalNumberLabel"
                 rules={[
                   {
                     required: true,
@@ -698,7 +461,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
               <Form.Item
                 label="დაბადების თარიღი"
-                name="birthDate"
+                name="birthDateLabel"
                 rules={[
                   {
                     required: true,
@@ -714,7 +477,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
               <Form.Item
                 label="მისამართი"
-                name="address"
+                name="addressLabel"
                 rules={[
                   {
                     required: true,
@@ -738,10 +501,12 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <AntdButton
-                  disabled={registerFormValidate}
+                  loading={registerLoading}
                   type="primary"
                   htmlType="submit"
-                  onClick={onClickRegister}
+                  // onClick={onClickRegister}
+                  htmlType="submit"
+
                 >
                   რეგისტრაცია
                 </AntdButton>
