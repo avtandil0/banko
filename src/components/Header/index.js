@@ -127,6 +127,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
       setVisibleLoginRegisterDialog(false);
       setIsAuthorize(true);
       setCurrentUser(result.data)
+      setUser(null)
     } else {
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
@@ -139,7 +140,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true)
     var result = await axios.post(
-      "http://avtandil-002-site2.ftempurl.com/api/Registration",
+      "https://weblive.com.ge/Login/api/Registration",
       user
     );
     if (result.data.isSuccess) {
@@ -176,7 +177,8 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
   const onDialog = () => {
     console.log("aaaaaa",user);
-    setUser({...user, userName: ''});
+    // setUser(null);
+    // setTest(777777);
     setVisibleLoginRegisterDialog(true);
   };
 
@@ -297,6 +299,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
                   value={user?.userName}
                   onChange={handleChangeInput}
                 />
+
               </Form.Item>
 
               <Form.Item
