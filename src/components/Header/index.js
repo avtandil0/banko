@@ -140,7 +140,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true)
     var result = await axios.post(
-      "https://weblive.com.ge/Login/api/Registration",
+      "https://weblive.com.ge/api/Registration",
       user
     );
     if (result.data.isSuccess) {
