@@ -1,5 +1,5 @@
 import { useState, Fragment, lazy, useEffect } from "react";
-import { Row, Col, Card, message, notification  } from "antd";
+import { Row, Col, Card, message, notification ,Button as AntdButton } from "antd";
 import { withTranslation } from "react-i18next";
 import Fade from "react-reveal/Fade";
 import Modal from "react-bootstrap/Modal";
@@ -8,6 +8,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import * as S from "./styles";
 import "./index.css"; // Tell webpack that Button.js uses these styles
+import axios from "axios";
 
 const Button = lazy(() => import("../../common/Button"));
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
@@ -19,6 +20,54 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
+  const [incomeSource , setIncomeSource ] = useState([]);
+  const [workExperiance , setWorkExperiance ] = useState([]);
+  const [statement , setStatement ] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [sentLoading, setSentLoading] = useState(false);
+
+
+
+
+  useEffect( async () => {
+    // Good!
+    let us = JSON.parse(localStorage.getItem('user'));
+    // setUser(localStorage.getItem('user'))
+     setCurrentUser(us)
+
+     setStatement({ ...statement, 'userId': us?.id });
+     console.log('currentUser',currentUser)
+
+    var result1 = await axios.get(
+      `https://weblive.com.ge/api/IncomeSource`,
+    );
+    // console.log('result IncomeSource',result)
+    setIncomeSource(result1.data)
+    var result2 = await axios.get(
+      `https://weblive.com.ge/api/WorkExperience`,
+    );
+    console.log('result WorkExperience',result2)
+    setWorkExperiance(result2.data)
+  }, []);
+
+  const handleChangeInput = (e) => {
+    setStatement({ ...statement, [e.target.name]: e.target.value });
+    console.log("statement", statement);
+  };
+
+  const sendStatement = async () => {
+
+    console.log(statement)
+    setSentLoading(true)
+    var result = await axios.post(
+      `https://weblive.com.ge/api/HomeSource`,
+      statement
+    );
+    console.log('result WorkExperience',result)
+    setSentLoading(false)
+    setShow1(false);
+    message.success(result.data.meessage);
+  }
 
   const scrollTo = (id) => {
     const element = document.getElementById(id);
@@ -138,9 +187,9 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                     </label>
                   </div>
                 </div>
-                <button type="submit" className="btn btn-primary">
+                <AntdButton type="submit" className="btn btn-primary">
                   გაგზავნა
-                </button>
+                </AntdButton>
               </form>
               {/* <Form>
                       <Form.Row>
@@ -364,7 +413,7 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                     <Modal.Title>განაცხადის შევსება</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    <form>
+                    {/* <form> */}
                       <div className="form-row">
                         <div className="form-group col-md-6">
                           <label for="inputEmail4">მოთხოვნილი თანხა</label>
@@ -373,6 +422,8 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputEmail4"
                             placeholder="თანხა"
+                            name="requestedAmount"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
@@ -382,6 +433,8 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="ვადა"
+                            name="term"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
@@ -391,6 +444,8 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="შემოსავალი"
+                            name="monthlyAverageIncome"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
@@ -400,19 +455,26 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="შენატანი"
+                            name="deposit"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
                           <label for="inputState">შემოსავლის წყარო</label>
-                          <select id="inputState" className="form-control">
+                          <select id="inputState" className="form-control"
+                           name="incomeSourceId"
+                           onChange={handleChangeInput}>
                             <option selected>აირჩიეთ...</option>
-                            <option>თვითდასაქმებული</option>
+                            {incomeSource.map(s =>
+                              <option key={s.id} name={s.id} value={s.id}>{s.incomeSourceName}</option>
+                            )};
+                            {/* <option>თვითდასაქმებული</option>
                             <option>ხელფასი</option>
                             <option>გზავნილი</option>
                             <option>ბიზნესი</option>
                             <option>აგრო</option>
                             <option>იჯარა</option>
-                            <option>სხვა</option>
+                            <option>სხვა</option> */}
                           </select>
                         </div>
                         <div className="form-group col-md-6">
@@ -422,11 +484,15 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="წყარო"
+                            name="otherIncomeSource"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
                           <label for="inputState">სად გერიცებათ ხელფასი</label>
-                          <select id="inputState" className="form-control">
+                          <select id="inputState" className="form-control"
+                           name="IncomeAccrue"
+                           onChange={handleChangeInput}>
                             <option selected>აირჩიეთ...</option>
                             <option>ბანკში</option>
                             <option>ხელზე</option>
@@ -439,15 +505,22 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="დამსაქმებელი"
+                            name="employer"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
                           <label for="inputState">სამუშო გამოცდილება - სტაჯი</label>
-                          <select id="inputState" className="form-control">
+                          <select id="inputState" className="form-control"
+                           name="workExperienceId"
+                           onChange={handleChangeInput}>
                             <option selected>აირჩიეთ...</option>
-                            <option>1 წელზე ნაკლები</option>
+                            {workExperiance.map(s =>
+                              <option key={s.id} name={s.id} value={s.id}>{s.workExperienceName}</option>
+                            )};
+                            {/* <option>1 წელზე ნაკლები</option>
                             <option>1 - 3 წელი</option>
-                            <option>3 წელზე მეტი</option>
+                            <option>3 წელზე მეტი</option> */}
                           </select>
                         </div>
                         <div className="form-group col-md-6">
@@ -457,6 +530,8 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="დამსაქმებელი"
+                            name="actualAddress"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
@@ -466,6 +541,8 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="ჯამი"
+                            name="existingLoans"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
@@ -475,6 +552,8 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                             className="form-control"
                             id="inputPassword4"
                             placeholder="თანხა"
+                            name="montlyPaidAmount"
+                            onChange={handleChangeInput}
                           />
                         </div>
                         <div className="form-group col-md-6">
@@ -487,10 +566,10 @@ const MiddleBlock = ({ title, content, button, t, isAuthorize, setIsAuthorize })
                         <label> <input type="checkbox" value="" />   გავეცანი და ვეთანხმები</label>
                         </div>
                       </div>
-                      <button type="submit" className="btn btn-primary">
+                      <AntdButton  onClick={sendStatement}  type="primary"  loading={sentLoading}>
                         გაგზავნა
-                      </button>
-                    </form>
+                      </AntdButton>
+                    {/* </form> */}
                     {/* <Form>
                       <Form.Row>
                         <Form.Group as={Col} controlId="formGridEmail">

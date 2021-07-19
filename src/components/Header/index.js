@@ -116,11 +116,12 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     console.log("user", user);
     setLoginLoading(true);
     var result = await axios.get(
-      "https://weblive.com.ge/Login",
-      {
-        params: { ...user },
-      }
+      `https://weblive.com.ge/api/account/${user.userName}/${user.password}`,
+      // {
+      //   params: { ...user },
+      // }
     );
+    console.log('result',result)
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
@@ -140,7 +141,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true)
     var result = await axios.post(
-      "https://weblive.com.ge/Login/api/Registration",
+      "https://weblive.com.ge/api/account",
       user
     );
     if (result.data.isSuccess) {
