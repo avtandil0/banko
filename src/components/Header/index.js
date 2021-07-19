@@ -135,6 +135,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     setLoginLoading(false);
     console.log("result ", result);
   };
+
   const onClickRegister = async () => {
     console.log("aaaaaaa", user);
     // console.log('valdiate', Object.entries(user))
