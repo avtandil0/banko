@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 // import Sonnet from 'react-bootstrap/Sonnet';
 // import { Menu, Dropdown } from "antd";
-// import { Modal } from "react-bootstrap";
+import { Form, InputGroup } from "react-bootstrap";
 
 import axios from "axios";
 
@@ -17,7 +17,7 @@ import {
   Menu,
   Modal,
   Button as AntdButton,
-  Form,
+  // Form,
   Input,
   Row,
   Col,
@@ -60,9 +60,26 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [validated, setValidated] = useState(false);
 
   const onFinish = () => {
     console.log("Received values of form: ");
+  };
+
+  const handleSubmit = (event) => {
+    console.log("bootsrtap sumit", user);
+
+    handleLogin();
+    const form = event.currentTarget;
+    // if (form.checkValidity() === false) {
+    //   console.log('33333333')
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    // }
+    console.log("22222222222");
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   const showProfileDrawer = () => {
@@ -94,41 +111,44 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     // Good!
     console.log("111111111111111111");
 
-    let us = JSON.parse(localStorage.getItem('user'));
+    let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
-     setCurrentUser(us)
+    setCurrentUser(us);
   }, []);
 
-  const handleKeypress = e => {
+  const handleKeypress = (e) => {
     //it triggers by pressing the enter key
-    console.log('key code',e.keyCode,e)
-    if (e.charCode === 13) {
-      if (!user.userName || !user.password) {
-        return;
-      }
-      handleLogin();
-    }
-
-
+    console.log("key code", e.keyCode, e);
+    // if (e.charCode === 13) {
+    //   if (!user.userName || !user.password) {
+    //     return;
+    //   }
+    //   // handleLogin();
+    // }
   };
 
   const handleLogin = async () => {
     console.log("user", user);
+    if (!user?.userName || !user?.password) {
+      setValidated(true);
+      return;
+    }
     setLoginLoading(true);
     var result = await axios.get(
-      `https://weblive.com.ge/api/account/${user.userName}/${user.password}`,
+      `https://weblive.com.ge/api/account/${user.userName}/${user.password}`
       // {
       //   params: { ...user },
       // }
     );
-    console.log('result',result)
+    console.log("result", result);
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
       setVisibleLoginRegisterDialog(false);
       setIsAuthorize(true);
-      setCurrentUser(result.data)
-      setUser(null)
+      setCurrentUser(result.data);
+      setUser({ ...user, userName: "", password: "" });
+      setValidated(false);
     } else {
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
@@ -136,21 +156,36 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     console.log("result ", result);
   };
 
-  const onClickRegister = async () => {
+  const onClickRegister = async (event) => {
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
+    const form = event.currentTarget;
+
+    if(user?.password != user?.rePassword){
+      message.error("პაროლი და დასტური უნდა ემთხვეოდეს ერთმანეთს");
+      return;
+    }
+
+    if (form.checkValidity() === false) {
+      console.log("11111",form);
+      return;
+    }
+
     console.log("aaaaaaa", user);
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
-    setRegisterLoading(true)
-    var result = await axios.post(
-      "https://weblive.com.ge/api/account",
-      user
-    );
+    setRegisterLoading(true);
+    var result = await axios.post("https://weblive.com.ge/api/account", user);
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
-      setRegisterLoading(false)
+      setRegisterLoading(false);
+      setUser({ ...user, userName: "", password: "", phoneNumber: "", rePassword: "", email: "", name: "", lastName: "", personalId: "", birthDate: "", address: "" });
+      setValidated(false);
     } else {
       message.error(result.data.meessage);
+      setRegisterLoading(false);
     }
     console.log("result ", result);
   };
@@ -173,17 +208,16 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
     setVisibility(!visible);
   };
 
-  const registerFormValidate = () =>{
-    console.log('valdiate', Object.entries(user))
+  const registerFormValidate = () => {
+    console.log("valdiate", Object.entries(user));
   };
 
   const onDialog = () => {
-    console.log("aaaaaa",user);
+    console.log("aaaaaa", user);
     // setUser(null);
     // setTest(777777);
     setVisibleLoginRegisterDialog(true);
   };
-
 
   const MenuItem = () => {
     const scrollTo = (id) => {
@@ -227,7 +261,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
               {isAuthorize ? (
                 <Dropdown overlay={menu}>
                   <div>
-                    {currentUser?.name} {" "}
+                    {currentUser?.name}{" "}
                     <UserOutlined
                       style={{
                         fontSize: "30px",
@@ -264,7 +298,56 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
       >
         <Tabs defaultActiveKey="1">
           <TabPane tab="ავტორიზაცია" key="1">
-            <Form
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Row>
+                <Form.Label column lg={3}>
+                  მომხმარებლის სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="userName"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.userName}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    type="password"
+                    placeholder="პაროლი"
+                    required
+                    name="password"
+                    value={user?.password}
+                    onChange={handleChangeInput}
+                    onKeyPress={handleKeypress}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}></Form.Label>
+                <Col lg={12}>
+                  <AntdButton htmlType="submit" loading={loginLoading}>
+                    შესვლა
+                  </AntdButton>
+                </Col>
+              </Row>
+            </Form>
+            {/* <Form
               name="basic"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 14 }}
@@ -285,7 +368,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
                   value={user?.phoneNumber}
                   onChange={handleChangeInput}
                 />
-              </Form.Item> */}
+              </Form.Item>
               <Form.Item
                 label="მომხმარებლის სახელი"
                 name="userNameLabel"
@@ -322,13 +405,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
                 />
               </Form.Item>
 
-              {/* <Form.Item
-                      name="remember"
-                      valuePropName="checked"
-                      wrapperCol={{ offset: 8, span: 16 }}
-                    >
-                      <Checkbox>Remember me</Checkbox>
-                    </Form.Item> */}
+
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <AntdButton
@@ -340,10 +417,222 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
                   შესვლა
                 </AntdButton>
               </Form.Item>
-            </Form>
+            </Form> */}
           </TabPane>
           <TabPane tab="რეგისტრაცია" key="2">
-            <Form
+            <Form noValidate validated={validated} onSubmit={onClickRegister}>
+              <Row>
+                <Form.Label column lg={3}>
+                  მობილურის ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="მობილურის ნომერი"
+                    name="phoneNumber"
+                    value={user?.phoneNumber}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მომხმარებლის სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="userName"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.userName}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="password"
+                    name="password"
+                    placeholder="პაროლი"
+                    value={user?.password}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  გაიმეორეთ პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="password"
+                    name="rePassword"
+                    placeholder="პაროლი"
+                    value={user?.rePassword}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    გაიმეორეთ პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  ელ. ფოსტა
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="email"
+                    placeholder=" ელ. ფოსტა"
+                    value={user?.email}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ ელ. ფოსტა.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  სახლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="name"
+                    placeholder="სახლი"
+                    value={user?.name}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  გვარი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="lastName"
+                    placeholder="გვარი"
+                    value={user?.lastName}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ გვარი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პირადი ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="personalId"
+                    placeholder="პირადი ნომერი"
+                    value={user?.personalId}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პირადი ნომერი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  დაბადების თარიღი
+                </Form.Label>
+                <Col lg={16}>
+                  {/* <Form.Control
+                    required
+                    type="text"
+                    name="birthDate"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.birthDate}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                  დაბადების თარიღი.
+                  </Form.Control.Feedback> */}
+                  <Form.Control
+                    autoComplete="off"
+                    required
+                    type="date"
+                    name="birthDate"
+                    placeholder="დაბადების თარიღი"
+                    value={user?.birthDate}
+                    onChange={handleChangeInput}
+                    isValid={user?.birthDate != null}
+                  />
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მისამართი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="address"
+                    placeholder="მისამართი"
+                    value={user?.address}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ მისამართი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}></Form.Label>
+                <Col lg={12}>
+                  <AntdButton htmlType="submit"  loading={registerLoading}>
+                    რეგისტრაცია
+                  </AntdButton>
+                </Col>
+              </Row>
+            </Form>
+            {/* <Form
               name="basic"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 14 }}
@@ -496,13 +785,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
                   onChange={handleChangeInput}
                 />
               </Form.Item>
-              {/* <Form.Item
-                      name="remember"
-                      valuePropName="checked"
-                      wrapperCol={{ offset: 8, span: 16 }}
-                    >
-                      <Checkbox>Remember me</Checkbox>
-                    </Form.Item> */}
+
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <AntdButton
@@ -516,7 +799,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
                   რეგისტრაცია
                 </AntdButton>
               </Form.Item>
-            </Form>
+            </Form> */}
           </TabPane>
         </Tabs>
       </Modal>
