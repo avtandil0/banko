@@ -38,7 +38,7 @@ const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 const Button = lazy(() => import("../../common/Button"));
 const MySwal = withReactContent(Swal);
 
-const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
+const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginRegisterDialog }) => {
   const history = useHistory();
 
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
@@ -65,6 +65,13 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize }) => {
   const onFinish = () => {
     console.log("Received values of form: ");
   };
+
+  // useEffect(() => {
+  //   // Good!
+  //   // setLoginLoading(openLoginRegisterDialog)
+  //   setVisibleLoginRegisterDialog(openLoginRegisterDialog)
+  //   console.log('openLoginRegisterDialog', openLoginRegisterDialog)
+  // }, [openLoginRegisterDialog]);
 
   const handleSubmit = (event) => {
     console.log("bootsrtap sumit", user);

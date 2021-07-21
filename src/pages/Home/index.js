@@ -14,7 +14,7 @@ const MiddleBlock = lazy(() => import("../../components/MiddleBlock"));
 const Container = lazy(() => import("../../common/Container"));
 const ScrollToTop = lazy(() => import("../../common/ScrollToTop"));
 
-const Home = ({isAuthorize, setIsAuthorize}) => {
+const Home = ({isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog}) => {
 
   useEffect(() => {
     // Good!
@@ -38,6 +38,7 @@ const Home = ({isAuthorize, setIsAuthorize}) => {
         button={MiddleBlockContent.button}
         isAuthorize = {isAuthorize}
         setIsAuthorize={setIsAuthorize}
+        setOpenLoginRegisterDialog={setOpenLoginRegisterDialog}
       />
       <ContentBlock
         type="left"

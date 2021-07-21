@@ -12,7 +12,10 @@ import GlobalStyles from "../globalStyles";
 
 const Router = () => {
   const [isAuthorize, setIsAuthorize] = useState(false);
+  const [openLoginRegisterDialog, setOpenLoginRegisterDialog] = useState(false);
   const [inProfileMOde, setInProfileMOde] = useState(false);
+  const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
+    useState(false);
   const onRegisterPage = () => {
     console.log("aaaaa");
     setInProfileMOde(true);
@@ -35,6 +38,7 @@ const Router = () => {
         onChaneMode={onRegisterPage}
         setInProfileMOde={setInProfileMOde}
         isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize}
+        openLoginRegisterDialog={openLoginRegisterDialog}
       />
       {/* {inRegisterMOde ? <div> Rgeister</div> :
         <div>
@@ -58,7 +62,7 @@ const Router = () => {
       ) : (
         <Route
           isAuthorize={isAuthorize}
-          component={(() => <Home isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize}/>)}
+          component={(() => <Home isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} setOpenLoginRegisterDialog={setOpenLoginRegisterDialog}/>)}
         />
         // <Switch>
         //   {routes.map((routeItem) => {

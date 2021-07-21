@@ -16,17 +16,24 @@ import {
   Space,
   Button,
 } from "antd";
+import axios from "axios";
 
 const Profile = () => {
-
   const [user, setUser] = useState();
 
-  useEffect(() => {
+  useEffect(async () => {
     window.scrollTo(0, 0);
-    console.log(JSON.parse(localStorage.getItem('user')))
-    let us = JSON.parse(localStorage.getItem('user'));
+    console.log(JSON.parse(localStorage.getItem("user")));
+    let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
-     setUser(us)
+    setUser(us);
+    console.log("us", us);
+
+    var result = await axios.get(
+      `https://localhost:44314/api/Home`,
+      { params: { userId: us.id } }
+    );
+    console.log("res", result);
   }, []);
   const columns = [
     {
@@ -119,7 +126,7 @@ const Profile = () => {
             <div className="form-group col-md-6">
               <label for="inputEmail4">სახელი</label>
               <input
-              disabled
+                disabled
                 type="text"
                 className="form-control"
                 id="inputEmail4"
@@ -130,7 +137,7 @@ const Profile = () => {
             <div className="form-group col-md-6">
               <label for="inputPassword4">გვარი</label>
               <input
-              disabled
+                disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
@@ -141,7 +148,7 @@ const Profile = () => {
             <div className="form-group col-md-6">
               <label for="inputPassword4">მობილური</label>
               <input
-              disabled
+                disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
@@ -152,7 +159,7 @@ const Profile = () => {
             <div className="form-group col-md-6">
               <label for="inputPassword4">ელ.ფოსტა</label>
               <input
-              disabled
+                disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
@@ -167,7 +174,7 @@ const Profile = () => {
                   onChange={handleChangeDate}
                 /> */}
               <input
-              disabled
+                disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
@@ -179,7 +186,7 @@ const Profile = () => {
             <div className="form-group col-md-6">
               <label for="inputPassword4">მისამართი</label>
               <input
-              disabled
+                disabled
                 type="text"
                 className="form-control"
                 id="inputPassword4"
