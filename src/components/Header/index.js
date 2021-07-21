@@ -494,7 +494,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                     required
                     type="password"
                     name="rePassword"
-                    placeholder="პაროლი"
+                    placeholder="გაიმეორეთ პაროლი"
                     value={user?.rePassword}
                     onChange={handleChangeInput}
                   />
@@ -525,19 +525,19 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
               <br></br>
               <Row>
                 <Form.Label column lg={3}>
-                  სახლი
+                  სახელი
                 </Form.Label>
                 <Col lg={16}>
                   <Form.Control
                     required
                     type="text"
                     name="name"
-                    placeholder="სახლი"
+                    placeholder="სახელი"
                     value={user?.name}
                     onChange={handleChangeInput}
                   />
                   <Form.Control.Feedback type="invalid">
-                    მიუთითეთ სახლი.
+                    მიუთითეთ სახელი.
                   </Form.Control.Feedback>
                 </Col>
               </Row>

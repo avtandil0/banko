@@ -577,7 +577,7 @@ const MiddleBlock = ({
                           type="text"
                           className="form-control"
                           id="inputPassword4"
-                          placeholder="დამსაქმებელი"
+                          placeholder="ფაქტობრივი მისამართი"
                           name="actualAddress"
                           onChange={handleChangeInput}
                         />
