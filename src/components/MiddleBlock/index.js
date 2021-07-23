@@ -108,7 +108,7 @@ const MiddleBlock = ({
     setProductType(index);
     setShow1(true);
 
-    setStatement({ ...statement, ['loantypeId']: index });
+    setStatement({ ...statement, ["loantypeId"]: index });
 
     switch (index) {
       case 1:
@@ -442,6 +442,52 @@ const MiddleBlock = ({
                   <Modal.Body>
                     {/* <form> */}
                     <div className="form-row">
+                      {productType == 3 ? (
+                        <>
+                          <div className="form-group col-md-6">
+                            <label for="inputPassword4">
+                              მსესხებლის დასახელება / კომპანიის დასახელება
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder="მსესხებლის დასახელება/კომპანიის დასახელება"
+                              name="borrowerName"
+                              onChange={handleChangeInput}
+                            />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label for="inputPassword4">
+                              საიდენტიფინაციო ნომერი
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder="საიდენტიფინაციო ნომერი"
+                              name="taxcode"
+                              onChange={handleChangeInput}
+                            />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label for="inputPassword4">
+                              ბიზნესის გამოცდილება
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder="ბიზნესის გამოცდილება"
+                              name="businessExperience"
+                              onChange={handleChangeInput}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+
                       <div className="form-group col-md-6">
                         <label for="inputEmail4">მოთხოვნილი თანხა</label>
                         <input
@@ -639,7 +685,9 @@ const MiddleBlock = ({
                             />
                           </div>
                           <div className="form-group col-md-6">
-                            <label for="inputPassword4">შესაძენი ქონების ღირებულება</label>
+                            <label for="inputPassword4">
+                              შესაძენი ქონების ღირებულება
+                            </label>
                             <input
                               type="number"
                               className="form-control"
@@ -667,12 +715,55 @@ const MiddleBlock = ({
                         ""
                       )}
 
-                      <div className="form-group col-md-6">
-                        <label>
-                          გავქთ მიმდინარე ვადაგადაცილება?{" "}
-                          <input type="checkbox" value="" />
-                        </label>
-                      </div>
+                      {productType == 6 ? ( //ავტოლიზინგი
+                        <>
+                          <div className="form-group col-md-6">
+                            <label for="inputPassword4">ავტომობილის ღირებულება</label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder="ავტომობილის ღირებულება"
+                              name="carCost"
+                              onChange={handleChangeInput}
+                            />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label for="inputPassword4">
+                            ავტომობილის მარკა
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder="ავტომობილის მარკა"
+                              name="CarMake"
+                              onChange={handleChangeInput}
+                            />
+                          </div>
+                          <div className="form-group col-md-6">
+                            <label for="inputPassword4">
+                            ავტომობილის გამოშვების წელი
+                            </label>
+                            <input
+                              type="number"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder=" ავტომობილის გამოშვების წელი"
+                              name="vehicleYear"
+                              onChange={handleChangeInput}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div className="form-group col-md-6">
+                      <label>
+                        გაქვს მიმდინარე ვადაგადაცილება?{" "}
+                        <input type="checkbox" value="" />
+                      </label>
                     </div>
                     {/* <div className="form-group">
                         <div className="form-check">
