@@ -20,6 +20,8 @@ import axios from "axios";
 
 const Profile = () => {
   const [user, setUser] = useState();
+  const [statements, setStatements] = useState([]);
+  const [statementLoading, setStatementLoading] = useState(false);
 
   useEffect(async () => {
     window.scrollTo(0, 0);
@@ -29,33 +31,71 @@ const Profile = () => {
     setUser(us);
     console.log("us", us);
 
-    var result = await axios.get(
-      `https://localhost:44314/api/Home`,
-      { params: { userId: us.id } }
-    );
+    setStatementLoading(true);
+    var result = await axios.get(`https://weblive.com.ge/api/Home`, {
+      params: { userId: us.id },
+    });
     console.log("res", result);
+    setStatements(result.data);
+    setStatementLoading(false);
   }, []);
+
+  const getIncomeSourceName = (id) => {
+    switch (id) {
+      case 1:
+        return "სამომხმარებლო";
+      case 2:
+        return "იპოთეკური";
+      case 3:
+        return "ბიზნეს სესხი";
+      case 4:
+        return "აგრო";
+      case 5:
+        return "საკრედიტო ბარათები";
+      case 6:
+        return "ავტოლიზინგი";
+      default:
+        return "";
+    }
+  };
+
   const columns = [
     {
+      title: "სტატუსი",
+      dataIndex: "status",
+      key: "status",
+      render: (text) => (
+        <>
+          <Tag color="cyan">ახალი</Tag>
+        </>
+      ),
+    },
+    {
       title: "ტიპი",
-      dataIndex: "type",
-      key: "type",
-      render: (text) => <a>{text}</a>,
+      dataIndex: "loantypeId",
+      key: "loantypeId",
+      render: (loantypeId) => <a>{getIncomeSourceName(loantypeId)}</a>,
     },
     {
       title: "თანხა",
-      dataIndex: "amount",
-      key: "amount",
+      dataIndex: "requestedAmount",
+      key: "requestedAmount",
     },
     {
-      title: "ვადა",
-      dataIndex: "term",
-      key: "term",
+      title: "სახელი/გვარი",
+      dataIndex: "user",
+      key: "user",
+      render: (user) => (
+        <a>
+          {user.name} {user.lastName}
+        </a>
+      ),
     },
     {
-      title: "შენატანი",
-      dataIndex: "deposit",
-      key: "deposit",
+      title: "მობ. ნომერი",
+      dataIndex: "user",
+      key: "user",
+      render: (user) => <a>{user.phoneNumber}</a>,
     },
     // {
     //   title: "Tags",
@@ -79,8 +119,8 @@ const Profile = () => {
     // },
     {
       title: "მისამართი",
-      dataIndex: "address",
-      key: "address",
+      dataIndex: "actualAddress",
+      key: "actualAddress",
     },
   ];
 
@@ -208,7 +248,11 @@ const Profile = () => {
 
           <br></br>
           <br></br>
-          <Table columns={columns} dataSource={data} />
+          <Table
+            loading={statementLoading}
+            columns={columns}
+            dataSource={statements}
+          />
           <br></br>
           <br></br>
           <br></br>
