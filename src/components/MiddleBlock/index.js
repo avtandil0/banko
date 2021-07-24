@@ -212,7 +212,7 @@ const MiddleBlock = ({
         <div className="form-group col-md-6">
           <label for="inputPassword4">ზუსტი მიზნობრიობა (აღწერა)</label>
           <input
-            type="number"
+            type="text"
             className="form-control"
             id="inputPassword4"
             placeholder="ზუსტი მიზნობრიობა (აღწერა)"
