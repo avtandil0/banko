@@ -243,7 +243,7 @@ const MiddleBlock = ({
             კომპანიის დასახელება<span style={{ color: "red" }}>*</span>
           </label>
           <input
-          required
+            required
             type="text"
             className="form-control"
             id="inputPassword4"
@@ -252,16 +252,16 @@ const MiddleBlock = ({
             value={statement?.borrowerName}
             onChange={handleChangeInput}
           />
-           <Form.Control.Feedback type="invalid">
-           მოითითეთ კომპანიის დასახელება.
-              </Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            მოითითეთ კომპანიის დასახელება.
+          </Form.Control.Feedback>
         </div>
         <div className="form-group col-md-6">
           <label for="inputPassword4">
             საიდენტიფინაციო ნომერი<span style={{ color: "red" }}>*</span>
           </label>
           <input
-          required
+            required
             type="text"
             className="form-control"
             id="inputPassword4"
@@ -271,8 +271,8 @@ const MiddleBlock = ({
             onChange={handleChangeInput}
           />
           <Form.Control.Feedback type="invalid">
-          საიდენტიფინაციო ნომერი.
-              </Form.Control.Feedback>
+            საიდენტიფინაციო ნომერი.
+          </Form.Control.Feedback>
         </div>
         {/* <div className="form-group col-md-6">
           <label for="inputPassword4">ბიზნესის გამოცდილება</label>
@@ -410,7 +410,7 @@ const MiddleBlock = ({
         )}
 
         {statement?.loantypeId == 3 ||
-        (statement?.loantypeId == 4 && agroType == "legal") ? (
+          (statement?.loantypeId == 4 && agroType == "legal") ? (
           ""
         ) : (
           <>
@@ -586,7 +586,7 @@ const MiddleBlock = ({
             <span style={{ color: "red" }}>*</span>
           </label>
           <input
-          required
+            required
             type="number"
             className="form-control"
             id="inputPassword4"
@@ -595,7 +595,7 @@ const MiddleBlock = ({
             onChange={handleChangeInput}
             value={statement?.montlyPaidAmount}
           />
-            <Form.Control.Feedback type="invalid">
+          <Form.Control.Feedback type="invalid">
             სხვა არსებული სესხები (ჯამურად).
           </Form.Control.Feedback>
         </div>
@@ -656,7 +656,7 @@ const MiddleBlock = ({
         <Fade bottom>
           <br></br>
           <div className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
-            <div className="card-header">სამომხმარებლო</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>სამომხმარებლო</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="56.svg" height="110px" />
@@ -673,7 +673,7 @@ const MiddleBlock = ({
             className="card border-dark mb-3"
             style={{ maxWidth: "18rem", marginLeft: "12px" }}
           >
-            <div className="card-header">იპოთეკური</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>იპოთეკური</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="55.svg" height="110px" />
@@ -690,7 +690,7 @@ const MiddleBlock = ({
             className="card border-dark mb-3"
             style={{ maxWidth: "18rem", marginLeft: "12px" }}
           >
-            <div className="card-header">ბიზნეს სესხი</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>ბიზნეს სესხი</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="54.svg" height="110px" />
@@ -709,7 +709,7 @@ const MiddleBlock = ({
             className="card border-dark mb-3"
             style={{ maxWidth: "18rem", marginLeft: "12px" }}
           >
-            <div className="card-header">აგრო</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>აგრო</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="57.svg" height="110px" />
@@ -728,12 +728,12 @@ const MiddleBlock = ({
             className="card border-dark mb-3"
             style={{ maxWidth: "18rem", marginLeft: "29px" }}
           >
-            <div className="card-header">საკრედიტო ბარათები</div>
+            <div className="card-header" style={{backgroundColor:'#2e186a', color:'#fff'}}>საკრედიტო ბარათები</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="cards.svg" height="110px" />
+              <SvgIcon src="credit.svg" height="110px" />
               <p className="card-text">
-                Some quick example text to build on the card title
+                ერთი ბარათი - ბევრი შესაძლებლობა
               </p>
               <span
                 className="btn btn-outline-info"
@@ -747,12 +747,12 @@ const MiddleBlock = ({
             className="card border-dark mb-3"
             style={{ maxWidth: "18rem", marginLeft: "12px" }}
           >
-            <div className="card-header">ავტოლიზინგი</div>
+            <div className="card-header" style={{backgroundColor:'#2e186a', color:'#fff'}}>ავტოლიზინგი</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="auto.svg" height="110px" />
               <p className="card-text">
-                Some quick example text to build on the card title
+               ახალი ან მეორადი ავტომობილის შესაძენად
               </p>
               <span
                 className="btn btn-outline-info"
@@ -832,7 +832,7 @@ const MiddleBlock = ({
                             <span style={{ color: "red" }}>*</span>
                           </label>
                           <select
-                          required
+                            required
                             id="inputState"
                             className="form-control"
                             name="negativeStatus"
@@ -844,8 +844,8 @@ const MiddleBlock = ({
                             <option>არასდროს მქონია</option>
                           </select>
                           <Form.Control.Feedback type="invalid">
-           აირჩიეთ .
-              </Form.Control.Feedback>
+                            აირჩიეთ .
+                          </Form.Control.Feedback>
                         </div>
                       </div>
                       <div className="form-group col-md-6">
