@@ -43,6 +43,7 @@ const MiddleBlock = ({
   const [sentLoading, setSentLoading] = useState(false);
   const [agroType, setAgroType] = useState("physical");
   const [overlay, setOverlay] = useState(false);
+  const [validated, setValidated] = useState(false);
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", statement);
 
   useEffect(async () => {
@@ -67,11 +68,21 @@ const MiddleBlock = ({
     console.log("statement", statement);
   };
 
-  const sendStatement = async () => {
+  const sendStatement = async (event) => {
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
+
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      console.log("11111", form);
+      return;
+    }
+
     console.log(statement);
     setSentLoading(true);
     var result = await axios.post(
-      `https://weblive.com.ge/api/HomeSource`,
+      `https://weblive.com.ge/api/Home`,
       statement
     );
     console.log("result WorkExperience", result);
@@ -228,8 +239,11 @@ const MiddleBlock = ({
     return (
       <>
         <div className="form-group col-md-6">
-          <label for="inputPassword4">კომპანიის დასახელება</label>
+          <label for="inputPassword4">
+            კომპანიის დასახელება<span style={{ color: "red" }}>*</span>
+          </label>
           <input
+          required
             type="text"
             className="form-control"
             id="inputPassword4"
@@ -238,10 +252,16 @@ const MiddleBlock = ({
             value={statement?.borrowerName}
             onChange={handleChangeInput}
           />
+           <Form.Control.Feedback type="invalid">
+           მოითითეთ კომპანიის დასახელება.
+              </Form.Control.Feedback>
         </div>
         <div className="form-group col-md-6">
-          <label for="inputPassword4">საიდენტიფინაციო ნომერი</label>
+          <label for="inputPassword4">
+            საიდენტიფინაციო ნომერი<span style={{ color: "red" }}>*</span>
+          </label>
           <input
+          required
             type="text"
             className="form-control"
             id="inputPassword4"
@@ -250,6 +270,9 @@ const MiddleBlock = ({
             value={statement?.taxcode}
             onChange={handleChangeInput}
           />
+          <Form.Control.Feedback type="invalid">
+          საიდენტიფინაციო ნომერი.
+              </Form.Control.Feedback>
         </div>
         {/* <div className="form-group col-md-6">
           <label for="inputPassword4">ბიზნესის გამოცდილება</label>
@@ -272,8 +295,21 @@ const MiddleBlock = ({
         <div className="form-group col-md-6">
           <div className="form-row">
             <div className="col-md-9">
-              <label for="inputEmail4">მოთხოვნილი თანხა</label>
-              <input
+              <label for="inputEmail4">
+                მოთხოვნილი თანხა <span style={{ color: "red" }}>*</span>
+              </label>
+              {/* <input
+              required
+                type="number"
+                className="form-control"
+                id="inputEmail4"
+                placeholder="თანხა"
+                name="requestedAmount"
+                value={statement?.requestedAmount}
+                onChange={handleChangeInput}
+              /> */}
+              <Form.Control
+                required
                 type="number"
                 className="form-control"
                 id="inputEmail4"
@@ -282,9 +318,14 @@ const MiddleBlock = ({
                 value={statement?.requestedAmount}
                 onChange={handleChangeInput}
               />
+              <Form.Control.Feedback type="invalid">
+                მიუთითეთ მოთხოვნილი თანხა.
+              </Form.Control.Feedback>
             </div>
             <div className=" col-md-3">
-              <label for="inputEmail4">ვალუტა</label>
+              <label for="inputEmail4">
+                ვალუტა<span style={{ color: "red" }}>*</span>
+              </label>
               <select
                 id="inputcurrency"
                 className="form-control"
@@ -302,8 +343,11 @@ const MiddleBlock = ({
         {statement?.loantypeId != 5 ? (
           <>
             <div className="form-group col-md-6">
-              <label for="inputPassword4">ვადა</label>
+              <label for="inputPassword4">
+                ვადა<span style={{ color: "red" }}>*</span>
+              </label>
               <input
+                required
                 type="number"
                 className="form-control"
                 id="inputPassword4"
@@ -312,6 +356,10 @@ const MiddleBlock = ({
                 value={statement?.term}
                 onChange={handleChangeInput}
               />
+
+              <Form.Control.Feedback type="invalid">
+                მიუთითეთ ვადა.
+              </Form.Control.Feedback>
             </div>
           </>
         ) : (
@@ -319,8 +367,11 @@ const MiddleBlock = ({
         )}
 
         <div className="form-group col-md-6">
-          <label for="inputPassword4">თვიური საშუალო შემოსავალი</label>
+          <label for="inputPassword4">
+            თვიური საშუალო შემოსავალი<span style={{ color: "red" }}>*</span>
+          </label>
           <input
+            required
             type="number"
             className="form-control"
             id="inputPassword4"
@@ -329,12 +380,18 @@ const MiddleBlock = ({
             value={statement?.monthlyAverageIncome}
             onChange={handleChangeInput}
           />
+          <Form.Control.Feedback type="invalid">
+            მიუთითეთ თვიური საშუალო შემოსავალი.
+          </Form.Control.Feedback>
         </div>
         {statement?.loantypeId != 5 ? (
           <>
             <div className="form-group col-md-6">
-              <label for="inputPassword4">შენატანი</label>
+              <label for="inputPassword4">
+                შენატანი<span style={{ color: "red" }}>*</span>
+              </label>
               <input
+                required
                 type="number"
                 className="form-control"
                 id="inputPassword4"
@@ -343,6 +400,9 @@ const MiddleBlock = ({
                 value={statement?.deposit}
                 onChange={handleChangeInput}
               />
+              <Form.Control.Feedback type="invalid">
+                მიუთითეთ შენატანი.
+              </Form.Control.Feedback>
             </div>
           </>
         ) : (
@@ -355,28 +415,44 @@ const MiddleBlock = ({
         ) : (
           <>
             <div className="form-group col-md-6">
-              <label for="inputState">შემოსავლის წყარო </label>
-              <select
+              <label for="inputState">
+                შემოსავლის წყარო <span style={{ color: "red" }}>*</span>
+              </label>
+              {/* <select
+              required
+                id="inputState"
+                className="form-control"
+                name="incomeSourceId"
+                value={statement?.incomeSourceId}
+                onChange={handleChangeInput}
+              > */}
+              <Form.Control
+                required
+                as="select"
                 id="inputState"
                 className="form-control"
                 name="incomeSourceId"
                 value={statement?.incomeSourceId}
                 onChange={handleChangeInput}
               >
-                <option selected>აირჩიეთ...</option>
+                <option></option>
                 {incomeSource.map((s) => (
                   <option key={s.id} name={s.id} value={s.id}>
                     {s.incomeSourceName}
                   </option>
                 ))}
                 ;
-              </select>
+              </Form.Control>
+              <Form.Control.Feedback type="invalid">
+                მიუთითეთ თვიური საშუალო შემოსავალი.
+              </Form.Control.Feedback>
             </div>
             {statement?.incomeSourceId == 7 ? (
               <>
                 <div className="form-group col-md-6">
                   <label for="inputPassword4">
                     მიუთითეთ სხვა შემოსავლის წყარო
+                    <span style={{ color: "red" }}>*</span>
                   </label>
                   <input
                     type="text"
@@ -394,29 +470,39 @@ const MiddleBlock = ({
             )}
 
             <div className="form-group col-md-6">
-              <label for="inputState">სად გერიცებათ ხელფასი</label>
+              <label for="inputState">
+                სად გერიცებათ ხელფასი<span style={{ color: "red" }}>*</span>
+              </label>
               <select
+                required
                 id="inputState"
                 className="form-control"
                 name="IncomeAccrue"
                 value={statement?.IncomeAccrue}
                 onChange={handleChangeInput}
               >
-                <option selected>აირჩიეთ...</option>
+                <option selected></option>
                 <option>ბანკში</option>
                 <option>ხელზე</option>
               </select>
+              <Form.Control.Feedback type="invalid">
+                მიუთითეთ  სად გერიცებათ ხელფასი.
+              </Form.Control.Feedback>
             </div>
             <div className="form-group col-md-6">
-              <label for="inputState">სამუშო გამოცდილება - სტაჟი</label>
+              <label for="inputState">
+                სამუშო გამოცდილება - სტაჟი
+                <span style={{ color: "red" }}>*</span>
+              </label>
               <select
+                required
                 id="inputState"
                 className="form-control"
                 name="workExperienceId"
                 value={statement?.workExperienceId}
                 onChange={handleChangeInput}
               >
-                <option selected>აირჩიეთ...</option>
+                <option selected></option>
                 {workExperiance.map((s) => (
                   <option key={s.id} name={s.id} value={s.id}>
                     {s.workExperienceName}
@@ -427,6 +513,9 @@ const MiddleBlock = ({
                             <option>1 - 3 წელი</option>
                             <option>3 წელზე მეტი</option> */}
               </select>
+              <Form.Control.Feedback type="invalid">
+                მიუთითეთ  სტაჟი.
+              </Form.Control.Feedback>
             </div>
           </>
         )}
@@ -455,8 +544,11 @@ const MiddleBlock = ({
         </div> */}
 
         <div className="form-group col-md-6">
-          <label for="inputPassword4">ფაქტიური მისამართი</label>
+          <label for="inputPassword4">
+            ფაქტიური მისამართი<span style={{ color: "red" }}>*</span>
+          </label>
           <input
+            required
             type="text"
             className="form-control"
             id="inputPassword4"
@@ -465,10 +557,17 @@ const MiddleBlock = ({
             onChange={handleChangeInput}
             value={statement?.actualAddress}
           />
+          <Form.Control.Feedback type="invalid">
+            მიუთითეთ ფაქტიური მისამართი.
+          </Form.Control.Feedback>
         </div>
         <div className="form-group col-md-6">
-          <label for="inputPassword4">სხვა არსებული სესხები (ჯამურად)</label>
+          <label for="inputPassword4">
+            სხვა არსებული სესხები (ჯამურად)
+            <span style={{ color: "red" }}>*</span>
+          </label>
           <input
+            required
             type="number"
             className="form-control"
             id="inputPassword4"
@@ -477,12 +576,17 @@ const MiddleBlock = ({
             onChange={handleChangeInput}
             value={statement?.existingLoans}
           />
+          <Form.Control.Feedback type="invalid">
+            სხვა არსებული სესხები (ჯამურად).
+          </Form.Control.Feedback>
         </div>
         <div className="form-group col-md-6">
           <label for="inputPassword4">
             რამდენს იხდით სესხებში ყოველთვიურად?
+            <span style={{ color: "red" }}>*</span>
           </label>
           <input
+          required
             type="number"
             className="form-control"
             id="inputPassword4"
@@ -491,6 +595,9 @@ const MiddleBlock = ({
             onChange={handleChangeInput}
             value={statement?.montlyPaidAmount}
           />
+            <Form.Control.Feedback type="invalid">
+            სხვა არსებული სესხები (ჯამურად).
+          </Form.Control.Feedback>
         </div>
       </>
     );
@@ -547,148 +654,6 @@ const MiddleBlock = ({
     <S.MiddleBlock>
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
-          {/* <Modal show={show1} onHide={() => setShow1(false)} size="lg">
-            <Modal.Header closeButton>
-              <Modal.Title>განაცხადის შევსება</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <form>
-                <div className="form-row">
-                  <div className="form-group col-md-6">
-                    <label for="inputEmail4">მოთხოვნილი თანხა</label>
-                    <input
-                      type="number"
-                      className="form-control"
-                      id="inputEmail4"
-                      placeholder="თანხა"
-                    />
-                  </div>
-                  <div className="form-group col-md-6">
-                    <label for="inputPassword4">Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="inputPassword4"
-                      placeholder="Password"
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label for="inputAddress">Address</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputAddress"
-                    placeholder="1234 Main St"
-                  />
-                </div>
-                <div className="form-group">
-                  <label for="inputAddress2">Address 2</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="inputAddress2"
-                    placeholder="Apartment, studio, or floor"
-                  />
-                </div>
-                <div className="form-row">
-                  <div className="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="inputCity"
-                    />
-                  </div>
-                  <div className="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <select id="inputState" className="form-control">
-                      <option selected>Choose...</option>
-                      <option>...</option>
-                    </select>
-                  </div>
-                  <div className="form-group col-md-2">
-                    <label for="inputZip">Zip</label>
-                    <input type="text" className="form-control" id="inputZip" />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id="gridCheck"
-                    />
-                    <label className="form-check-label" for="gridCheck">
-                      Check me out
-                    </label>
-                  </div>
-                </div>
-                <AntdButton type="submit" className="btn btn-primary">
-                  გაგზავნა
-                </AntdButton>
-              </form>
-              {/* <Form>
-                      <Form.Row>
-                        <Form.Group as={Col} controlId="formGridEmail">
-                          <Form.Label>Email</Form.Label>
-                          <Form.Control
-                            type="email"
-                            placeholder="Enter email"
-                          />
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formGridPassword">
-                          <Form.Label>Password</Form.Label>
-                          <Form.Control
-                            type="password"
-                            placeholder="Password"
-                          />
-                        </Form.Group>
-                      </Form.Row>
-
-                      <Form.Group controlId="formGridAddress1">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control placeholder="1234 Main St" />
-                      </Form.Group>
-
-                      <Form.Group controlId="formGridAddress2">
-                        <Form.Label>Address 2</Form.Label>
-                        <Form.Control placeholder="Apartment, studio, or floor" />
-                      </Form.Group>
-
-                      <Form.Row>
-                        <Form.Group as={Col} controlId="formGridCity">
-                          <Form.Label>City</Form.Label>
-                          <Form.Control />
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formGridState">
-                          <Form.Label>State</Form.Label>
-                          <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
-                          </Form.Control>
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formGridZip">
-                          <Form.Label>Zip</Form.Label>
-                          <Form.Control />
-                        </Form.Group>
-                      </Form.Row>
-
-                      <Form.Group id="formGridCheckbox">
-                        <Form.Check type="checkbox" label="Check me out" />
-                      </Form.Group>
-
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button>
-                    </Form>
-            </Modal.Body>
-            <Modal.Footer></Modal.Footer>
-          </Modal> */}
-
           <br></br>
           <div className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
             <div className="card-header">სამომხმარებლო</div>
@@ -806,331 +771,126 @@ const MiddleBlock = ({
               <div className="spacer">&nbsp;</div>
 
               <div className="row">
-                {/* <div className="col-md-3">
-                  <div className="pricing-table">
-                    <div className="pricing-table-title">
-                      <h5 className="pricing-title bg-info-hover text-white">
-                        სამომხმარებლო
-                      </h5>
-                    </div>
-                    <div className="pricing-table-price text-center bg-info">
-                      <SvgIcon src="56.svg" />
-                    </div>
-                    <div className="pricing-table-content">
-                      <ul>
-                        <li>
-                          <strong>მოგზაურობა</strong>
-                        </li>
-                        <li>
-                          <strong>ნივთის შეძენა</strong>
-                        </li>
-                        <li>
-                          <strong></strong>
-                        </li>
-                        <li>
-                          <strong>გართობა</strong>
-                        </li>
-                      </ul>
-                      <div className="pricing-table-button">
-                        <span
-                          className="btn btn-info"
-                          onClick={() => onDialog(1)}
-                        >
-                          <span>განაცხადის შევსება</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-
                 {/* სამომხმარებლოს მოდალი */}
                 <Modal show={show1} onHide={() => setShow1(false)} size="lg">
                   <Modal.Header closeButton>
                     <Modal.Title>{productTypeName}</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    {/* <form> */}
-                    <div>
-                      {productType == 4 ? (
+                    <Form
+                      noValidate
+                      validated={validated}
+                      onSubmit={sendStatement}
+                    >
+                      <div>
+                        {productType == 4 ? (
+                          <>
+                            <div key={`inline-1`} className="mb-3">
+                              <Form.Check
+                                inline
+                                label="ფიზიკური პირი"
+                                name="group1"
+                                type="radio"
+                                id="physical"
+                                defaultChecked
+                                checked={agroType === "physical"}
+                                onChange={(e) => handleChangeRadio(e)}
+                              />
+                              <Form.Check
+                                inline
+                                label="იურიდიული პირი"
+                                name="group1"
+                                type="radio"
+                                id="legal"
+                                checked={agroType === "legal"}
+                                onChange={(e) => handleChangeRadio(e)}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+
+                      <div className="form-row">
+                        {productType == 3 ? businessLoan() : ""}
+
+                        {productType == 1 ? consumerLoan() : ""}
+
+                        {productType == 4 ? agroLoan() : ""}
+
+                        {/* {consumerLoan()} */}
+                        {productType == 2 ? mortgageLoan() : ""}
+
+                        {productType == 6 ? autoLeasing() : ""}
+
+                        {productType == 5 ? creditCard() : ""}
+                        <div className="form-group col-md-6">
+                          <label for="inputState">
+                            {" "}
+                            გაქვს ნეგატიური სტატუსი?{" "}
+                            <span style={{ color: "red" }}>*</span>
+                          </label>
+                          <select
+                          required
+                            id="inputState"
+                            className="form-control"
+                            name="negativeStatus"
+                            onChange={handleChangeInput}
+                          >
+                            <option selected></option>
+                            <option>მაქვს</option>
+                            <option>მქონდა</option>
+                            <option>არასდროს მქონია</option>
+                          </select>
+                          <Form.Control.Feedback type="invalid">
+           აირჩიეთ .
+              </Form.Control.Feedback>
+                        </div>
+                      </div>
+                      <div className="form-group col-md-6">
+                        <label>
+                          {" "}
+                          <input
+                            type="checkbox"
+                            checked={overlay}
+                            onChange={handleChangeOverlay}
+                          />{" "}
+                          აპირებთ თუ არა გადაფარვას?{" "}
+                        </label>
+                      </div>
+                      {overlay ? (
                         <>
-                          <div key={`inline-1`} className="mb-3">
-                            <Form.Check
-                              inline
-                              label="ფიზიკური პირი"
-                              name="group1"
-                              type="radio"
-                              id="physical"
-                              defaultChecked
-                              checked={agroType === "physical"}
-                              onChange={(e) => handleChangeRadio(e)}
-                            />
-                            <Form.Check
-                              inline
-                              label="იურიდიული პირი"
-                              name="group1"
-                              type="radio"
-                              id="legal"
-                              checked={agroType === "legal"}
-                              onChange={(e) => handleChangeRadio(e)}
+                          <div className="form-group col-md-6">
+                            <input
+                              type="number"
+                              className="form-control"
+                              id="inputPassword4"
+                              placeholder="თანხა"
+                              name="overlayAmount"
+                              onChange={handleChangeInput}
+                              value={statement?.montlyPaidAmount}
                             />
                           </div>
                         </>
                       ) : (
                         ""
                       )}
-                    </div>
-
-                    <div className="form-row">
-                      {productType == 3 ? businessLoan() : ""}
-
-                      {productType == 1 ? consumerLoan() : ""}
-
-                      {productType == 4 ? agroLoan() : ""}
-
-                      {/* {consumerLoan()} */}
-                      {productType == 2 ? mortgageLoan() : ""}
-
-                      {productType == 6 ? autoLeasing() : ""}
-
-                      {productType == 5 ? creditCard() : ""}
-                      <div className="form-group col-md-6">
-                        <label for="inputState">
-                          {" "}
-                          გაქვს ნეგატიური სტატუსი?{" "}
-                        </label>
-                        <select
-                          id="inputState"
-                          className="form-control"
-                          name="negativeStatus"
-                          onChange={handleChangeInput}
-                        >
-                          <option selected>აირჩიეთ...</option>
-                          <option>მაქვს</option>
-                          <option>მქონდა</option>
-                          <option>არასდროს მქონია</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div className="form-group col-md-6">
-                      <label>
-                        {" "}
-                        <input
-                          type="checkbox"
-                          checked={overlay}
-                          onChange={handleChangeOverlay}
-                        />{" "}
-                        აპირებთ თუ არა გადაფარვას?{" "}
-                      </label>
-                    </div>
-                    {overlay ? (
-                      <>
-                        <div className="form-group col-md-6">
-                          <input
-                            type="number"
-                            className="form-control"
-                            id="inputPassword4"
-                            placeholder="თანხა"
-                            name="overlayAmount"
-                            onChange={handleChangeInput}
-                            value={statement?.montlyPaidAmount}
-                          />
-                        </div>
-                      </>
-                    ) : (
-                      ""
-                    )}
-                    <AntdButton
-                      onClick={sendStatement}
-                      type="primary"
-                      loading={sentLoading}
-                    >
-                      გაგზავნა
-                    </AntdButton>
-                    {/* </form> */}
-                    {/* <Form>
-                      <Form.Row>
-                        <Form.Group as={Col} controlId="formGridEmail">
-                          <Form.Label>Email</Form.Label>
-                          <Form.Control
-                            type="email"
-                            placeholder="Enter email"
-                          />
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formGridPassword">
-                          <Form.Label>Password</Form.Label>
-                          <Form.Control
-                            type="password"
-                            placeholder="Password"
-                          />
-                        </Form.Group>
-                      </Form.Row>
-
-                      <Form.Group controlId="formGridAddress1">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control placeholder="1234 Main St" />
-                      </Form.Group>
-
-                      <Form.Group controlId="formGridAddress2">
-                        <Form.Label>Address 2</Form.Label>
-                        <Form.Control placeholder="Apartment, studio, or floor" />
-                      </Form.Group>
-
-                      <Form.Row>
-                        <Form.Group as={Col} controlId="formGridCity">
-                          <Form.Label>City</Form.Label>
-                          <Form.Control />
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formGridState">
-                          <Form.Label>State</Form.Label>
-                          <Form.Control as="select" defaultValue="Choose...">
-                            <option>Choose...</option>
-                            <option>...</option>
-                          </Form.Control>
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formGridZip">
-                          <Form.Label>Zip</Form.Label>
-                          <Form.Control />
-                        </Form.Group>
-                      </Form.Row>
-
-                      <Form.Group id="formGridCheckbox">
-                        <Form.Check type="checkbox" label="Check me out" />
-                      </Form.Group>
-
-                      <Button variant="primary" type="submit">
-                        Submit
-                      </Button>
-                    </Form> */}
+                      <AntdButton
+                        // onClick={sendStatement}
+                        htmlType="submit"
+                        type="primary"
+                        loading={sentLoading}
+                      >
+                        გაგზავნა
+                      </AntdButton>
+                    </Form>
                   </Modal.Body>
                   <Modal.Footer></Modal.Footer>
                 </Modal>
-                {/* <div className="col-md-3">
-                  <div className="pricing-table bg-lightgrey">
-                    <div className="pricing-table-title">
-                      <h5 className="pricing-title bg-primary-hover text-white">
-                        იპოთეკური
-                      </h5>
-                    </div>
-                    <div className="pricing-table-price text-center bg-primary">
-                      <SvgIcon src="55.svg" />
-                    </div>
-                    <div className="pricing-table-content">
-                      <ul>
-                        <li>
-                          <strong>რემონტი</strong>
-                        </li>
-                        <li>
-                          <strong>მშენებლობა</strong>
-                        </li>
-                        <li>
-                          <strong>სახლის შეძენა</strong>
-                        </li>
-                      </ul>
-                      <div className="pricing-table-button">
-                        <span
-                          className="btn btn-primary"
-                          onClick={() => onDialog(1)}
-                        >
-                          <span>განაცხადის შევსება</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-
-                {/* <div className="col-md-3">
-                  <div className="pricing-table">
-                    <div className="pricing-table-title">
-                      <h5 className="pricing-title bg-info-hover text-white">
-                        ბიზნეს სესხი
-                      </h5>
-                    </div>
-                    <div className="pricing-table-price text-center bg-info">
-                      <SvgIcon src="54.svg" />
-                    </div>
-                    <div className="pricing-table-content">
-                      <ul>
-                        <li>
-                          <strong></strong>
-                        </li>
-                        <li>
-                          <strong> ძირითადი საშუალებები</strong>
-                        </li>
-                        <li>
-                          <strong>საბრუნავი საშუალებები</strong>
-                        </li>
-                        <li>
-                          <strong> ახალი პროექტი</strong>
-                        </li>
-                      </ul>
-                      <div className="pricing-table-button">
-                        <span
-                          className="btn btn-info"
-                          onClick={() => onDialog(1)}
-                        >
-                          <span>განაცხადის შევსება</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-
-                {/* <div className="col-md-3">
-                  <div className="pricing-table bg-lightgrey">
-                    <div className="pricing-table-title">
-                      <h5 className="pricing-title bg-primary-hover text-white">
-                        აგრო
-                      </h5>
-                    </div>
-                    <div className="pricing-table-price text-center bg-primary">
-                      <SvgIcon src="57.svg" />
-                    </div>
-                    <div className="pricing-table-content">
-                      <ul>
-                        <li>
-                          <strong>სოფლის მეურნეობისთვის</strong>
-                        </li>
-                        <li>
-                          <strong>ტექნიკის შესაძენად</strong>
-                        </li>
-                        <li>
-                          <strong>ფერმის გაფართოებისთვის</strong>
-                        </li>
-                      </ul>
-                      <div className="pricing-table-button">
-                        <span
-                          className="btn btn-primary"
-                          onClick={() => onDialog(1)}
-                        >
-                          <span>განაცხადის შევსება</span>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
               </div>
             </div>
           </section>
-          {/* <S.ContentWrapper>
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <h6>{t(title)}</h6>
-              <S.Content>{t(content)}</S.Content>
-              {button ? (
-                <Button
-                  name="submit"
-                  type="submit"
-                  onClick={() => scrollTo("mission")}
-                >
-                  {t(button)}
-                </Button>
-              ) : (
-                ""
-              )}
-            </Col>
-          </S.ContentWrapper> */}
         </Fade>
       </Row>
     </S.MiddleBlock>
