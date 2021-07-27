@@ -6,6 +6,7 @@ import AboutContent from "../../content/AboutContent.json";
 import MissionContent from "../../content/MissionContent.json";
 import ProductContent from "../../content/ProductContent.json";
 import ContactContent from "../../content/ContactContent.json";
+import Calculation from "../../components/Calculation";
 
 const ContactFrom = lazy(() => import("../../components/ContactForm"));
 const TeamBlock = lazy(() => import("../../components/TeamBlock"));
@@ -48,13 +49,15 @@ const Home = ({isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog}) => {
         icon="graphs.svg"
         id="about"
       />
-      <ContentBlock
+      {/* <ContentBlock
         type="right"
         title={MissionContent.title}
         content={MissionContent.text}
         icon="product-launch.svg"
         id="mission"
-      />
+      /> */}
+     <Calculation  title={MissionContent.title}
+        content={MissionContent.text}  id="mission"  icon="product-launch.svg"/>
 
       <ContentBlock
         type="left"

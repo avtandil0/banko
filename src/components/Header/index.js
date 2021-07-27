@@ -252,7 +252,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
             <S.Span>{t("როგორ მუშაობს")}</S.Span>
           </S.CustomNavLinkSmall>
           <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
-            <S.Span>{t("რაკეტა")}</S.Span>
+            <S.Span>{t("კალკულაცია")}</S.Span>
           </S.CustomNavLinkSmall>
           <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
             <S.Span>{t("ჩვენს შესახებ")}</S.Span>
