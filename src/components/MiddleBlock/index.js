@@ -73,14 +73,20 @@ const MiddleBlock = ({
 
     //setStatement({...statement, kk: res})
     if (e.target.name == 'term' || e.target.name == 'requestedAmount' ) {
-      let t = e.target.value;
+      let t ;
+      let r ;
       if( e.target.name == 'requestedAmount' ){
         t = statement.term;
+        r = statement.requestedAmount;
+      }
+      if( e.target.name == 'term' ){
+        t = e.target.value;
+        r = statement.requestedAmount;
       }
       let per = 1 / 100;
       let x = Math.pow((1 + per), t);
       console.log('xxxxxxxxxxx', x)
-      var res = statement.requestedAmount / ((1 - (1 / x)) / per);
+      var res = r / ((1 - (1 / x)) / per);
       setDeposit(res.toFixed(2))
     }
 
