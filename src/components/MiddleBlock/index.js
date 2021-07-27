@@ -44,6 +44,7 @@ const MiddleBlock = ({
   const [agroType, setAgroType] = useState("physical");
   const [overlay, setOverlay] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [deposit, setDeposit] = useState(0);
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", statement);
 
   useEffect(async () => {
@@ -64,7 +65,22 @@ const MiddleBlock = ({
   }, []);
 
   const handleChangeInput = (e) => {
+
+    console.log('res', res)
+    // setStatement({...statement, deposit: res})
+    //10%
     setStatement({ ...statement, [e.target.name]: e.target.value });
+
+    //setStatement({...statement, kk: res})
+    if (e.target.name == 'term' || e.target.name == 'requestedAmount' ) {
+      let t = e.target.value;
+      let per = 1 / 100;
+      let x = Math.pow((1 + per), t);
+      console.log('xxxxxxxxxxx', x)
+      var res = statement.requestedAmount / ((1 - (1 / x)) / per);
+      setDeposit(res.toFixed(2))
+    }
+
     console.log("statement", statement);
   };
 
@@ -344,7 +360,7 @@ const MiddleBlock = ({
           <>
             <div className="form-group col-md-6">
               <label for="inputPassword4">
-                ვადა<span style={{ color: "red" }}>*</span>
+                ვადა (თვე)<span style={{ color: "red" }}>*</span>
               </label>
               <input
                 required
@@ -388,21 +404,18 @@ const MiddleBlock = ({
           <>
             <div className="form-group col-md-6">
               <label for="inputPassword4">
-                შენატანი<span style={{ color: "red" }}>*</span>
+                შენატანი
               </label>
               <input
-                required
+                disabled
                 type="number"
                 className="form-control"
                 id="inputPassword4"
                 placeholder="შენატანი"
                 name="deposit"
-                value={statement?.deposit}
-                onChange={handleChangeInput}
+                value={deposit}
+              // onChange={handleChangeInput}
               />
-              <Form.Control.Feedback type="invalid">
-                მიუთითეთ შენატანი.
-              </Form.Control.Feedback>
             </div>
           </>
         ) : (
@@ -728,7 +741,7 @@ const MiddleBlock = ({
             className="card border-dark mb-3"
             style={{ maxWidth: "18rem", marginLeft: "29px" }}
           >
-            <div className="card-header" style={{backgroundColor:'#2e186a', color:'#fff'}}>საკრედიტო ბარათები</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>საკრედიტო ბარათები</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="credit.svg" height="110px" />
@@ -747,12 +760,12 @@ const MiddleBlock = ({
             className="card border-dark mb-3"
             style={{ maxWidth: "18rem", marginLeft: "12px" }}
           >
-            <div className="card-header" style={{backgroundColor:'#2e186a', color:'#fff'}}>ავტოლიზინგი</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>ავტოლიზინგი</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="auto.svg" height="110px" />
               <p className="card-text">
-               ახალი ან მეორადი ავტომობილის შესაძენად
+                ახალი ან მეორადი ავტომობილის შესაძენად
               </p>
               <span
                 className="btn btn-outline-info"
@@ -869,7 +882,7 @@ const MiddleBlock = ({
                               placeholder="თანხა"
                               name="overlayAmount"
                               onChange={handleChangeInput}
-                              value={statement?.montlyPaidAmount}
+                              value={statement?.overlayAmount}
                             />
                           </div>
                         </>
