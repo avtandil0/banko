@@ -73,7 +73,7 @@ const MiddleBlock = ({
 
     //setStatement({...statement, kk: res})
     if (e.target.name == 'term' || e.target.name == 'requestedAmount' ) {
-      let t = e.target.value;
+      let t = statement.term;
       let per = 1 / 100;
       let x = Math.pow((1 + per), t);
       console.log('xxxxxxxxxxx', x)
