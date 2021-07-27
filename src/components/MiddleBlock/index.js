@@ -77,7 +77,7 @@ const MiddleBlock = ({
       let r ;
       if( e.target.name == 'requestedAmount' ){
         t = statement.term;
-        r = statement.requestedAmount;
+        r = e.target.value;
       }
       if( e.target.name == 'term' ){
         t = e.target.value;
