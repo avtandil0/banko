@@ -75,7 +75,7 @@ const MiddleBlock = ({
     if (e.target.name == 'term' || e.target.name == 'requestedAmount' ) {
       let t = e.target.value;
       if( e.target.name == 'requestedAmount' ){
-        t = 0
+        t = statement.term;
       }
       let per = 1 / 100;
       let x = Math.pow((1 + per), t);
