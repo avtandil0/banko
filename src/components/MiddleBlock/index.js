@@ -673,7 +673,7 @@ const MiddleBlock = ({
     }
   };
   return (
-    <S.MiddleBlock>
+    <S.MiddleBlock  id="products">
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
           <br></br>
@@ -785,8 +785,10 @@ const MiddleBlock = ({
             </div>
           </div>
 
-          <section id="pricing" className="bg-white" id="products">
+          <section id="pricing" className="bg-white">
+
             <div className="container">
+
               {/* <h2 className="text-center">პროდუქტები</h2> */}
 
               <div className="spacer spacer-line border-primary">&nbsp;</div>
