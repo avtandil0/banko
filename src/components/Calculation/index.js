@@ -53,7 +53,7 @@ const Calculation = ({ title, content, button, icon, t, id }) => {
       t = statement?.term;
       r = statement?.amount;
     }
-    let per = p / 100;
+    let per = p / 12 / 100;
     let x = Math.pow(1 + per, t);
     console.log("xxxxxxxxxxx", x);
     var res = r / ((1 - 1 / x) / per);
@@ -92,7 +92,7 @@ const Calculation = ({ title, content, button, icon, t, id }) => {
                   />
                 </Col>
                 <Col className="form-group col-md-6">
-                  <label for="inputEmail4">პროცენტი</label>
+                  <label for="inputEmail4">პროცენტი (წლიური)</label>
                   <Form.Control
                     type="number"
                     placeholder="პროცენტი"
