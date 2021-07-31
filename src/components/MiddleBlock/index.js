@@ -38,6 +38,9 @@ const MiddleBlock = ({
   const [show4, setShow4] = useState(false);
   const [incomeSource, setIncomeSource] = useState([]);
   const [workExperiance, setWorkExperiance] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [municipals, setMunicipals] = useState([]);
+  const [controledMunicipals, setControledMunicipals] = useState([]);
   const [statement, setStatement] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [sentLoading, setSentLoading] = useState(false);
@@ -62,24 +65,39 @@ const MiddleBlock = ({
     var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
     console.log("result WorkExperience", result2);
     setWorkExperiance(result2.data);
+
+    var regionsRes = await axios.get(`https://weblive.com.ge/api/Region`);
+    console.log("result regions", regionsRes);
+    setRegions(regionsRes.data)
+
+    var municipalsRes = await axios.get(`https://weblive.com.ge/api/Municipal`);
+    console.log("result municipals", municipalsRes);
+    setMunicipals(municipalsRes.data)
+
   }, []);
 
   const handleChangeInput = (e) => {
+    console.log('change',e.target.name, e.target.value)
+    if(e.target.name == 'regionId'){
+      var cc = [...municipals.filter(r => r.regionId == e.target.value)];
+      console.log(111111111111,cc)
 
+      setControledMunicipals( [...cc])
+    }
     console.log('res', res)
     // setStatement({...statement, deposit: res})
     //10%
     setStatement({ ...statement, [e.target.name]: e.target.value });
 
     //setStatement({...statement, kk: res})
-    if (e.target.name == 'term' || e.target.name == 'requestedAmount' ) {
-      let t ;
-      let r ;
-      if( e.target.name == 'requestedAmount' ){
+    if (e.target.name == 'term' || e.target.name == 'requestedAmount') {
+      let t;
+      let r;
+      if (e.target.name == 'requestedAmount') {
         t = statement.term;
         r = e.target.value;
       }
-      if( e.target.name == 'term' ){
+      if (e.target.name == 'term') {
         t = e.target.value;
         r = statement.requestedAmount;
       }
@@ -531,9 +549,6 @@ const MiddleBlock = ({
                   </option>
                 ))}
                 ;
-                {/* <option>1 წელზე ნაკლები</option>
-                            <option>1 - 3 წელი</option>
-                            <option>3 წელზე მეტი</option> */}
               </select>
               <Form.Control.Feedback type="invalid">
                 მიუთითეთ  სტაჟი.
@@ -569,7 +584,50 @@ const MiddleBlock = ({
           <label for="inputPassword4">
             ფაქტიური მისამართი<span style={{ color: "red" }}>*</span>
           </label>
-          <input
+          <div className="form-row">
+          <div className="form-group col-md-6">
+            <select
+              required
+              id="inputState"
+              className="form-control"
+              name="regionId"
+              value={statement?.regionId}
+              onChange={handleChangeInput}
+            >
+              <option selected></option>
+              {regions.map((s) => (
+                <option key={s.id} name={s.id} value={s.id}>
+                  {s.regionName}
+                </option>
+              ))}
+              ;
+            </select>
+          </div>
+          <div className="form-group col-md-6">
+            <select
+              required
+              id="inputState"
+              className="form-control"
+              name="municipalId"
+              value={statement?.municipalId}
+              onChange={handleChangeInput}
+            >
+              <option selected></option>
+              {controledMunicipals.map((s) => (
+                <option key={s.id} name={s.id} value={s.id}>
+                  {s.municipalName}
+                </option>
+              ))}
+              ;
+            </select>
+          </div>
+
+          </div>
+        
+          <Form.Control.Feedback type="invalid">
+            მიუთითეთ  სტაჟი.
+          </Form.Control.Feedback>
+          {/* <input
             required
             type="text"
             className="form-control"
@@ -578,10 +636,11 @@ const MiddleBlock = ({
             name="actualAddress"
             onChange={handleChangeInput}
             value={statement?.actualAddress}
-          />
-          <Form.Control.Feedback type="invalid">
+          /> */}
+
+          {/* <Form.Control.Feedback type="invalid">
             მიუთითეთ ფაქტიური მისამართი.
-          </Form.Control.Feedback>
+          </Form.Control.Feedback> */}
         </div>
         <div className="form-group col-md-6">
           <label for="inputPassword4">
@@ -673,7 +732,7 @@ const MiddleBlock = ({
     }
   };
   return (
-    <S.MiddleBlock  id="products">
+    <S.MiddleBlock id="products">
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
           <br></br>
