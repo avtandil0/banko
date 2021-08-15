@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Profile from "../pages/Profile/index";
 import Home from "../pages/Home/index";
+import Bank from "../pages/Bank/index";
 
 import routes from "./config";
 import GlobalStyles from "../globalStyles";
@@ -25,7 +26,7 @@ const Router = () => {
   useEffect(() => {
     // Good!
     let us = JSON.parse(localStorage.getItem('user'));
-    if(us?.token){
+    if (us?.token) {
       setIsAuthorize(true)
     }
     console.log("inProfileMOde", inProfileMOde);
@@ -34,55 +35,35 @@ const Router = () => {
   return (
     <Suspense fallback={null}>
       <GlobalStyles />
-      <Header
-        onChaneMode={onRegisterPage}
-        setInProfileMOde={setInProfileMOde}
-        isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize}
-        openLoginRegisterDialog={openLoginRegisterDialog}
-      />
-      {/* {inRegisterMOde ? <div> Rgeister</div> :
-        <div>
-          <Switch>
-            {routes.map((routeItem) => {
-              return (
-                <Route
-                  key={routeItem.component}
-                  path={routeItem.path}
-                  exact={routeItem.exact}
-                  component={lazy(() => import(`../pages/${routeItem.component}`))}
-                />
-              );
-            })}
-          </Switch>
-          <Footer />
-        </div>
-      } */}
-      {inProfileMOde && isAuthorize ? (
-        <Profile isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize}/>
-      ) : (
-        <Route
-          isAuthorize={isAuthorize}
-          component={(() => <Home isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} setOpenLoginRegisterDialog={setOpenLoginRegisterDialog}/>)}
+      <Route path="/bank">
+        <Bank />
+      </Route>
+      <Route exact path="/">
+        <Header
+          onChaneMode={onRegisterPage}
+          setInProfileMOde={setInProfileMOde}
+          isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize}
+          openLoginRegisterDialog={openLoginRegisterDialog}
         />
-        // <Switch>
-        //   {routes.map((routeItem) => {
-        //     return (
-        //       <div>
-        //         <Route
-        //           key={routeItem.component}
-        //           path={routeItem.path}
-        //           exact={routeItem.exact}
-        //           component={lazy(() =>
-        //             import(`../pages/${routeItem.component}`)
-        //           )}
-        //         />
-        //       </div>
-        //     );
-        //   })}
-        // </Switch>
-      )}
 
-      <Footer />
+        {inProfileMOde && isAuthorize ? (
+          <Profile isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} />
+        ) : (
+          <>
+            <Route
+              path="/"
+              isAuthorize={isAuthorize}
+              component={(() => <Home isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} setOpenLoginRegisterDialog={setOpenLoginRegisterDialog} />)}
+            />
+
+          </>
+
+        )}
+
+        <Footer />
+      </Route>
+
+
     </Suspense>
   );
 };

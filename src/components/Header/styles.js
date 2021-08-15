@@ -14,7 +14,7 @@ export const LogoContainer = styled(Link)`
 export const Container = styled.div`
   position: relative;
   width: 100%;
-  max-width: 1292px;
+  max-width: 1362px;
   padding-right: 25px;
   padding-left: 25px;
   margin-right: auto;
