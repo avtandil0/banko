@@ -74,16 +74,16 @@ const Bank = () => {
         <>
           <Space>
 
-            <Tooltip placement="bottom" title="მიღება">
-              <Popconfirm title="გსურთ მიღება? " okText="დიახ" cancelText="არა">
+            <Tooltip placement="bottom" title="ჩამოტვირთვა">
+              {/* <Popconfirm title="გსურთ მიღება? " okText="დიახ" cancelText="არა"> */}
 
                 <Button type="primary" icon={<ArrowDownOutlined style={{ color: 'white' }} />}>
                 </Button>
-              </Popconfirm>
+              {/* </Popconfirm> */}
 
             </Tooltip>
 
-            <Tooltip placement="bottom" title="ნახვა">
+            <Tooltip placement="bottom" title="რედაქტირება">
               <Button type="primary" icon={<EditOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
