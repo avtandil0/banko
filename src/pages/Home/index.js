@@ -1,4 +1,4 @@
-import { lazy,useEffect } from "react";
+import { lazy, useEffect } from "react";
 
 import IntroContent from "../../content/IntroContent.json";
 import MiddleBlockContent from "../../content/MiddleBlockContent.json";
@@ -7,6 +7,8 @@ import MissionContent from "../../content/MissionContent.json";
 import ProductContent from "../../content/ProductContent.json";
 import ContactContent from "../../content/ContactContent.json";
 import Calculation from "../../components/Calculation";
+import { withTranslation } from "react-i18next";
+
 
 const ContactFrom = lazy(() => import("../../components/ContactForm"));
 const TeamBlock = lazy(() => import("../../components/TeamBlock"));
@@ -15,7 +17,7 @@ const MiddleBlock = lazy(() => import("../../components/MiddleBlock"));
 const Container = lazy(() => import("../../common/Container"));
 const ScrollToTop = lazy(() => import("../../common/ScrollToTop"));
 
-const Home = ({isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog}) => {
+const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog }) => {
 
   useEffect(() => {
     // Good!
@@ -27,9 +29,9 @@ const Home = ({isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog}) => {
       <ContentBlock
         type="right"
         first="true"
-        title={IntroContent.title}
-        content={IntroContent.text}
-        button={IntroContent.button}
+        title={t("introContentTitle")}
+        content={t("introContentText")}
+        button={[{ "title": t("introContentButton1") }, { "title": t("introContentButton2"), "color": "#fff" }]}
         icon="developer.svg"
         id="intro"
       />
@@ -37,15 +39,23 @@ const Home = ({isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog}) => {
         title={MiddleBlockContent.title}
         content={MiddleBlockContent.text}
         button={MiddleBlockContent.button}
-        isAuthorize = {isAuthorize}
+        isAuthorize={isAuthorize}
         setIsAuthorize={setIsAuthorize}
         setOpenLoginRegisterDialog={setOpenLoginRegisterDialog}
       />
       <ContentBlock
         type="left"
-        title={AboutContent.title}
-        content={AboutContent.text}
-        section={AboutContent.section}
+        title={t("HowItTitle")}
+        content={t("HowItDesc")}
+        section={[{
+          "title": t("HowItTitle1"),
+          "content": t("HowItDesc1"),
+          "icon": "notes.svg"
+        }, {
+          "title": t("HowItTitle2"),
+          "content": t("HowItDesc2"),
+          "icon": "notes.svg"
+        }]}
         icon="graphs.svg"
         id="about"
       />
@@ -56,13 +66,13 @@ const Home = ({isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog}) => {
         icon="product-launch.svg"
         id="mission"
       /> */}
-     <Calculation  title={MissionContent.title}
-        content={MissionContent.text}  id="mission"  icon="product-launch.svg"/>
+      <Calculation title={t("CalcPageTiTle")}
+        content={MissionContent.text} id="mission" icon="product-launch.svg" />
 
       <ContentBlock
         type="left"
-        title={ProductContent.title}
-        content={ProductContent.text}
+        title={t("About")}
+        content={t("OurMission")}
         icon="waving.svg"
         id="product"
       />
@@ -70,12 +80,12 @@ const Home = ({isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog}) => {
       {/* <TeamBlock /> */}
 
       <ContactFrom
-        title={ContactContent.title}
-        content={ContactContent.text}
+        title={t("ContactForm")}
+        content={t("ContactFormDesc")}
         id="contact"
       />
     </Container>
   );
 };
 
-export default Home;
+export default withTranslation()(Home);

@@ -38,10 +38,10 @@ const Contact = ({ title, content, id, t }) => {
             <S.FormGroup autoComplete="off" onSubmit={handleSubmit}>
               <Col span={24}>
                 <Input
-                  type="text"
+                  type={t("Name")}
                   name="name"
                   id="Name"
-                  placeholder="სახელი"
+                  placeholder={t("Name")}
                   value={values.name || ""}
                   onChange={handleChange}
                 />
@@ -50,9 +50,9 @@ const Contact = ({ title, content, id, t }) => {
               <Col span={24}>
                 <Input
                   type="text"
-                  name="email"
+                  name={t("Email")}
                   id="Email"
-                  placeholder="ელ. ფოსტა"
+                  placeholder={t("Email")}
                   value={values.email || ""}
                   onChange={handleChange}
                 />
@@ -60,9 +60,9 @@ const Contact = ({ title, content, id, t }) => {
               </Col>
               <Col span={24}>
                 <TextArea
-                  placeholder="ტექსტი"
+                  placeholder={t("Text")}
                   value={values.message || ""}
-                  name="message"
+                  name={t("Text")}
                   id="Message"
                   onChange={handleChange}
                 />
@@ -70,7 +70,7 @@ const Contact = ({ title, content, id, t }) => {
               </Col>
               <S.ButtonContainer>
                 <Button name="submit" type="submit">
-                  {t("გაგზავნა")}
+                  {t("Sent")}
                 </Button>
               </S.ButtonContainer>
             </S.FormGroup>

@@ -74,10 +74,10 @@ export const CustomNavLinkSmall = styled(NavLink)`
   font-size: 1rem;
   color: #000000;
   transition: color 0.2s ease-in;
-  margin: 0.25rem 2rem;
+  margin: 0.25rem 1rem;
 
   @media only screen and (max-width: 768px) {
-    margin: 1.25rem 2rem;
+    margin: 1.25rem 3rem;
   }
 `;
 
@@ -96,4 +96,19 @@ export const Outline = styled(MenuOutlined)`
 
 export const Span = styled.span`
   cursor: pointer;
+`;
+
+export const LangSelect = styled.select`
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  background: rgb(249, 250, 252);
+`;
+
+export const Select = styled.div`
+  line-height: 24px;
+
+  @media only screen and (min-width: 1024px) {
+    padding: 0 10%;
+  }
 `;

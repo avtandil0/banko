@@ -31,6 +31,9 @@ import {
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import * as S from "./styles";
+
+import i18n from "i18next";
+
 const { Option } = Select;
 const { TabPane } = Tabs;
 
@@ -72,6 +75,12 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
   //   setVisibleLoginRegisterDialog(openLoginRegisterDialog)
   //   console.log('openLoginRegisterDialog', openLoginRegisterDialog)
   // }, [openLoginRegisterDialog]);
+
+  const handleChangeLang = (event) => {
+    console.log('i18n', i18n)
+    i18n.changeLanguage(event.target.value);
+  };
+
 
   const handleSubmit = (event) => {
     console.log("bootsrtap sumit", user);
@@ -169,13 +178,13 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
     event.stopPropagation();
     const form = event.currentTarget;
 
-    if(user?.password != user?.rePassword){
+    if (user?.password != user?.rePassword) {
       message.error("პაროლი და დასტური უნდა ემთხვეოდეს ერთმანეთს");
       return;
     }
 
     if (form.checkValidity() === false) {
-      console.log("11111",form);
+      console.log("11111", form);
       return;
     }
 
@@ -240,50 +249,81 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
     };
 
     return (
-      <Fragment>
-        <div>
-          <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
-            <S.Span>{t("მთავარი")}</S.Span>
-          </S.CustomNavLinkSmall>
-          <S.CustomNavLinkSmall onClick={() => scrollTo("products")}>
-            <S.Span>{t("პროდუქტი")}</S.Span>
-          </S.CustomNavLinkSmall>
-          <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
-            <S.Span>{t("როგორ მუშაობს")}</S.Span>
-          </S.CustomNavLinkSmall>
-          <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
-            <S.Span>{t("სესხის კალკულატორი")}</S.Span>
-          </S.CustomNavLinkSmall>
-          <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
-            <S.Span>{t("ჩვენს შესახებ")}</S.Span>
-          </S.CustomNavLinkSmall>
-          {/* <S.CustomNavLinkSmall onClick={() => scrollTo("team")}>
+      <Fragment >
+        <div style={{ display: 'flex' }}>
+          <div>
+            <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
+              <S.Span>{t("Home")}</S.Span>
+            </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall onClick={() => scrollTo("products")}>
+              <S.Span>{t("Product")}</S.Span>
+            </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
+              <S.Span>{t("HowItWorks")}</S.Span>
+            </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
+              <S.Span>{t("LoanCalculator")}</S.Span>
+            </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
+              <S.Span>{t("About")}</S.Span>
+            </S.CustomNavLinkSmall>
+            {/* <S.CustomNavLinkSmall onClick={() => scrollTo("team")}>
             <S.Span>{t("გუნდი")}</S.Span>
           </S.CustomNavLinkSmall> */}
-          <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
-            <S.Span>{t("კონტაქტი")}</S.Span>
-          </S.CustomNavLinkSmall>
-          <S.CustomNavLinkSmall style={{ width: "180px" }}>
-            <S.Span>
-              {isAuthorize ? (
-                <Dropdown overlay={menu}>
-                  <div>
-                    {currentUser?.name}{" "}
-                    <UserOutlined
-                      style={{
-                        fontSize: "30px",
-                        marginTop: "14px",
-                        color: "#08c",
-                      }}
-                    />
-                  </div>
-                </Dropdown>
-              ) : (
-                <Button onClick={onDialog}>{t("ავტორიზაცია")}</Button>
-              )}
-            </S.Span>
-          </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
+              <S.Span>{t("Contact")}</S.Span>
+            </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall style={{ width: "180px" }}>
+              <S.Span>
+                {isAuthorize ? (
+                  <Dropdown overlay={menu}>
+                    <div>
+                      {currentUser?.name}{" "}
+                      <UserOutlined
+                        style={{
+                          fontSize: "30px",
+                          marginTop: "14px",
+                          color: "#08c",
+                        }}
+                      />
+                    </div>
+                  </Dropdown>
+                ) : (
+                  <Button onClick={onDialog}>{t("SignUp")}</Button>
+                )}
+              </S.Span>
+            </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall >
+              <S.Select>
+                <S.LangSelect
+                  onChange={handleChangeLang}
+                  value={i18n.language}
+                  id="select-lang"
+                >
+                  <option value="ge">ქართული</option>
+                  <option value="en">English</option>
+                </S.LangSelect>
+              </S.Select>
+            </S.CustomNavLinkSmall>
+          </div>
+
+          <div style={{marginTop: '15px'}}>
+            {/* <S.CustomNavLinkSmall >
+              <S.Select>
+                <S.LangSelect
+                  onChange={handleChangeLang}
+                  value={i18n.language}
+                  id="select-lang"
+                >
+                  <option value="ge">ქართული</option>
+                  <option value="en">English</option>
+                </S.LangSelect>
+              </S.Select>
+            </S.CustomNavLinkSmall> */}
+          </div>
         </div>
+
+
       </Fragment>
     );
   };
@@ -633,7 +673,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
               <Row>
                 <Form.Label column lg={3}></Form.Label>
                 <Col lg={12}>
-                  <AntdButton htmlType="submit"  loading={registerLoading}>
+                  <AntdButton htmlType="submit" loading={registerLoading}>
                     რეგისტრაცია
                   </AntdButton>
                 </Col>

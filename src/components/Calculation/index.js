@@ -66,47 +66,47 @@ const Calculation = ({ title, content, button, icon, t, id }) => {
         <Col lg={11} md={11} sm={11} xs={24}>
           <Slide left>
               <span style={{fontSize:'25px'}}>
-                  დაითვალეთ ყოველთვიური შენატანი
+              {t("CalcPageTiTle")}
               </span>
               <br></br>
             <S.ContentWrapper style={{ marginTop:'50px'}}>
               <Row>
                 <Col className="form-group col-md-6">
-                  <label for="inputEmail4">თანხა</label>
+                  <label for="inputEmail4">{t("LoanAmount")}</label>
                   <Form.Control
                     type="number"
-                    placeholder="თანხა"
+                    placeholder={t("LoanAmount")}
                     name="amount"
                     value={statement?.amount}
                     onChange={handleChangeInput}
                   />
                 </Col>
                 <Col className="form-group col-md-6">
-                  <label for="inputEmail4">ვადა (თვე)</label>
+                  <label for="inputEmail4">{t("NumberOfMonths")}</label>
                   <Form.Control
                     type="number"
-                    placeholder="ვადა (თვე)"
+                    placeholder={t("NumberOfMonths")}
                     name="term"
                     value={statement?.term}
                     onChange={handleChangeInput}
                   />
                 </Col>
                 <Col className="form-group col-md-6">
-                  <label for="inputEmail4">პროცენტი (წლიური)</label>
+                  <label for="inputEmail4">{t("InterestRate")}</label>
                   <Form.Control
                     type="number"
-                    placeholder="პროცენტი"
+                    placeholder={t("InterestRate")}
                     name="percent"
                     value={statement?.percent}
                     onChange={handleChangeInput}
                   />
                 </Col>
                 <Col className="form-group col-md-6">
-                  <label for="inputEmail4">შენატანი</label>
+                  <label for="inputEmail4">{t("MonthlyPayment")}</label>
                   <Form.Control
                     disabled
                     type="number"
-                    placeholder="შენატანი"
+                    placeholder={t("MonthlyPayment")}
                     value={deposit}
                   />
                 </Col>

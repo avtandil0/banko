@@ -736,110 +736,110 @@ const MiddleBlock = ({
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
           <br></br>
-          <div className="card border-dark mb-3" style={{ maxWidth: "18rem" }}>
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>სამომხმარებლო</div>
+          <div className="card border-dark mb-3" style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem" }}>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("ConsumerLoan")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="56.svg" height="110px" />
-              <p className="card-text">მოგზაურობა, ნივთის შეძენა, გართობა</p>
+              <p className="card-text">{t("ConsumerLoanDesc")}</p>
               <span
                 className="btn btn-outline-info"
                 onClick={() => onDialog(1)}
               >
-                <span>განაცხადის შევსება</span>
+                <span>{t("ApplyNow")}</span>
               </span>
             </div>
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
           >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>იპოთეკური</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("Mortgage")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="55.svg" height="110px" />
-              <p className="card-text">რემონტი, მშენებლობა, სახლის შეძენა</p>
+              <p className="card-text">{t("MortgageDesc")}</p>
               <span
                 className="btn btn-outline-info"
                 onClick={() => onDialog(2)}
               >
-                <span>განაცხადის შევსება</span>
+                <span>{t("ApplyNow")}</span>
               </span>
             </div>
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
           >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>ბიზნეს სესხი</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("BusinessLoan")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="54.svg" height="110px" />
               <p className="card-text">
-                ძირითადი საშუალებები, საბრუნავი საშუალებები
+              {t("BusinessLoanDesc")}
               </p>
               <span
                 className="btn btn-outline-info"
                 onClick={() => onDialog(3)}
               >
-                <span>განაცხადის შევსება</span>
+                <span>{t("ApplyNow")}</span>
               </span>
             </div>
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
           >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>აგრო</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AgroLoan")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="57.svg" height="110px" />
               <p className="card-text">
-                სოფლის მეურნეობისთვის, ტექნიკის შესაძენად
+              {t("AgroLoanDesc")}
               </p>
               <span
                 className="btn btn-outline-info"
                 onClick={() => onDialog(4)}
               >
-                <span>განაცხადის შევსება</span>
+                <span>{t("ApplyNow")}</span>
               </span>
             </div>
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", marginLeft: "29px" }}
+            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "29px" }}
           >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>საკრედიტო ბარათები</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("CreditCard")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="credit.svg" height="110px" />
               <p className="card-text">
-                ერთი ბარათი - ბევრი შესაძლებლობა
+              {t("CreditCard")}
               </p>
               <span
                 className="btn btn-outline-info"
                 onClick={() => onDialog(5)}
               >
-                <span>განაცხადის შევსება</span>
+                <span>{t("ApplyNow")}</span>
               </span>
             </div>
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
           >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>ავტოლიზინგი</div>
+            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AutoLeasing")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="auto.svg" height="110px" />
               <p className="card-text">
-                ახალი ან მეორადი ავტომობილის შესაძენად
+              {t("AutoLeasing")}
               </p>
               <span
                 className="btn btn-outline-info"
                 onClick={() => onDialog(6)}
               >
-                <span>განაცხადის შევსება</span>
+                <span> {t("ApplyNow")}</span>
               </span>
             </div>
           </div>
