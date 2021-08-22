@@ -24,6 +24,8 @@ import {
 } from "antd";
 import axios from "axios";
 
+const { Option } = Select;
+
 const Bank = () => {
   const [user, setUser] = useState();
   const [statements, setStatements] = useState([]);
@@ -45,6 +47,11 @@ const Bank = () => {
     setStatements(result.data);
     setStatementLoading(false);
   }, []);
+
+
+  const handleEdit = (item) => {
+    console.log('item', item)
+  }
 
   const getIncomeSourceName = (id) => {
     switch (id) {
@@ -68,23 +75,23 @@ const Bank = () => {
   const columns = [
     {
       title: "მოქმედებები",
-      dataIndex: "actions",
-      key: "actions",
-      render: (text) => (
+      dataIndex: "id",
+      key: "id",
+      render: (id) => (
         <>
           <Space>
 
             <Tooltip placement="bottom" title="ჩამოტვირთვა">
               {/* <Popconfirm title="გსურთ მიღება? " okText="დიახ" cancelText="არა"> */}
 
-                <Button type="primary" icon={<ArrowDownOutlined style={{ color: 'white' }} />}>
-                </Button>
+              <Button type="primary" icon={<ArrowDownOutlined style={{ color: 'white' }} />}>
+              </Button>
               {/* </Popconfirm> */}
 
             </Tooltip>
 
             <Tooltip placement="bottom" title="რედაქტირება">
-              <Button type="primary" icon={<EditOutlined style={{ color: 'white' }} />}>
+              <Button type="primary" onClick={() => handleEdit(id)} icon={<EditOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
           </Space>
@@ -228,7 +235,27 @@ const Bank = () => {
           </div> */}
 
           {/* <Button type="primary">შენახვა</Button> */}
-
+          <br></br>
+          <Select defaultValue="სტატუსი" style={{ width: 200 }}>
+            <Option value="ახალი">ახალი</Option>
+            <Option value="მიღებული">მიღებული</Option>
+            <Option value="ავტოლიზინგი">უარყოფილი</Option>
+            <Option value="ავტოლიზინგი">დამტკიცებული</Option>
+          </Select>
+          <Select defaultValue="პროდუქტის ტიპი" style={{ width: 200, marginLeft: 24 }}>
+            <Option value="იპოთეკური">იპოთეკური</Option>
+            <Option value="სამომხმარებლო">სამომხმარებლო</Option>
+            <Option value="აგრო">აგრო</Option>
+            <Option value="საკრედიტო ბარათები">საკრედიტო ბარათები</Option>
+            <Option value="ავტოლიზინგი">ავტოლიზინგი</Option>
+          </Select>
+          <Select defaultValue="რეგიონი" style={{ width: 200, marginLeft: 24 }}>
+            
+          </Select>
+          <Select defaultValue="რაიონი" style={{ width: 200, marginLeft: 24 }}>
+           
+          </Select>
+          <br></br>
           <br></br>
           <br></br>
           <Table

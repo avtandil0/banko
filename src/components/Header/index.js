@@ -23,6 +23,7 @@ import {
   Col,
   Drawer,
   Select,
+  Radio,
   DatePicker,
   Checkbox,
   Tabs,
@@ -64,6 +65,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [validated, setValidated] = useState(false);
+  const [language, setLanguage] = useState("ge");
 
   const onFinish = () => {
     console.log("Received values of form: ");
@@ -77,7 +79,8 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
   // }, [openLoginRegisterDialog]);
 
   const handleChangeLang = (event) => {
-    console.log('i18n', i18n)
+    console.log('i18n', i18n,event)
+    setLanguage(event.target.value)
     i18n.changeLanguage(event.target.value);
   };
 
@@ -294,7 +297,11 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
               </S.Span>
             </S.CustomNavLinkSmall>
             <S.CustomNavLinkSmall >
-              <S.Select>
+              <Radio.Group onChange={handleChangeLang} value={language}>
+                <Radio.Button value="ge">ქარ</Radio.Button>
+                <Radio.Button value="en">Eng</Radio.Button>
+              </Radio.Group>
+              {/* <S.Select>
                 <S.LangSelect
                   onChange={handleChangeLang}
                   value={i18n.language}
@@ -303,11 +310,11 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                   <option value="ge">ქართული</option>
                   <option value="en">English</option>
                 </S.LangSelect>
-              </S.Select>
+              </S.Select> */}
             </S.CustomNavLinkSmall>
           </div>
 
-          <div style={{marginTop: '15px'}}>
+          <div style={{ marginTop: '15px' }}>
             {/* <S.CustomNavLinkSmall >
               <S.Select>
                 <S.LangSelect
