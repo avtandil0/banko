@@ -60,7 +60,7 @@ const MiddleBlock = ({
     console.log("currentUser", currentUser);
 
     var result1 = await axios.get(`https://weblive.com.ge/api/IncomeSource`);
-    // console.log('result IncomeSource',result)
+    console.log('result IncomeSource',result1)
     setIncomeSource(result1.data);
     var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
     console.log("result WorkExperience", result2);

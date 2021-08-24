@@ -19,10 +19,12 @@ import {
   Space,
   Button,
   Tooltip,
-  PageHeader
+  PageHeader,
+  InputNumber
 
 } from "antd";
 import axios from "axios";
+import { modalGlobalConfig } from "antd/lib/modal/confirm";
 
 const { Option } = Select;
 
@@ -31,6 +33,35 @@ const Bank = () => {
   const [statements, setStatements] = useState([]);
   const [statementLoading, setStatementLoading] = useState(false);
 
+  const [modal, setModal] = useState({
+    visible: false,
+    type: '',
+    amount: 0
+  });
+
+  const modalSelectChange = (type) => {
+    console.log(modal, type)
+    setModal({ ...modal, type: type });
+  }
+
+  
+  const modalAmountChange = (amount) => {
+    console.log(modal, amount)
+    setModal({ ...modal, amount: amount });
+  }
+  
+  const showModal = (item) => {
+    console.log(item)
+    setModal({ ...modal, visible: true, amount: item.requestedAmount, type: item.loantypeId.toString() });
+  };
+
+  const handleOk = () => {
+    setModal({ ...modal, visible: false });
+  };
+
+  const handleCancel = () => {
+    setModal({ ...modal, visible: false });
+  };
   useEffect(async () => {
     window.scrollTo(0, 0);
     console.log(JSON.parse(localStorage.getItem("user")));
@@ -50,6 +81,7 @@ const Bank = () => {
 
 
   const handleEdit = (item) => {
+    showModal(item)
     console.log('item', item)
   }
 
@@ -77,7 +109,7 @@ const Bank = () => {
       title: "მოქმედებები",
       dataIndex: "id",
       key: "id",
-      render: (id) => (
+      render: (id, row) => (
         <>
           <Space>
 
@@ -91,7 +123,7 @@ const Bank = () => {
             </Tooltip>
 
             <Tooltip placement="bottom" title="რედაქტირება">
-              <Button type="primary" onClick={() => handleEdit(id)} icon={<EditOutlined style={{ color: 'white' }} />}>
+              <Button type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
           </Space>
@@ -194,6 +226,21 @@ const Bank = () => {
   ];
   return (
     <div>
+      <Modal title="რედაქტირება" visible={modal.visible} onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
+        cancelText="დახურვა">
+        <Space size="large">
+          <Select value={modal.type} style={{ width: 200 }} onChange={modalSelectChange}>
+            <Option value="1">სამომხმარებლო</Option>
+            <Option value="2">იპოთეკური</Option>
+            <Option value="3">ბიზნეს სესხი</Option>
+            <Option value="4">აგრო</Option>
+            <Option value="5">საკრედიტო ბარათები</Option>
+            <Option value="6">ავტოლიზინგი</Option>
+          </Select>
+          <InputNumber value={modal.amount} onChange={modalAmountChange}/>
+        </Space>
+
+      </Modal>
       <br></br>
       <br></br>
 
@@ -236,25 +283,28 @@ const Bank = () => {
 
           {/* <Button type="primary">შენახვა</Button> */}
           <br></br>
-          <Select defaultValue="სტატუსი" style={{ width: 200 }}>
-            <Option value="ახალი">ახალი</Option>
-            <Option value="მიღებული">მიღებული</Option>
-            <Option value="ავტოლიზინგი">უარყოფილი</Option>
-            <Option value="ავტოლიზინგი">დამტკიცებული</Option>
-          </Select>
-          <Select defaultValue="პროდუქტის ტიპი" style={{ width: 200, marginLeft: 24 }}>
-            <Option value="იპოთეკური">იპოთეკური</Option>
-            <Option value="სამომხმარებლო">სამომხმარებლო</Option>
-            <Option value="აგრო">აგრო</Option>
-            <Option value="საკრედიტო ბარათები">საკრედიტო ბარათები</Option>
-            <Option value="ავტოლიზინგი">ავტოლიზინგი</Option>
-          </Select>
-          <Select defaultValue="რეგიონი" style={{ width: 200, marginLeft: 24 }}>
-            
-          </Select>
-          <Select defaultValue="რაიონი" style={{ width: 200, marginLeft: 24 }}>
-           
-          </Select>
+          <Space size="large">
+            <Select defaultValue="სტატუსი" style={{ width: 200 }}>
+              <Option value="ახალი">ახალი</Option>
+              <Option value="მიღებული">მიღებული</Option>
+              <Option value="ავტოლიზინგი">უარყოფილი</Option>
+              <Option value="ავტოლიზინგი">დამტკიცებული</Option>
+            </Select>
+            <Select defaultValue="პროდუქტის ტიპი" style={{ width: 200 }}>
+              <Option value="იპოთეკური">იპოთეკური</Option>
+              <Option value="სამომხმარებლო">სამომხმარებლო</Option>
+              <Option value="აგრო">აგრო</Option>
+              <Option value="საკრედიტო ბარათები">საკრედიტო ბარათები</Option>
+              <Option value="ავტოლიზინგი">ავტოლიზინგი</Option>
+            </Select>
+            <Select defaultValue="რეგიონი" style={{ width: 200 }}>
+
+            </Select>
+            <Select defaultValue="რაიონი" style={{ width: 200 }}>
+
+            </Select>
+          </Space>
+
           <br></br>
           <br></br>
           <br></br>
