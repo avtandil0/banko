@@ -98,7 +98,7 @@ const Bank = () => {
       case 5:
         return "საკრედიტო ბარათები";
       case 6:
-        return "ავტოლიზინგი";
+        return "ავტო სესხი";
       default:
         return "";
     }
@@ -235,7 +235,7 @@ const Bank = () => {
             <Option value="3">ბიზნეს სესხი</Option>
             <Option value="4">აგრო</Option>
             <Option value="5">საკრედიტო ბარათები</Option>
-            <Option value="6">ავტოლიზინგი</Option>
+            <Option value="6">ავტო სესხი</Option>
           </Select>
           <InputNumber value={modal.amount} onChange={modalAmountChange}/>
         </Space>
@@ -287,15 +287,15 @@ const Bank = () => {
             <Select defaultValue="სტატუსი" style={{ width: 200 }}>
               <Option value="ახალი">ახალი</Option>
               <Option value="მიღებული">მიღებული</Option>
-              <Option value="ავტოლიზინგი">უარყოფილი</Option>
-              <Option value="ავტოლიზინგი">დამტკიცებული</Option>
+              <Option value="უარყოფილი">უარყოფილი</Option>
+              <Option value="დამტკიცებული">დამტკიცებული</Option>
             </Select>
             <Select defaultValue="პროდუქტის ტიპი" style={{ width: 200 }}>
               <Option value="იპოთეკური">იპოთეკური</Option>
               <Option value="სამომხმარებლო">სამომხმარებლო</Option>
               <Option value="აგრო">აგრო</Option>
               <Option value="საკრედიტო ბარათები">საკრედიტო ბარათები</Option>
-              <Option value="ავტოლიზინგი">ავტოლიზინგი</Option>
+              <Option value="ავტო სესხი">ავტო სესხი</Option>
             </Select>
             <Select defaultValue="რეგიონი" style={{ width: 200 }}>
 

@@ -1,10 +1,7 @@
 import { useState, Fragment, lazy, useEffect } from "react";
 import {
   Row,
-  Col,
-  Card,
   message,
-  notification,
   Button as AntdButton,
   Modal as AntModal,
 } from "antd";
@@ -12,7 +9,7 @@ import { withTranslation } from "react-i18next";
 import Fade from "react-reveal/Fade";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import Tabs from "react-bootstrap/Tabs";
+import Card from "react-bootstrap/Card";
 import Tab from "react-bootstrap/Tab";
 import * as S from "./styles";
 import "./index.css"; // Tell webpack that Button.js uses these styles
@@ -60,7 +57,7 @@ const MiddleBlock = ({
     console.log("currentUser", currentUser);
 
     var result1 = await axios.get(`https://weblive.com.ge/api/IncomeSource`);
-    console.log('result IncomeSource',result1)
+    console.log('result IncomeSource', result1)
     setIncomeSource(result1.data);
     var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
     console.log("result WorkExperience", result2);
@@ -77,12 +74,12 @@ const MiddleBlock = ({
   }, []);
 
   const handleChangeInput = (e) => {
-    console.log('change',e.target.name, e.target.value)
-    if(e.target.name == 'regionId'){
+    console.log('change', e.target.name, e.target.value)
+    if (e.target.name == 'regionId') {
       var cc = [...municipals.filter(r => r.regionId == e.target.value)];
-      console.log(111111111111,cc)
+      console.log(111111111111, cc)
 
-      setControledMunicipals( [...cc])
+      setControledMunicipals([...cc])
     }
     console.log('res', res)
     // setStatement({...statement, deposit: res})
@@ -179,42 +176,51 @@ const MiddleBlock = ({
     return (
       <>
         {consumerLoan()}
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">ავტომობილის ღირებულება</label>
-          <input
-            type="number"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="ავტომობილის ღირებულება"
-            name="carCost"
-            value={statement?.carCost}
-            onChange={handleChangeInput}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">ავტომობილის მარკა</label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="ავტომობილის მარკა"
-            name="CarMake"
-            value={statement?.CarMake}
-            onChange={handleChangeInput}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">ავტომობილის გამოშვების წელი</label>
-          <input
-            type="number"
-            className="form-control"
-            id="inputPassword4"
-            placeholder=" ავტომობილის გამოშვების წელი"
-            name="vehicleYear"
-            value={statement?.vehicleYear}
-            onChange={handleChangeInput}
-          />
-        </div>
+        <br></br>
+        <Card border="info" style={{ width: '49rem' }}>
+          <Card.Header>ინფორმაცია ავტომობილზე</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ავტომობილის ღირებულება</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ავტომობილის ღირებულება"
+                  name="carCost"
+                  value={statement?.carCost}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ავტომობილის მარკა</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ავტომობილის მარკა"
+                  name="CarMake"
+                  value={statement?.CarMake}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ავტომობილის გამოშვების წელი</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder=" ავტომობილის გამოშვების წელი"
+                  name="vehicleYear"
+                  value={statement?.vehicleYear}
+                  onChange={handleChangeInput}
+                />
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+
       </>
     );
   };
@@ -223,100 +229,117 @@ const MiddleBlock = ({
     return (
       <>
         {consumerLoan()}
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">თანამსესხებელი</label>
-          <select
-            id="inputState"
-            className="form-control"
-            name="coBorrowerRelative"
-            value={statement?.coBorrowerRelative}
-            onChange={handleChangeInput}
-          >
-            <option selected>აირჩიეთ...</option>
-            <option>მშობელი</option>
-            <option>შვილი</option>
-            <option>მეუღლე</option>
-            <option>და-ძმა</option>
-          </select>
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">თანამსესხებელლის ხელფასი</label>
-          <input
-            type="number"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="თანხა"
-            name="coBorrowerSalary"
-            value={statement?.coBorrowerSalary}
-            onChange={handleChangeInput}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">შესაძენი ქონების ღირებულება</label>
-          <input
-            type="number"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="შესაძენი ქონების ღირებულება"
-            name="propertyCost"
-            value={statement?.propertyCost}
-            onChange={handleChangeInput}
-          />
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">ზუსტი მიზნობრიობა (აღწერა)</label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="ზუსტი მიზნობრიობა (აღწერა)"
-            name="purpose"
-            value={statement?.purpose}
-            onChange={handleChangeInput}
-          />
-        </div>
+        <br></br>
+        <Card border="info" style={{ width: '49rem' }}>
+          <Card.Header>ინფორმაცია იპოთეკაზე</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">თანამსესხებელი</label>
+                <select
+                  id="inputState"
+                  className="form-control"
+                  name="coBorrowerRelative"
+                  value={statement?.coBorrowerRelative}
+                  onChange={handleChangeInput}
+                >
+                  <option selected>აირჩიეთ...</option>
+                  <option>მშობელი</option>
+                  <option>შვილი</option>
+                  <option>მეუღლე</option>
+                  <option>და-ძმა</option>
+                </select>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">თანამსესხებელლის ხელფასი</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="თანხა"
+                  name="coBorrowerSalary"
+                  value={statement?.coBorrowerSalary}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">შესაძენი ქონების ღირებულება</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="შესაძენი ქონების ღირებულება"
+                  name="propertyCost"
+                  value={statement?.propertyCost}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ზუსტი მიზნობრიობა (აღწერა)</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ზუსტი მიზნობრიობა (აღწერა)"
+                  name="purpose"
+                  value={statement?.purpose}
+                  onChange={handleChangeInput}
+                />
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+
       </>
     );
   };
   const businessLoan = () => {
     return (
       <>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">
-            კომპანიის დასახელება<span style={{ color: "red" }}>*</span>
-          </label>
-          <input
-            required
-            type="text"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="კომპანიის დასახელება"
-            name="borrowerName"
-            value={statement?.borrowerName}
-            onChange={handleChangeInput}
-          />
-          <Form.Control.Feedback type="invalid">
-            მოითითეთ კომპანიის დასახელება.
-          </Form.Control.Feedback>
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">
-            საიდენტიფინაციო ნომერი<span style={{ color: "red" }}>*</span>
-          </label>
-          <input
-            required
-            type="text"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="საიდენტიფინაციო ნომერი"
-            name="taxcode"
-            value={statement?.taxcode}
-            onChange={handleChangeInput}
-          />
-          <Form.Control.Feedback type="invalid">
-            საიდენტიფინაციო ნომერი.
-          </Form.Control.Feedback>
-        </div>
+        <Card border="info" style={{ width: '49rem' }}>
+          <Card.Header>კომპანიის შესახებ</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  კომპანიის დასახელება<span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="კომპანიის დასახელება"
+                  name="borrowerName"
+                  value={statement?.borrowerName}
+                  onChange={handleChangeInput}
+                />
+                <Form.Control.Feedback type="invalid">
+                  მოითითეთ კომპანიის დასახელება.
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  საიდენტიფინაციო ნომერი<span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="საიდენტიფინაციო ნომერი"
+                  name="taxcode"
+                  value={statement?.taxcode}
+                  onChange={handleChangeInput}
+                />
+                <Form.Control.Feedback type="invalid">
+                  საიდენტიფინაციო ნომერი.
+                </Form.Control.Feedback>
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+        <br></br>
         {/* <div className="form-group col-md-6">
           <label for="inputPassword4">ბიზნესის გამოცდილება</label>
           <input
@@ -335,299 +358,296 @@ const MiddleBlock = ({
   const consumerLoan = () => {
     return (
       <>
-        <div className="form-group col-md-6">
-          <div className="form-row">
-            <div className="col-md-9">
-              <label for="inputEmail4">
-                მოთხოვნილი თანხა <span style={{ color: "red" }}>*</span>
-              </label>
-              {/* <input
-              required
-                type="number"
-                className="form-control"
-                id="inputEmail4"
-                placeholder="თანხა"
-                name="requestedAmount"
-                value={statement?.requestedAmount}
-                onChange={handleChangeInput}
-              /> */}
-              <Form.Control
-                required
-                type="number"
-                className="form-control"
-                id="inputEmail4"
-                placeholder="თანხა"
-                name="requestedAmount"
-                value={statement?.requestedAmount}
-                onChange={handleChangeInput}
-              />
-              <Form.Control.Feedback type="invalid">
-                მიუთითეთ მოთხოვნილი თანხა.
-              </Form.Control.Feedback>
-            </div>
-            <div className=" col-md-3">
-              <label for="inputEmail4">
-                ვალუტა<span style={{ color: "red" }}>*</span>
-              </label>
-              <select
-                id="inputcurrency"
-                className="form-control"
-                name="currency"
-                value={statement?.currency}
-                onChange={handleChangeInput}
-              >
-                <option selected>GEL</option>
-                <option>USD</option>
-                <option>EUR</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        {statement?.loantypeId != 5 ? (
-          <>
-            <div className="form-group col-md-6">
-              <label for="inputPassword4">
-                ვადა (თვე)<span style={{ color: "red" }}>*</span>
-              </label>
-              <input
-                required
-                type="number"
-                className="form-control"
-                id="inputPassword4"
-                placeholder="ვადა"
-                name="term"
-                value={statement?.term}
-                onChange={handleChangeInput}
-              />
+        <Card border="info" style={{ width: '49rem' }}>
+          <Card.Header>მოთხოვნილი პროდუქტი</Card.Header>
+          <Card.Body>
+            <Card.Text>
+              <div >
+                <div className="form-row">
+                  <div className="col-md-4">
+                    <label for="inputEmail4">
+                      მოთხოვნილი თანხა <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <Form.Control
+                      required
+                      type="number"
+                      className="form-control"
+                      id="inputEmail4"
+                      placeholder="თანხა"
+                      name="requestedAmount"
+                      value={statement?.requestedAmount}
+                      onChange={handleChangeInput}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      მიუთითეთ მოთხოვნილი თანხა.
+                    </Form.Control.Feedback>
+                  </div>
+                  <div className=" col-md-2">
+                    <label for="inputEmail4">
+                      ვალუტა<span style={{ color: "red" }}>*</span>
+                    </label>
+                    <select
+                      id="inputcurrency"
+                      className="form-control"
+                      name="currency"
+                      value={statement?.currency}
+                      onChange={handleChangeInput}
+                    >
+                      <option selected>GEL</option>
+                      <option>USD</option>
+                      <option>EUR</option>
+                    </select>
+                  </div>
+                  <div className=" col-md-2">
+                    {statement?.loantypeId != 5 ? (
+                      <>
+                        <label for="inputPassword4">
+                          ვადა (თვე)<span style={{ color: "red" }}>*</span>
+                        </label>
+                        <input
+                          required
+                          type="number"
+                          className="form-control"
+                          id="inputPassword4"
+                          placeholder="ვადა"
+                          name="term"
+                          value={statement?.term}
+                          onChange={handleChangeInput}
+                        />
 
-              <Form.Control.Feedback type="invalid">
-                მიუთითეთ ვადა.
-              </Form.Control.Feedback>
-            </div>
-          </>
-        ) : (
-          ""
-        )}
+                        <Form.Control.Feedback type="invalid">
+                          მიუთითეთ ვადა.
+                        </Form.Control.Feedback>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className=" col-md-4">
 
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">
-            თვიური საშუალო შემოსავალი<span style={{ color: "red" }}>*</span>
-          </label>
-          <input
-            required
-            type="number"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="შემოსავალი"
-            name="monthlyAverageIncome"
-            value={statement?.monthlyAverageIncome}
-            onChange={handleChangeInput}
-          />
-          <Form.Control.Feedback type="invalid">
-            მიუთითეთ თვიური საშუალო შემოსავალი.
-          </Form.Control.Feedback>
-        </div>
-        {statement?.loantypeId != 5 ? (
-          <>
-            <div className="form-group col-md-6">
-              <label for="inputPassword4">
-                შენატანი
-              </label>
-              <input
-                disabled
-                type="number"
-                className="form-control"
-                id="inputPassword4"
-                placeholder="შენატანი"
-                name="deposit"
-                value={deposit}
-              // onChange={handleChangeInput}
-              />
-            </div>
-          </>
-        ) : (
-          ""
-        )}
+                    {statement?.loantypeId != 5 ? (
+                      <>
+                        <label for="inputPassword4">
+                          შენატანი (სავარაუდო)
+                        </label>
+                        <input
+                          disabled
+                          type="number"
+                          className="form-control"
+                          id="inputPassword4"
+                          placeholder="შენატანი"
+                          name="deposit"
+                          value={deposit}
+                        // onChange={handleChangeInput}
+                        />
+                      </>
+                    ) : (
+                      ""
+                    )}
 
-        {statement?.loantypeId == 3 ||
-          (statement?.loantypeId == 4 && agroType == "legal") ? (
-          ""
-        ) : (
-          <>
-            <div className="form-group col-md-6">
-              <label for="inputState">
-                შემოსავლის წყარო <span style={{ color: "red" }}>*</span>
-              </label>
-              {/* <select
-              required
-                id="inputState"
-                className="form-control"
-                name="incomeSourceId"
-                value={statement?.incomeSourceId}
-                onChange={handleChangeInput}
-              > */}
-              <Form.Control
-                required
-                as="select"
-                id="inputState"
-                className="form-control"
-                name="incomeSourceId"
-                value={statement?.incomeSourceId}
-                onChange={handleChangeInput}
-              >
-                <option></option>
-                {incomeSource.map((s) => (
-                  <option key={s.id} name={s.id} value={s.id}>
-                    {s.incomeSourceName}
-                  </option>
-                ))}
-                ;
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                მიუთითეთ თვიური საშუალო შემოსავალი.
-              </Form.Control.Feedback>
-            </div>
-            {statement?.incomeSourceId == 7 ? (
-              <>
-                <div className="form-group col-md-6">
+                  </div>
+                </div>
+              </div>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <br>
+        </br>
+
+        <Card border="info" style={{ width: '49rem' }}>
+          <Card.Header>შემოსავლები</Card.Header>
+          <Card.Body>
+            <Card.Text>
+              <div className="form-row">
+                <div className="form-group col-md-5">
                   <label for="inputPassword4">
-                    მიუთითეთ სხვა შემოსავლის წყარო
-                    <span style={{ color: "red" }}>*</span>
+                    თვიური საშუალო შემოსავალი<span style={{ color: "red" }}>*</span>
                   </label>
                   <input
-                    type="text"
+                    required
+                    type="number"
                     className="form-control"
                     id="inputPassword4"
-                    placeholder="სხვა შემოსავლის წყარო"
-                    name="otherIncomeSource"
-                    value={statement?.otherIncomeSource}
+                    placeholder="შემოსავალი"
+                    name="monthlyAverageIncome"
+                    value={statement?.monthlyAverageIncome}
                     onChange={handleChangeInput}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ თვიური საშუალო შემოსავალი.
+                  </Form.Control.Feedback>
                 </div>
-              </>
-            ) : (
-              ""
-            )}
+                <div className="form-group col-md-3">
+                  <label for="inputState">
+                    შემოსავლის წყარო <span style={{ color: "red" }}>*</span>
+                  </label>
+                  <Form.Control
+                    required
+                    as="select"
+                    id="inputState"
+                    className="form-control"
+                    name="incomeSourceId"
+                    value={statement?.incomeSourceId}
+                    onChange={handleChangeInput}
+                  >
+                    <option></option>
+                    {incomeSource.map((s) => (
+                      <option key={s.id} name={s.id} value={s.id}>
+                        {s.incomeSourceName}
+                      </option>
+                    ))}
+                    ;
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ თვიური საშუალო შემოსავალი.
+                  </Form.Control.Feedback>
+                </div>
+                <div className="form-group col-md-4">
+                  {statement?.loantypeId == 3 ||
+                    (statement?.loantypeId == 4 && agroType == "legal") ? (
+                    ""
+                  ) : (
+                    <>
 
-            <div className="form-group col-md-6">
-              <label for="inputState">
-                სად გერიცებათ ხელფასი<span style={{ color: "red" }}>*</span>
-              </label>
-              <select
-                required
-                id="inputState"
-                className="form-control"
-                name="IncomeAccrue"
-                value={statement?.IncomeAccrue}
-                onChange={handleChangeInput}
-              >
-                <option selected></option>
-                <option>ბანკში</option>
-                <option>ხელზე</option>
-              </select>
-              <Form.Control.Feedback type="invalid">
-                მიუთითეთ  სად გერიცებათ ხელფასი.
-              </Form.Control.Feedback>
-            </div>
-            <div className="form-group col-md-6">
-              <label for="inputState">
-                სამუშო გამოცდილება - სტაჟი
-                <span style={{ color: "red" }}>*</span>
-              </label>
-              <select
-                required
-                id="inputState"
-                className="form-control"
-                name="workExperienceId"
-                value={statement?.workExperienceId}
-                onChange={handleChangeInput}
-              >
-                <option selected></option>
-                {workExperiance.map((s) => (
-                  <option key={s.id} name={s.id} value={s.id}>
-                    {s.workExperienceName}
-                  </option>
-                ))}
-                ;
-              </select>
-              <Form.Control.Feedback type="invalid">
-                მიუთითეთ  სტაჟი.
-              </Form.Control.Feedback>
-            </div>
-          </>
-        )}
-        {/* <div className="form-group col-md-6">
-          <label for="inputPassword4">სხვა შემოსავლის წყარო</label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="წყარო"
-            name="otherIncomeSource"
-            onChange={handleChangeInput}
-          />
-        </div> */}
+                      {/* {statement?.incomeSourceId == 7 ? ( */}
+                      <>
+                        <label for="inputPassword4">
+                          სხვა შემოსავლის წყარო
+                          <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <input
+                          disabled={statement?.incomeSourceId != 7}
+                          type="text"
+                          className="form-control"
+                          id="inputPassword4"
+                          placeholder="სხვა შემოსავლის წყარო"
+                          name="otherIncomeSource"
+                          value={statement?.otherIncomeSource}
+                          onChange={handleChangeInput}
+                        />
+                      </>
+                      {/* ) : (
+                        ""
+                      )} */}
 
-        {/* <div className="form-group col-md-6">
-          <label for="inputPassword4">დამსაქმებელი</label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="დამსაქმებელი"
-            name="employer"
-            onChange={handleChangeInput}
-          />
-        </div> */}
 
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">
-            ფაქტიური მისამართი<span style={{ color: "red" }}>*</span>
-          </label>
-          <div className="form-row">
-          <div className="form-group col-md-6">
-            <select
-              required
-              id="inputState"
-              className="form-control"
-              name="regionId"
-              value={statement?.regionId}
-              onChange={handleChangeInput}
-            >
-              <option selected></option>
-              {regions.map((s) => (
-                <option key={s.id} name={s.id} value={s.id}>
-                  {s.regionName}
-                </option>
-              ))}
-              ;
-            </select>
-          </div>
-          <div className="form-group col-md-6">
-            <select
-              required
-              id="inputState"
-              className="form-control"
-              name="municipalId"
-              value={statement?.municipalId}
-              onChange={handleChangeInput}
-            >
-              <option selected></option>
-              {controledMunicipals.map((s) => (
-                <option key={s.id} name={s.id} value={s.id}>
-                  {s.municipalName}
-                </option>
-              ))}
-              ;
-            </select>
-          </div>
+                    </>
+                  )}
 
-          </div>
-        
-          <Form.Control.Feedback type="invalid">
-            მიუთითეთ  სტაჟი.
-          </Form.Control.Feedback>
-          {/* <input
+                </div>
+                {statement?.loantypeId == 3 ||
+                  (statement?.loantypeId == 4 && agroType == "legal") ? (
+                  ""
+                ) : (
+                  <>
+
+                    <div className="form-group col-md-5">
+                      <label for="inputState">
+                        სად გერიცებათ ხელფასი<span style={{ color: "red" }}>*</span>
+                      </label>
+                      <select
+                        required
+                        id="inputState"
+                        className="form-control"
+                        name="IncomeAccrue"
+                        value={statement?.IncomeAccrue}
+                        onChange={handleChangeInput}
+                      >
+                        <option selected></option>
+                        <option>ბანკში</option>
+                        <option>ხელზე</option>
+                      </select>
+                      <Form.Control.Feedback type="invalid">
+                        მიუთითეთ  სად გერიცებათ ხელფასი.
+                      </Form.Control.Feedback>
+                    </div>
+                    <div className="form-group col-md-7">
+                      <label for="inputState">
+                        სამუშო გამოცდილება - სტაჟი
+                        <span style={{ color: "red" }}>*</span>
+                      </label>
+                      <select
+                        required
+                        id="inputState"
+                        className="form-control"
+                        name="workExperienceId"
+                        value={statement?.workExperienceId}
+                        onChange={handleChangeInput}
+                      >
+                        <option selected></option>
+                        {workExperiance.map((s) => (
+                          <option key={s.id} name={s.id} value={s.id}>
+                            {s.workExperienceName}
+                          </option>
+                        ))}
+                        ;
+                      </select>
+                      <Form.Control.Feedback type="invalid">
+                        მიუთითეთ  სტაჟი.
+                      </Form.Control.Feedback>
+                    </div>
+                  </>
+                )}
+              </div>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <br />
+
+
+
+        <Card border="info" style={{ width: '49rem' }}>
+          <Card.Header>დამატენითი ინფორმაცია</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  ფაქტიური მისამართი<span style={{ color: "red" }}>*</span>
+                </label>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <select
+                      required
+                      id="inputState"
+                      className="form-control"
+                      name="regionId"
+                      value={statement?.regionId}
+                      onChange={handleChangeInput}
+                    >
+                      <option selected></option>
+                      {regions.map((s) => (
+                        <option key={s.id} name={s.id} value={s.id}>
+                          {s.regionName}
+                        </option>
+                      ))}
+                      ;
+                    </select>
+                  </div>
+                  <div className="form-group col-md-6">
+                    <select
+                      required
+                      id="inputState"
+                      className="form-control"
+                      name="municipalId"
+                      value={statement?.municipalId}
+                      onChange={handleChangeInput}
+                    >
+                      <option selected></option>
+                      {controledMunicipals.map((s) => (
+                        <option key={s.id} name={s.id} value={s.id}>
+                          {s.municipalName}
+                        </option>
+                      ))}
+                      ;
+                    </select>
+                  </div>
+
+                </div>
+
+                <Form.Control.Feedback type="invalid">
+                  მიუთითეთ  მისამართი.
+                </Form.Control.Feedback>
+                {/* <input
             required
             type="text"
             className="form-control"
@@ -638,48 +658,104 @@ const MiddleBlock = ({
             value={statement?.actualAddress}
           /> */}
 
-          {/* <Form.Control.Feedback type="invalid">
+                {/* <Form.Control.Feedback type="invalid">
             მიუთითეთ ფაქტიური მისამართი.
           </Form.Control.Feedback> */}
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">
-            სხვა არსებული სესხები (ჯამურად)
-            <span style={{ color: "red" }}>*</span>
-          </label>
-          <input
-            required
-            type="number"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="ჯამი"
-            name="existingLoans"
-            onChange={handleChangeInput}
-            value={statement?.existingLoans}
-          />
-          <Form.Control.Feedback type="invalid">
-            სხვა არსებული სესხები (ჯამურად).
-          </Form.Control.Feedback>
-        </div>
-        <div className="form-group col-md-6">
-          <label for="inputPassword4">
-            რამდენს იხდით სესხებში ყოველთვიურად?
-            <span style={{ color: "red" }}>*</span>
-          </label>
-          <input
-            required
-            type="number"
-            className="form-control"
-            id="inputPassword4"
-            placeholder="თანხა"
-            name="montlyPaidAmount"
-            onChange={handleChangeInput}
-            value={statement?.montlyPaidAmount}
-          />
-          <Form.Control.Feedback type="invalid">
-            სხვა არსებული სესხები (ჯამურად).
-          </Form.Control.Feedback>
-        </div>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  სხვა არსებული სესხები (ჯამურად)
+                  <span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ჯამი"
+                  name="existingLoans"
+                  onChange={handleChangeInput}
+                  value={statement?.existingLoans}
+                />
+                <Form.Control.Feedback type="invalid">
+                  სხვა არსებული სესხები (ჯამურად).
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  რამდენს იხდით სესხებში ყოველთვიურად?
+                  <span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="თანხა"
+                  name="montlyPaidAmount"
+                  onChange={handleChangeInput}
+                  value={statement?.montlyPaidAmount}
+                />
+                <Form.Control.Feedback type="invalid">
+                  სხვა არსებული სესხები (ჯამურად).
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputState">
+                  {" "}
+                  გაქვს ნეგატიური სტატუსი?{" "}
+                  <span style={{ color: "red" }}>*</span>
+                </label>
+                <select
+                  required
+                  id="inputState"
+                  className="form-control"
+                  name="negativeStatus"
+                  onChange={handleChangeInput}
+                >
+                  <option selected></option>
+                  <option>მაქვს</option>
+                  <option>მქონდა</option>
+                  <option>არასდროს მქონია</option>
+                </select>
+                <Form.Control.Feedback type="invalid">
+                  აირჩიეთ .
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label>
+                  {" "}
+                  <input
+                    type="checkbox"
+                    checked={overlay}
+                    onChange={handleChangeOverlay}
+                  />{" "}
+                  აპირებთ თუ არა გადაფარვას?{" "}
+                </label>
+              </div>
+              {overlay ? (
+                <>
+                  <div className="form-group col-md-6">
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="inputPassword4"
+                      placeholder="თანხა"
+                      name="overlayAmount"
+                      onChange={handleChangeInput}
+                      value={statement?.overlayAmount}
+                    />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+          </Card.Body>
+        </Card>
+
+
+
       </>
     );
   };
@@ -724,7 +800,7 @@ const MiddleBlock = ({
         setProductTypeName("საკრედიტო ბარათები");
         break;
       case 6:
-        setProductTypeName("ავტოლიზინგი");
+        setProductTypeName("ავტო სესხი");
         break;
 
       default:
@@ -752,7 +828,7 @@ const MiddleBlock = ({
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
           >
             <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("Mortgage")}</div>
             <div className="card-body text-dark">
@@ -769,14 +845,14 @@ const MiddleBlock = ({
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
           >
             <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("BusinessLoan")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="54.svg" height="110px" />
               <p className="card-text">
-              {t("BusinessLoanDesc")}
+                {t("BusinessLoanDesc")}
               </p>
               <span
                 className="btn btn-outline-info"
@@ -788,14 +864,14 @@ const MiddleBlock = ({
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
           >
             <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AgroLoan")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="57.svg" height="110px" />
               <p className="card-text">
-              {t("AgroLoanDesc")}
+                {t("AgroLoanDesc")}
               </p>
               <span
                 className="btn btn-outline-info"
@@ -807,14 +883,14 @@ const MiddleBlock = ({
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "29px" }}
+            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "29px" }}
           >
             <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("CreditCard")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="credit.svg" height="110px" />
               <p className="card-text">
-              {t("CreditCard")}
+                {t("CreditCard")}
               </p>
               <span
                 className="btn btn-outline-info"
@@ -826,14 +902,14 @@ const MiddleBlock = ({
           </div>
           <div
             className="card border-dark mb-3"
-            style={{ maxWidth: "18rem",minWidth: "18rem",height: "19rem", marginLeft: "12px" }}
+            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
           >
             <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AutoLeasing")}</div>
             <div className="card-body text-dark">
               {/* <h5 className="card-title">Dark card title</h5> */}
               <SvgIcon src="auto.svg" height="110px" />
               <p className="card-text">
-              {t("AutoLeasing")}
+                {t("AutoLeasing")}
               </p>
               <span
                 className="btn btn-outline-info"
@@ -908,57 +984,10 @@ const MiddleBlock = ({
                         {productType == 6 ? autoLeasing() : ""}
 
                         {productType == 5 ? creditCard() : ""}
-                        <div className="form-group col-md-6">
-                          <label for="inputState">
-                            {" "}
-                            გაქვს ნეგატიური სტატუსი?{" "}
-                            <span style={{ color: "red" }}>*</span>
-                          </label>
-                          <select
-                            required
-                            id="inputState"
-                            className="form-control"
-                            name="negativeStatus"
-                            onChange={handleChangeInput}
-                          >
-                            <option selected></option>
-                            <option>მაქვს</option>
-                            <option>მქონდა</option>
-                            <option>არასდროს მქონია</option>
-                          </select>
-                          <Form.Control.Feedback type="invalid">
-                            აირჩიეთ .
-                          </Form.Control.Feedback>
-                        </div>
+
                       </div>
-                      <div className="form-group col-md-6">
-                        <label>
-                          {" "}
-                          <input
-                            type="checkbox"
-                            checked={overlay}
-                            onChange={handleChangeOverlay}
-                          />{" "}
-                          აპირებთ თუ არა გადაფარვას?{" "}
-                        </label>
-                      </div>
-                      {overlay ? (
-                        <>
-                          <div className="form-group col-md-6">
-                            <input
-                              type="number"
-                              className="form-control"
-                              id="inputPassword4"
-                              placeholder="თანხა"
-                              name="overlayAmount"
-                              onChange={handleChangeInput}
-                              value={statement?.overlayAmount}
-                            />
-                          </div>
-                        </>
-                      ) : (
-                        ""
-                      )}
+                      <br></br>
+
                       <AntdButton
                         // onClick={sendStatement}
                         htmlType="submit"

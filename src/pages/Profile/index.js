@@ -53,7 +53,7 @@ const Profile = () => {
       case 5:
         return "საკრედიტო ბარათები";
       case 6:
-        return "ავტოლიზინგი";
+        return "ავტო სესხი";
       default:
         return "";
     }
