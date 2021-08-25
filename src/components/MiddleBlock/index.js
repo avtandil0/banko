@@ -251,7 +251,7 @@ const MiddleBlock = ({
                 </select>
               </div>
               <div className="form-group col-md-6">
-                <label for="inputPassword4">თანამსესხებელლის ხელფასი</label>
+                <label for="inputPassword4">თანამსესხებლის ხელფასი</label>
                 <input
                   type="number"
                   className="form-control"
@@ -320,14 +320,14 @@ const MiddleBlock = ({
               </div>
               <div className="form-group col-md-6">
                 <label for="inputPassword4">
-                  საიდენტიფინაციო ნომერი<span style={{ color: "red" }}>*</span>
+                  საიდენტიფიკაციო ნომერი<span style={{ color: "red" }}>*</span>
                 </label>
                 <input
                   required
                   type="text"
                   className="form-control"
                   id="inputPassword4"
-                  placeholder="საიდენტიფინაციო ნომერი"
+                  placeholder="საიდენტიფიკაციო ნომერი"
                   name="taxcode"
                   value={statement?.taxcode}
                   onChange={handleChangeInput}
@@ -543,7 +543,7 @@ const MiddleBlock = ({
 
                     <div className="form-group col-md-5">
                       <label for="inputState">
-                        სად გერიცებათ ხელფასი<span style={{ color: "red" }}>*</span>
+                        სად გერიცხებათ ხელფასი<span style={{ color: "red" }}>*</span>
                       </label>
                       <select
                         required
@@ -597,7 +597,7 @@ const MiddleBlock = ({
 
 
         <Card border="info" style={{ width: '49rem' }}>
-          <Card.Header>დამატენითი ინფორმაცია</Card.Header>
+          <Card.Header>დამატებითი ინფორმაცია</Card.Header>
           <Card.Body>
             <div className="form-row">
               <div className="form-group col-md-6">
