@@ -1,9 +1,10 @@
 import React, { useState, Fragment, lazy, useEffect } from "react";
+import { ArrowDownOutlined, ExceptionOutlined, EditOutlined, DownSquareOutlined } from '@ant-design/icons';
 
 import {
-  Modal,
+  Modal as AntModal,
   Button as AntdButton,
-  Form,
+  Form as AntForm,
   Input,
   Row,
   Col,
@@ -15,13 +16,64 @@ import {
   Tag,
   Space,
   Button,
+  Tooltip,
+  message,
 } from "antd";
+import Form from "react-bootstrap/Form";
+
+import Modal from "react-bootstrap/Modal";
+
 import axios from "axios";
+import { BusinessLoan } from '../../components/LoanTypes/BusinessLoan'
+import { ConsumerLoan } from '../../components/LoanTypes/ConsumerLoan'
+import { AgroLoan } from '../../components/LoanTypes/AgroLoan'
+import { MortgageLoan } from '../../components/LoanTypes/MortgageLoan'
+import { AutoLeasing } from '../../components/LoanTypes/AutoLeasing'
+import { CreditCard } from '../../components/LoanTypes/CreditCard'
 
 const Profile = () => {
   const [user, setUser] = useState();
   const [statements, setStatements] = useState([]);
+  const [statement, setStatement] = useState([]);
   const [statementLoading, setStatementLoading] = useState(false);
+  const [productTypeName, setProductTypeName] = useState("");
+  const [validated, setValidated] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [sentLoading, setSentLoading] = useState(false);
+  const [productType, setProductType] = useState(false);
+  const [agroType, setAgroType] = useState("physical");
+
+  const handleEdit = (item) => {
+    // showModal(item)
+    console.log('item', item)
+    setStatement(item);
+    setProductType(item.loantypeId);
+    switch (item.loantypeId) {
+      case 1:
+        setProductTypeName("სამომხმარებლო");
+        break;
+      case 2:
+        setProductTypeName("იპოთეკური");
+        break;
+      case 3:
+        setProductTypeName("ბიზნეს სესხი");
+        break;
+      case 4:
+        setProductTypeName("აგრო");
+        break;
+      case 5:
+        setProductTypeName("საკრედიტო ბარათები");
+        break;
+      case 6:
+        setProductTypeName("ავტო სესხი");
+        break;
+
+      default:
+        break;
+    }
+    setShow1(true);
+  }
+
 
   useEffect(async () => {
     window.scrollTo(0, 0);
@@ -39,6 +91,37 @@ const Profile = () => {
     setStatements(result.data);
     setStatementLoading(false);
   }, []);
+
+  const handleChangeRadio = (e) => {
+    console.log("aaaa", e.target);
+    setAgroType(e.target.id);
+  };
+
+
+
+  const sendStatement = async (event) => {
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
+
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      console.log("11111", form);
+      return;
+    }
+
+    console.log(statement);
+    setSentLoading(true);
+    var result = await axios.post(
+      `https://weblive.com.ge/api/Home`,
+      statement
+    );
+    console.log("result WorkExperience", result);
+    setSentLoading(false);
+    setShow1(false);
+    message.success(result.data.meessage);
+  };
+
 
   const getIncomeSourceName = (id) => {
     switch (id) {
@@ -60,6 +143,21 @@ const Profile = () => {
   };
 
   const columns = [
+    {
+      title: "მოქმედება",
+      dataIndex: "action",
+      key: "action",
+      render: (text, row) => (
+        <>
+          <Space>
+            <Tooltip placement="bottom" title="რედაქტირება">
+              <Button type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
+              </Button>
+            </Tooltip>
+          </Space>
+        </>
+      ),
+    },
     {
       title: "სტატუსი",
       dataIndex: "status",
@@ -160,6 +258,91 @@ const Profile = () => {
       <br></br>
       <br></br>
       <br></br>
+      <Modal show={show1} onHide={() => setShow1(false)} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>{productTypeName}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={sendStatement}
+          >
+            <div>
+              {productType == 4 ? (
+                <>
+                  <div key={`inline-1`} className="mb-3">
+                    <Form.Check
+                      inline
+                      label="ფიზიკური პირი"
+                      name="group1"
+                      type="radio"
+                      id="physical"
+                      defaultChecked
+                      checked={agroType === "physical"}
+                      onChange={(e) => handleChangeRadio(e)}
+                    />
+                    <Form.Check
+                      inline
+                      label="იურიდიული პირი"
+                      name="group1"
+                      type="radio"
+                      id="legal"
+                      checked={agroType === "legal"}
+                      onChange={(e) => handleChangeRadio(e)}
+                    />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <div className="form-row">
+              {/* {productType == 3 ? businessLoan() : ""} */}
+              {productType == 3 ?
+                <BusinessLoan statement={statement} setStatement={setStatement} /> : ""}
+
+              {/* {productType == 1 ? consumerLoan() : ""} */}
+              {productType == 1 ?
+                <ConsumerLoan statement={statement} setStatement={setStatement} />
+                : ""}
+
+              {/* {productType == 4 ? agroLoan() : ""} */}
+              {productType == 4 ?
+                <AgroLoan statement={statement} setStatement={setStatement} agroType={agroType} /> : ""}
+
+              {/* {consumerLoan()} */}
+              {/* {productType == 2 ? mortgageLoan() : ""} */}
+              {productType == 2 ?
+                <MortgageLoan statement={statement} setStatement={setStatement} /> : ""}
+
+              {/* {productType == 6 ? autoLeasing() : ""} */}
+              {productType == 6 ?
+                <AutoLeasing statement={statement} setStatement={setStatement} />
+                : ""}
+
+              {/* {productType == 5 ? creditCard() : ""} */}
+              {productType == 5 ?
+                <CreditCard statement={statement} setStatement={setStatement} /> : ""}
+
+            </div>
+            <br></br>
+
+            <AntdButton
+              // onClick={sendStatement}
+              htmlType="submit"
+              type="primary"
+              loading={sentLoading}
+            >
+              გაგზავნა
+            </AntdButton>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+
+
       <Row justify="center">
         <Col span={16}>
           <div className="form-row">

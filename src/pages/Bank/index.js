@@ -1,10 +1,10 @@
 import React, { useState, Fragment, lazy, useEffect } from "react";
-import { ArrowDownOutlined, ExceptionOutlined, EditOutlined, DownSquareOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, ExceptionOutlined, EditOutlined, FundViewOutlined } from '@ant-design/icons';
 
 import {
-  Modal,
+  Modal as AntModal,
   Button as AntdButton,
-  Form,
+  Form as AntForm,
   Input,
   Row,
   Col,
@@ -26,12 +26,31 @@ import {
 import axios from "axios";
 import { modalGlobalConfig } from "antd/lib/modal/confirm";
 
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+
+
+import { BusinessLoan } from '../../components/LoanTypes/BusinessLoan'
+import { ConsumerLoan } from '../../components/LoanTypes/ConsumerLoan'
+import { AgroLoan } from '../../components/LoanTypes/AgroLoan'
+import { MortgageLoan } from '../../components/LoanTypes/MortgageLoan'
+import { AutoLeasing } from '../../components/LoanTypes/AutoLeasing'
+import { CreditCard } from '../../components/LoanTypes/CreditCard'
+
 const { Option } = Select;
 
 const Bank = () => {
   const [user, setUser] = useState();
   const [statements, setStatements] = useState([]);
   const [statementLoading, setStatementLoading] = useState(false);
+  const [statement, setStatement] = useState([]);
+  const [show1, setShow1] = useState(false);
+  const [productTypeName, setProductTypeName] = useState("");
+  const [productType, setProductType] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [agroType, setAgroType] = useState("physical");
+  const [sentLoading, setSentLoading] = useState(false);
+
 
   const [modal, setModal] = useState({
     visible: false,
@@ -85,6 +104,43 @@ const Bank = () => {
     console.log('item', item)
   }
 
+  const handleChangeRadio = (e) => {
+    console.log("aaaa", e.target);
+    setAgroType(e.target.id);
+  };
+
+  const handleView = (item) => {
+    console.log('item', item)
+    setStatement(item);
+    setProductType(item.loantypeId);
+    switch (item.loantypeId) {
+      case 1:
+        setProductTypeName("სამომხმარებლო");
+        break;
+      case 2:
+        setProductTypeName("იპოთეკური");
+        break;
+      case 3:
+        setProductTypeName("ბიზნეს სესხი");
+        break;
+      case 4:
+        setProductTypeName("აგრო");
+        break;
+      case 5:
+        setProductTypeName("საკრედიტო ბარათები");
+        break;
+      case 6:
+        setProductTypeName("ავტო სესხი");
+        break;
+
+      default:
+        break;
+    }
+    setShow1(true);
+    console.log('item', item)
+  }
+
+
   const getIncomeSourceName = (id) => {
     switch (id) {
       case 1:
@@ -124,6 +180,10 @@ const Bank = () => {
 
             <Tooltip placement="bottom" title="რედაქტირება">
               <Button type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
+              </Button>
+            </Tooltip>
+            <Tooltip placement="bottom" title="ნახვა">
+              <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
           </Space>
@@ -226,7 +286,91 @@ const Bank = () => {
   ];
   return (
     <div>
-      <Modal title="რედაქტირება" visible={modal.visible} onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
+       <Modal show={show1} onHide={() => setShow1(false)} size="lg">
+        <Modal.Header closeButton>
+          <Modal.Title>{productTypeName}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form
+            noValidate
+            validated={validated}
+            // onSubmit={sendStatement}
+          >
+            <div>
+              {productType == 4 ? (
+                <>
+                  <div key={`inline-1`} className="mb-3">
+                    <Form.Check
+                      inline
+                      label="ფიზიკური პირი"
+                      name="group1"
+                      type="radio"
+                      id="physical"
+                      defaultChecked
+                      checked={agroType === "physical"}
+                      onChange={(e) => handleChangeRadio(e)}
+                    />
+                    <Form.Check
+                      inline
+                      label="იურიდიული პირი"
+                      name="group1"
+                      type="radio"
+                      id="legal"
+                      checked={agroType === "legal"}
+                      onChange={(e) => handleChangeRadio(e)}
+                    />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+
+            <div className="form-row">
+              {/* {productType == 3 ? businessLoan() : ""} */}
+              {productType == 3 ?
+                <BusinessLoan statement={statement} setStatement={setStatement} /> : ""}
+
+              {/* {productType == 1 ? consumerLoan() : ""} */}
+              {productType == 1 ?
+                <ConsumerLoan statement={statement} setStatement={setStatement} />
+                : ""}
+
+              {/* {productType == 4 ? agroLoan() : ""} */}
+              {productType == 4 ?
+                <AgroLoan statement={statement} setStatement={setStatement} agroType={agroType} /> : ""}
+
+              {/* {consumerLoan()} */}
+              {/* {productType == 2 ? mortgageLoan() : ""} */}
+              {productType == 2 ?
+                <MortgageLoan statement={statement} setStatement={setStatement} /> : ""}
+
+              {/* {productType == 6 ? autoLeasing() : ""} */}
+              {productType == 6 ?
+                <AutoLeasing statement={statement} setStatement={setStatement} />
+                : ""}
+
+              {/* {productType == 5 ? creditCard() : ""} */}
+              {productType == 5 ?
+                <CreditCard statement={statement} setStatement={setStatement} /> : ""}
+
+            </div>
+            <br></br>
+
+            {/* <AntdButton
+              // onClick={sendStatement}
+              htmlType="submit"
+              type="primary"
+              loading={sentLoading}
+            >
+              გაგზავნა
+            </AntdButton> */}
+          </Form>
+        </Modal.Body>
+        <Modal.Footer></Modal.Footer>
+      </Modal>
+      
+      <AntModal title="რედაქტირება" visible={modal.visible} onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
         cancelText="დახურვა">
         <Space size="large">
           <Select value={modal.type} style={{ width: 200 }} onChange={modalSelectChange}>
@@ -240,7 +384,7 @@ const Bank = () => {
           <InputNumber value={modal.amount} onChange={modalAmountChange}/>
         </Space>
 
-      </Modal>
+      </AntModal>
       <br></br>
       <br></br>
 

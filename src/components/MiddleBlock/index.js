@@ -14,6 +14,13 @@ import Tab from "react-bootstrap/Tab";
 import * as S from "./styles";
 import "./index.css"; // Tell webpack that Button.js uses these styles
 import axios from "axios";
+import { ConsumerLoan } from '../LoanTypes/ConsumerLoan'
+import { MortgageLoan } from '../LoanTypes/MortgageLoan'
+import { BusinessLoan } from '../LoanTypes/BusinessLoan'
+import { AgroLoan } from '../LoanTypes/AgroLoan'
+import { CreditCard } from '../LoanTypes/CreditCard'
+import { AutoLeasing } from '../LoanTypes/AutoLeasing'
+// import  ComponentA  from '../LoanTypes'
 
 const Button = lazy(() => import("../../common/Button"));
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
@@ -972,18 +979,32 @@ const MiddleBlock = ({
                       </div>
 
                       <div className="form-row">
-                        {productType == 3 ? businessLoan() : ""}
+                        {/* {productType == 3 ? businessLoan() : ""} */}
+                        {productType == 3 ? 
+                         <BusinessLoan statement={statement} setStatement={setStatement} /> : ""}
 
-                        {productType == 1 ? consumerLoan() : ""}
+                        {/* {productType == 1 ? consumerLoan() : ""} */}
+                        {productType == 1 ?
+                          <ConsumerLoan statement={statement} setStatement={setStatement} />
+                          : ""}
 
-                        {productType == 4 ? agroLoan() : ""}
+                        {/* {productType == 4 ? agroLoan() : ""} */}
+                        {productType == 4 ? 
+                         <AgroLoan statement={statement} setStatement={setStatement} agroType={agroType} /> : ""}
 
                         {/* {consumerLoan()} */}
-                        {productType == 2 ? mortgageLoan() : ""}
+                        {/* {productType == 2 ? mortgageLoan() : ""} */}
+                        {productType == 2 ?
+                         <MortgageLoan statement={statement} setStatement={setStatement} /> : ""}
 
-                        {productType == 6 ? autoLeasing() : ""}
+                        {/* {productType == 6 ? autoLeasing() : ""} */}
+                        {productType == 6 ? 
+                         <AutoLeasing statement={statement} setStatement={setStatement} />
+                          : ""}
 
-                        {productType == 5 ? creditCard() : ""}
+                        {/* {productType == 5 ? creditCard() : ""} */}
+                        {productType == 5 ? 
+                        <CreditCard statement={statement} setStatement={setStatement} /> : ""}
 
                       </div>
                       <br></br>
