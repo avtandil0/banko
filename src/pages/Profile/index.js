@@ -112,14 +112,14 @@ const Profile = () => {
 
     console.log(statement);
     setSentLoading(true);
-    var result = await axios.post(
-      `https://weblive.com.ge/api/Home`,
-      statement
-    );
-    console.log("result WorkExperience", result);
+    // var result = await axios.post(
+    //   `https://weblive.com.ge/api/Home`,
+    //   statement
+    // );
+    // console.log("result WorkExperience", result);
     setSentLoading(false);
     setShow1(false);
-    message.success(result.data.meessage);
+    // message.success(result.data.meessage);
   };
 
 
@@ -335,7 +335,7 @@ const Profile = () => {
               type="primary"
               loading={sentLoading}
             >
-              გაგზავნა
+              შენახვა
             </AntdButton>
           </Form>
         </Modal.Body>
