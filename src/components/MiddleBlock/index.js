@@ -788,7 +788,13 @@ const MiddleBlock = ({
     setProductType(index);
     setShow1(true);
 
-    setStatement({ ...statement, ["loantypeId"]: index });
+    console.log('statement',statement)
+    if(statement.loantypeId == index){
+      setStatement({ ...statement, ["loantypeId"]: index });
+    }
+    else{
+      setStatement({  ["loantypeId"]: index });
+    }
 
     switch (index) {
       case 1:

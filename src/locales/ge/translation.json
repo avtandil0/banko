@@ -61,5 +61,7 @@
   "Your Name": "Tu nombre",
   "Email" : "მეილი",
   "Your Email": "Tu correo electrónico",
-  "Sent": "გაგზავნა"
+  "Sent": "გაგზავნა",
+  "LegalIssues":"იურიდიული საკითხები",
+  "TermsAndConditions":"წესები და პირობები"
 }

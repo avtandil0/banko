@@ -61,5 +61,7 @@
   "Email" : "Email",
   "Text" : "Text",
   "Your Email": "Your Message",
-  "Sent": "Sent"
+  "Sent": "Sent",
+  "LegalIssues":"Legal issues",
+  "TermsAndConditions": "Terms And Conditions"
 }
