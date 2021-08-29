@@ -1,5 +1,5 @@
 import React, { useState, Fragment, lazy, useEffect } from "react";
-import { ArrowDownOutlined, ExceptionOutlined, EditOutlined, FundViewOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, CheckOutlined, EditOutlined, FundViewOutlined } from '@ant-design/icons';
 
 import {
   Modal as AntModal,
@@ -20,7 +20,8 @@ import {
   Button,
   Tooltip,
   PageHeader,
-  InputNumber
+  InputNumber,
+  message,
 
 } from "antd";
 import axios from "axios";
@@ -50,6 +51,8 @@ const Bank = () => {
   const [validated, setValidated] = useState(false);
   const [agroType, setAgroType] = useState("physical");
   const [sentLoading, setSentLoading] = useState(false);
+  const [receiveLoading, setReceiveLoading] = useState(false);
+  const [visible, setVisible] = React.useState(false);
 
 
   const [modal, setModal] = useState({
@@ -63,18 +66,30 @@ const Bank = () => {
     setModal({ ...modal, type: type });
   }
 
-  
+
   const modalAmountChange = (amount) => {
     console.log(modal, amount)
     setModal({ ...modal, amount: amount });
   }
-  
+
   const showModal = (item) => {
     console.log(item)
-    setModal({ ...modal, visible: true, amount: item.requestedAmount, type: item.loantypeId.toString() });
+    setModal({ ...modal, id: item.id, visible: true, amount: item.requestedAmount, type: item.loantypeId.toString() });
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
+    console.log(modal)
+    var result = await axios.post(
+      // `https://weblive.com.ge/api/Home`,
+      `https://localhost:44314/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`//დამუშავების პროცესში
+    );
+
+    message.open({
+      key: 'updatable',
+      type: result.data.isSuccess ? 'succes' : 'error',
+      content: result.data.meessage
+    });
+    console.log(result)
     setModal({ ...modal, visible: false });
   };
 
@@ -98,6 +113,30 @@ const Bank = () => {
     setStatementLoading(false);
   }, []);
 
+  const showPopconfirm = () => {
+    setVisible(true);
+  };
+
+  const confirmReceive = async (item) => {
+    setReceiveLoading(true)
+    setVisible(true)
+    message.loading({ content: 'Loading...', key: 'updatable' });
+
+    var result = await axios.put(
+      // `https://weblive.com.ge/api/Home`,
+      `https://localhost:44314/api/Statement/${user.id}/${item.id}/${2}`//დამუშავების პროცესში
+    );
+    setReceiveLoading(false)
+    setVisible(false)
+    console.log(result)
+    // if(resu)
+    message.open({
+      key: 'updatable',
+      type: result.data.isSuccess ? 'succes' : 'error',
+      content: result.data.meessage
+    });
+    // console.log(item)
+  }
 
   const handleEdit = (item) => {
     showModal(item)
@@ -168,6 +207,20 @@ const Bank = () => {
       render: (id, row) => (
         <>
           <Space>
+            <Tooltip placement="bottom" title="მიღება">
+              <Popconfirm
+                title="გსურთ მიღება?"
+                onConfirm={() => confirmReceive(row)}
+                // onCancel={cancel}
+                // visible={visible}
+                okText="დიახ"
+                cancelText="არა"
+              >
+                <Button type="primary" key={id} icon={<CheckOutlined style={{ color: 'white' }} />}>
+                </Button>
+              </Popconfirm>
+
+            </Tooltip>
 
             <Tooltip placement="bottom" title="ჩამოტვირთვა">
               {/* <Popconfirm title="გსურთ მიღება? " okText="დიახ" cancelText="არა"> */}
@@ -286,7 +339,7 @@ const Bank = () => {
   ];
   return (
     <div>
-       <Modal show={show1} onHide={() => setShow1(false)} size="lg">
+      <Modal show={show1} onHide={() => setShow1(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{productTypeName}</Modal.Title>
         </Modal.Header>
@@ -294,7 +347,7 @@ const Bank = () => {
           <Form
             noValidate
             validated={validated}
-            // onSubmit={sendStatement}
+          // onSubmit={sendStatement}
           >
             <div>
               {productType == 4 ? (
@@ -369,7 +422,7 @@ const Bank = () => {
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>
-      
+
       <AntModal title="რედაქტირება" visible={modal.visible} onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
         cancelText="დახურვა">
         <Space size="large">
@@ -381,7 +434,7 @@ const Bank = () => {
             <Option value="5">საკრედიტო ბარათები</Option>
             <Option value="6">ავტო სესხი</Option>
           </Select>
-          <InputNumber value={modal.amount} onChange={modalAmountChange}/>
+          <InputNumber value={modal.amount} onChange={modalAmountChange} />
         </Space>
 
       </AntModal>

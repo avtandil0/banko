@@ -112,11 +112,12 @@ const Profile = () => {
 
     console.log(statement);
     setSentLoading(true);
-    // var result = await axios.post(
-    //   `https://weblive.com.ge/api/Home`,
-    //   statement
-    // );
-    // console.log("result WorkExperience", result);
+    var result = await axios.put(
+      // `https://weblive.com.ge/api/Home`,
+      `https://localhost:44314/api/Home/${user.id}`,
+      statement
+    );
+    console.log("result WorkExperience", result);
     setSentLoading(false);
     setShow1(false);
     // message.success(result.data.meessage);
