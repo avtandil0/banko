@@ -90,7 +90,7 @@ export function AutoLeasing({ statement, setStatement }) {
           <Card.Body>
             <div className="form-row">
               <div className="form-group col-md-6">
-                <label for="inputPassword4">ავტომობილის ღირებულება</label>
+                <label for="inputPassword4" style={{fontSize:'15px'}}>ავტომობილის ღირებულება</label>
                 <input
                   type="number"
                   className="form-control"
@@ -102,7 +102,7 @@ export function AutoLeasing({ statement, setStatement }) {
                 />
               </div>
               <div className="form-group col-md-6">
-                <label for="inputPassword4">ავტომობილის მარკა</label>
+                <label for="inputPassword4" style={{fontSize:'15px'}}>ავტომობილის მარკა</label>
                 <input
                   type="text"
                   className="form-control"
@@ -114,7 +114,7 @@ export function AutoLeasing({ statement, setStatement }) {
                 />
               </div>
               <div className="form-group col-md-6">
-                <label for="inputPassword4">ავტომობილის გამოშვების წელი</label>
+                <label for="inputPassword4" style={{fontSize:'15px'}}>ავტომობილის გამოშვების წელი</label>
                 <input
                   type="number"
                   className="form-control"

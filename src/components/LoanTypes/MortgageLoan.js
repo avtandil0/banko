@@ -90,7 +90,7 @@ export function MortgageLoan({ statement, setStatement }) {
                 <Card.Body>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">თანამსესხებელი</label>
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>თანამსესხებელი</label>
                             <select
                                 id="inputState"
                                 className="form-control"
@@ -106,7 +106,7 @@ export function MortgageLoan({ statement, setStatement }) {
                             </select>
                         </div>
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">თანამსესხებლის ხელფასი</label>
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>თანამსესხებლის ხელფასი (ლარში)</label>
                             <input
                                 type="number"
                                 className="form-control"
@@ -118,7 +118,7 @@ export function MortgageLoan({ statement, setStatement }) {
                             />
                         </div>
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">შესაძენი ქონების ღირებულება</label>
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>შესაძენი ქონების ღირებულება(ლარში)</label>
                             <input
                                 type="number"
                                 className="form-control"
@@ -130,7 +130,7 @@ export function MortgageLoan({ statement, setStatement }) {
                             />
                         </div>
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">ზუსტი მიზნობრიობა (აღწერა)</label>
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>ზუსტი მიზნობრიობა (აღწერა)</label>
                             <input
                                 type="text"
                                 className="form-control"

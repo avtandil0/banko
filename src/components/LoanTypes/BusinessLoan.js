@@ -89,7 +89,7 @@ export function BusinessLoan({ statement, setStatement }) {
                 <Card.Body>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>
                                 კომპანიის დასახელება<span style={{ color: "red" }}>*</span>
                             </label>
                             <input
@@ -107,7 +107,7 @@ export function BusinessLoan({ statement, setStatement }) {
                             </Form.Control.Feedback>
                         </div>
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>
                                 საიდენტიფიკაციო ნომერი<span style={{ color: "red" }}>*</span>
                             </label>
                             <input

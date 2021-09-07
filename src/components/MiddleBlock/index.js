@@ -2,6 +2,8 @@ import { useState, Fragment, lazy, useEffect } from "react";
 import {
   Row,
   message,
+  Col,
+  Tabs,
   Button as AntdButton,
   Modal as AntModal,
 } from "antd";
@@ -25,6 +27,8 @@ import { AutoLeasing } from '../LoanTypes/AutoLeasing'
 const Button = lazy(() => import("../../common/Button"));
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 
+const { TabPane } = Tabs;
+
 const MiddleBlock = ({
   title,
   content,
@@ -32,7 +36,6 @@ const MiddleBlock = ({
   t,
   isAuthorize,
   setIsAuthorize,
-  setOpenLoginRegisterDialog,
 }) => {
   const [show1, setShow1] = useState(false);
   const [productType, setProductType] = useState(false);
@@ -53,6 +56,12 @@ const MiddleBlock = ({
   const [validated, setValidated] = useState(false);
   const [deposit, setDeposit] = useState(0);
   console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaa", statement);
+
+  const [user, setUser] = useState();
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
+    useState(false);
+    const [registerLoading, setRegisterLoading] = useState(false);
 
   useEffect(async () => {
     // Good!
@@ -79,6 +88,104 @@ const MiddleBlock = ({
     setMunicipals(municipalsRes.data)
 
   }, []);
+
+  const handleSubmit = (event) => {
+    console.log("bootsrtap sumit", user);
+
+    handleLogin();
+    const form = event.currentTarget;
+    // if (form.checkValidity() === false) {
+    //   console.log('33333333')
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    // }
+    console.log("22222222222");
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    console.log("key code", e.keyCode, e);
+    // if (e.charCode === 13) {
+    //   if (!user.userName || !user.password) {
+    //     return;
+    //   }
+    //   // handleLogin();
+    // }
+  };
+
+  const onClickRegister = async (event) => {
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
+    const form = event.currentTarget;
+
+    if (user?.password != user?.rePassword) {
+      message.error("პაროლი და დასტური უნდა ემთხვეოდეს ერთმანეთს");
+      return;
+    }
+
+    if (form.checkValidity() === false) {
+      console.log("11111", form);
+      return;
+    }
+
+    console.log("aaaaaaa", user);
+    // console.log('valdiate', Object.entries(user))
+    // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
+    setRegisterLoading(true);
+    var result = await axios.post("https://weblive.com.ge/api/account", user);
+    if (result.data.isSuccess) {
+      message.success(result.data.meessage);
+      setVisibleLoginRegisterDialog(false);
+      setRegisterLoading(false);
+      setUser({ ...user, userName: "", password: "", phoneNumber: "", rePassword: "", email: "", name: "", lastName: "", personalId: "", birthDate: "", address: "" });
+      setValidated(false);
+    } else {
+      message.error(result.data.meessage);
+      setRegisterLoading(false);
+    }
+    console.log("result ", result);
+  };
+
+  const handleLogin = async () => {
+    console.log("user", user);
+    if (!user?.userName || !user?.password) {
+      setValidated(true);
+      return;
+    }
+    setLoginLoading(true);
+    var result = await axios.get(
+      `https://weblive.com.ge/api/account/${user.userName}/${user.password}`
+      // {
+      //   params: { ...user },
+      // }
+    );
+    console.log("result", result);
+    if (result.data.token) {
+      // message.success(result.data.meessage);
+      localStorage.setItem("user", JSON.stringify(result.data));
+      window.location.reload()
+      return;
+      setVisibleLoginRegisterDialog(false);
+      setIsAuthorize(true);
+      setCurrentUser(result.data);
+      setUser({ ...user, userName: "", password: "" });
+      setValidated(false);
+      window.location.reload()
+    } else {
+      message.error("მომხმარებელი ან პაროლი არასწორია");
+    }
+    setLoginLoading(false);
+    console.log("result ", result);
+  };
+
+  const handleChangeInputUser = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+    console.log("user", user);
+  };
 
   const handleChangeInput = (e) => {
     console.log('change', e.target.name, e.target.value)
@@ -775,13 +882,14 @@ const MiddleBlock = ({
       //     'განცხადების შესატანად გაიარეთ ავტორიზაცია.',
       //     placement: 'bottomRight'
       // });
-      AntModal.warning({
-        title: "შეცდომა",
-        content: "განცხადების შესავსებად გაიარეთ ავტორიზაცია",
-        oklButtonProps: { style: { display: "none" } },
-      });
-      console.log(777777);
-      // setOpenLoginRegisterDialog(true)
+      // AntModal.warning({
+      //   title: "შეცდომა",
+      //   content: "განცხადების შესავსებად გაიარეთ ავტორიზაცია",
+      //   oklButtonProps: { style: { display: "none" } },
+      // });
+      // console.log(777777);
+      console.log('visi', visibleLoginRegisterDialog)
+      setVisibleLoginRegisterDialog(true)
       return;
     }
     console.log("productType", productType);
@@ -822,6 +930,285 @@ const MiddleBlock = ({
   };
   return (
     <S.MiddleBlock id="products">
+
+<AntModal
+        visible={visibleLoginRegisterDialog}
+        onCancel={() => setVisibleLoginRegisterDialog(false)}
+        footer={null}
+        width={800}
+      >
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="ავტორიზაცია" key="1">
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Row>
+                <Form.Label column lg={3}>
+                  მომხმარებლის სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="userName"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.userName}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    type="password"
+                    placeholder="პაროლი"
+                    required
+                    name="password"
+                    value={user?.password}
+                    onChange={handleChangeInputUser}
+                    onKeyPress={handleKeypress}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}></Form.Label>
+                <Col lg={12}>
+                  <AntdButton htmlType="submit" loading={loginLoading}>
+                    შესვლა
+                  </AntdButton>
+                </Col>
+              </Row>
+            </Form>
+
+          </TabPane>
+          <TabPane tab="რეგისტრაცია" key="2">
+            <Form noValidate validated={validated} onSubmit={onClickRegister}>
+              <Row>
+                <Form.Label column lg={3}>
+                  მობილურის ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="მობილურის ნომერი"
+                    name="phoneNumber"
+                    value={user?.phoneNumber}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მომხმარებლის სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="userName"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.userName}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="password"
+                    name="password"
+                    placeholder="პაროლი"
+                    value={user?.password}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  გაიმეორეთ პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="password"
+                    name="rePassword"
+                    placeholder="გაიმეორეთ პაროლი"
+                    value={user?.rePassword}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    გაიმეორეთ პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  ელ. ფოსტა
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="email"
+                    placeholder=" ელ. ფოსტა"
+                    value={user?.email}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ ელ. ფოსტა.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="name"
+                    placeholder="სახელი"
+                    value={user?.name}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  გვარი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="lastName"
+                    placeholder="გვარი"
+                    value={user?.lastName}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ გვარი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პირადი ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="personalId"
+                    placeholder="პირადი ნომერი"
+                    value={user?.personalId}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პირადი ნომერი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  დაბადების თარიღი
+                </Form.Label>
+                <Col lg={16}>
+                  {/* <Form.Control
+                    required
+                    type="text"
+                    name="birthDate"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.birthDate}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                  დაბადების თარიღი.
+                  </Form.Control.Feedback> */}
+                  <Form.Control
+                    autoComplete="off"
+                    required
+                    type="date"
+                    name="birthDate"
+                    placeholder="დაბადების თარიღი"
+                    value={user?.birthDate}
+                    onChange={handleChangeInputUser}
+                    isValid={user?.birthDate != null}
+                  />
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მისამართი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="address"
+                    placeholder="მისამართი"
+                    value={user?.address}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ მისამართი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}></Form.Label>
+                <Col lg={12}>
+                  <AntdButton htmlType="submit" loading={registerLoading}>
+                    რეგისტრაცია
+                  </AntdButton>
+                </Col>
+              </Row>
+            </Form>
+
+          </TabPane>
+        </Tabs>
+      </AntModal>
+
+
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
           <br></br>
@@ -986,7 +1373,7 @@ const MiddleBlock = ({
 
                       <div className="form-row">
                         {/* {productType == 3 ? businessLoan() : ""} */}
-                        {productType == 3 ? 
+                        {productType == 3 ?
                          <BusinessLoan statement={statement} setStatement={setStatement} /> : ""}
 
                         {/* {productType == 1 ? consumerLoan() : ""} */}
@@ -995,7 +1382,7 @@ const MiddleBlock = ({
                           : ""}
 
                         {/* {productType == 4 ? agroLoan() : ""} */}
-                        {productType == 4 ? 
+                        {productType == 4 ?
                          <AgroLoan statement={statement} setStatement={setStatement} agroType={agroType} /> : ""}
 
                         {/* {consumerLoan()} */}
@@ -1004,12 +1391,12 @@ const MiddleBlock = ({
                          <MortgageLoan statement={statement} setStatement={setStatement} /> : ""}
 
                         {/* {productType == 6 ? autoLeasing() : ""} */}
-                        {productType == 6 ? 
+                        {productType == 6 ?
                          <AutoLeasing statement={statement} setStatement={setStatement} />
                           : ""}
 
                         {/* {productType == 5 ? creditCard() : ""} */}
-                        {productType == 5 ? 
+                        {productType == 5 ?
                         <CreditCard statement={statement} setStatement={setStatement} /> : ""}
 
                       </div>
