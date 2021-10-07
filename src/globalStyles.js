@@ -4,8 +4,11 @@ const Styles = createGlobalStyle`
 
     body,
     html,
-    a {
-        font-family: 'Ubuntu', sans-serif;
+    a,
+    div
+     {
+        /* font-family: 'Ubuntu', sans-serif; */
+        font-family: 'MyFont'
     }
 
 
@@ -16,6 +19,7 @@ const Styles = createGlobalStyle`
         outline: 0;
         background: #fff;
         overflow-x: hidden;
+
     }
 
     a:hover {
@@ -32,7 +36,7 @@ const Styles = createGlobalStyle`
         color: #0a1f44;
         font-size: 2.575rem;
         line-height: 3.0625rem;
-      
+
         @media only screen and (max-width: 414px) {
           font-size: 1.625rem;
         }
@@ -41,6 +45,7 @@ const Styles = createGlobalStyle`
     p {
         color: #343D48;
         font-size: 1.125rem;
+        font-family: 'MyFont2'
     }
 
     h1 {
@@ -56,7 +61,7 @@ const Styles = createGlobalStyle`
             color: #2e186a;
         }
     }
-    
+
     *:focus {
         outline: none;
     }

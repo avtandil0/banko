@@ -16,12 +16,12 @@ import Tab from "react-bootstrap/Tab";
 import * as S from "./styles";
 import "./index.css"; // Tell webpack that Button.js uses these styles
 import axios from "axios";
-import { ConsumerLoan } from '../LoanTypes/ConsumerLoan'
-import { MortgageLoan } from '../LoanTypes/MortgageLoan'
-import { BusinessLoan } from '../LoanTypes/BusinessLoan'
-import { AgroLoan } from '../LoanTypes/AgroLoan'
-import { CreditCard } from '../LoanTypes/CreditCard'
-import { AutoLeasing } from '../LoanTypes/AutoLeasing'
+import { ConsumerLoan } from "../LoanTypes/ConsumerLoan";
+import { MortgageLoan } from "../LoanTypes/MortgageLoan";
+import { BusinessLoan } from "../LoanTypes/BusinessLoan";
+import { AgroLoan } from "../LoanTypes/AgroLoan";
+import { CreditCard } from "../LoanTypes/CreditCard";
+import { AutoLeasing } from "../LoanTypes/AutoLeasing";
 // import  ComponentA  from '../LoanTypes'
 
 const Button = lazy(() => import("../../common/Button"));
@@ -61,7 +61,7 @@ const MiddleBlock = ({
   const [loginLoading, setLoginLoading] = useState(false);
   const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
     useState(false);
-    const [registerLoading, setRegisterLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
 
   useEffect(async () => {
     // Good!
@@ -73,7 +73,7 @@ const MiddleBlock = ({
     console.log("currentUser", currentUser);
 
     var result1 = await axios.get(`https://weblive.com.ge/api/IncomeSource`);
-    console.log('result IncomeSource', result1)
+    console.log("result IncomeSource", result1);
     setIncomeSource(result1.data);
     var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
     console.log("result WorkExperience", result2);
@@ -81,12 +81,11 @@ const MiddleBlock = ({
 
     var regionsRes = await axios.get(`https://weblive.com.ge/api/Region`);
     console.log("result regions", regionsRes);
-    setRegions(regionsRes.data)
+    setRegions(regionsRes.data);
 
     var municipalsRes = await axios.get(`https://weblive.com.ge/api/Municipal`);
     console.log("result municipals", municipalsRes);
-    setMunicipals(municipalsRes.data)
-
+    setMunicipals(municipalsRes.data);
   }, []);
 
   const handleSubmit = (event) => {
@@ -141,7 +140,19 @@ const MiddleBlock = ({
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
       setRegisterLoading(false);
-      setUser({ ...user, userName: "", password: "", phoneNumber: "", rePassword: "", email: "", name: "", lastName: "", personalId: "", birthDate: "", address: "" });
+      setUser({
+        ...user,
+        userName: "",
+        password: "",
+        phoneNumber: "",
+        rePassword: "",
+        email: "",
+        name: "",
+        lastName: "",
+        personalId: "",
+        birthDate: "",
+        address: "",
+      });
       setValidated(false);
     } else {
       message.error(result.data.meessage);
@@ -167,14 +178,14 @@ const MiddleBlock = ({
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
-      window.location.reload()
+      window.location.reload();
       return;
       setVisibleLoginRegisterDialog(false);
       setIsAuthorize(true);
       setCurrentUser(result.data);
       setUser({ ...user, userName: "", password: "" });
       setValidated(false);
-      window.location.reload()
+      window.location.reload();
     } else {
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
@@ -188,35 +199,35 @@ const MiddleBlock = ({
   };
 
   const handleChangeInput = (e) => {
-    console.log('change', e.target.name, e.target.value)
-    if (e.target.name == 'regionId') {
-      var cc = [...municipals.filter(r => r.regionId == e.target.value)];
-      console.log(111111111111, cc)
+    console.log("change", e.target.name, e.target.value);
+    if (e.target.name == "regionId") {
+      var cc = [...municipals.filter((r) => r.regionId == e.target.value)];
+      console.log(111111111111, cc);
 
-      setControledMunicipals([...cc])
+      setControledMunicipals([...cc]);
     }
-    console.log('res', res)
+    console.log("res", res);
     // setStatement({...statement, deposit: res})
     //10%
     setStatement({ ...statement, [e.target.name]: e.target.value });
 
     //setStatement({...statement, kk: res})
-    if (e.target.name == 'term' || e.target.name == 'requestedAmount') {
+    if (e.target.name == "term" || e.target.name == "requestedAmount") {
       let t;
       let r;
-      if (e.target.name == 'requestedAmount') {
+      if (e.target.name == "requestedAmount") {
         t = statement.term;
         r = e.target.value;
       }
-      if (e.target.name == 'term') {
+      if (e.target.name == "term") {
         t = e.target.value;
         r = statement.requestedAmount;
       }
       let per = 1 / 100;
-      let x = Math.pow((1 + per), t);
-      console.log('xxxxxxxxxxx', x)
-      var res = r / ((1 - (1 / x)) / per);
-      setDeposit(res.toFixed(2))
+      let x = Math.pow(1 + per, t);
+      console.log("xxxxxxxxxxx", x);
+      var res = r / ((1 - 1 / x) / per);
+      setDeposit(res.toFixed(2));
     }
 
     console.log("statement", statement);
@@ -235,10 +246,7 @@ const MiddleBlock = ({
 
     console.log(statement);
     setSentLoading(true);
-    var result = await axios.post(
-      `https://weblive.com.ge/api/Home`,
-      statement
-    );
+    var result = await axios.post(`https://weblive.com.ge/api/Home`, statement);
     console.log("result WorkExperience", result);
     setSentLoading(false);
     setShow1(false);
@@ -291,7 +299,7 @@ const MiddleBlock = ({
       <>
         {consumerLoan()}
         <br></br>
-        <Card border="info" style={{ width: '49rem' }}>
+        <Card border="info" style={{ width: "49rem" }}>
           <Card.Header>ინფორმაცია ავტომობილზე</Card.Header>
           <Card.Body>
             <div className="form-row">
@@ -334,7 +342,6 @@ const MiddleBlock = ({
             </div>
           </Card.Body>
         </Card>
-
       </>
     );
   };
@@ -344,7 +351,7 @@ const MiddleBlock = ({
       <>
         {consumerLoan()}
         <br></br>
-        <Card border="info" style={{ width: '49rem' }}>
+        <Card border="info" style={{ width: "49rem" }}>
           <Card.Header>ინფორმაცია იპოთეკაზე</Card.Header>
           <Card.Body>
             <div className="form-row">
@@ -403,14 +410,13 @@ const MiddleBlock = ({
             </div>
           </Card.Body>
         </Card>
-
       </>
     );
   };
   const businessLoan = () => {
     return (
       <>
-        <Card border="info" style={{ width: '49rem' }}>
+        <Card border="info" style={{ width: "49rem" }}>
           <Card.Header>კომპანიის შესახებ</Card.Header>
           <Card.Body>
             <div className="form-row">
@@ -472,11 +478,11 @@ const MiddleBlock = ({
   const consumerLoan = () => {
     return (
       <>
-        <Card border="info" style={{ width: '49rem' }}>
+        <Card border="info" style={{ width: "49rem" }}>
           <Card.Header>მოთხოვნილი პროდუქტი</Card.Header>
           <Card.Body>
             <Card.Text>
-              <div >
+              <div>
                 <div className="form-row">
                   <div className="col-md-4">
                     <label for="inputEmail4">
@@ -538,12 +544,9 @@ const MiddleBlock = ({
                     )}
                   </div>
                   <div className=" col-md-4">
-
                     {statement?.loantypeId != 5 ? (
                       <>
-                        <label for="inputPassword4">
-                          შენატანი (სავარაუდო)
-                        </label>
+                        <label for="inputPassword4">შენატანი (სავარაუდო)</label>
                         <input
                           disabled
                           type="number"
@@ -552,30 +555,29 @@ const MiddleBlock = ({
                           placeholder="შენატანი"
                           name="deposit"
                           value={deposit}
-                        // onChange={handleChangeInput}
+                          // onChange={handleChangeInput}
                         />
                       </>
                     ) : (
                       ""
                     )}
-
                   </div>
                 </div>
               </div>
             </Card.Text>
           </Card.Body>
         </Card>
-        <br>
-        </br>
+        <br></br>
 
-        <Card border="info" style={{ width: '49rem' }}>
+        <Card border="info" style={{ width: "49rem" }}>
           <Card.Header>შემოსავლები</Card.Header>
           <Card.Body>
             <Card.Text>
               <div className="form-row">
                 <div className="form-group col-md-5">
                   <label for="inputPassword4">
-                    თვიური საშუალო შემოსავალი<span style={{ color: "red" }}>*</span>
+                    თვიური საშუალო შემოსავალი
+                    <span style={{ color: "red" }}>*</span>
                   </label>
                   <input
                     required
@@ -618,11 +620,10 @@ const MiddleBlock = ({
                 </div>
                 <div className="form-group col-md-4">
                   {statement?.loantypeId == 3 ||
-                    (statement?.loantypeId == 4 && agroType == "legal") ? (
+                  (statement?.loantypeId == 4 && agroType == "legal") ? (
                     ""
                   ) : (
                     <>
-
                       {/* {statement?.incomeSourceId == 7 ? ( */}
                       <>
                         <label for="inputPassword4">
@@ -643,21 +644,18 @@ const MiddleBlock = ({
                       {/* ) : (
                         ""
                       )} */}
-
-
                     </>
                   )}
-
                 </div>
                 {statement?.loantypeId == 3 ||
-                  (statement?.loantypeId == 4 && agroType == "legal") ? (
+                (statement?.loantypeId == 4 && agroType == "legal") ? (
                   ""
                 ) : (
                   <>
-
                     <div className="form-group col-md-5">
                       <label for="inputState">
-                        სად გერიცხებათ ხელფასი<span style={{ color: "red" }}>*</span>
+                        სად გერიცხებათ ხელფასი
+                        <span style={{ color: "red" }}>*</span>
                       </label>
                       <select
                         required
@@ -672,7 +670,7 @@ const MiddleBlock = ({
                         <option>ხელზე</option>
                       </select>
                       <Form.Control.Feedback type="invalid">
-                        მიუთითეთ  სად გერიცებათ ხელფასი.
+                        მიუთითეთ სად გერიცებათ ხელფასი.
                       </Form.Control.Feedback>
                     </div>
                     <div className="form-group col-md-7">
@@ -697,7 +695,7 @@ const MiddleBlock = ({
                         ;
                       </select>
                       <Form.Control.Feedback type="invalid">
-                        მიუთითეთ  სტაჟი.
+                        მიუთითეთ სტაჟი.
                       </Form.Control.Feedback>
                     </div>
                   </>
@@ -708,9 +706,7 @@ const MiddleBlock = ({
         </Card>
         <br />
 
-
-
-        <Card border="info" style={{ width: '49rem' }}>
+        <Card border="info" style={{ width: "49rem" }}>
           <Card.Header>დამატებითი ინფორმაცია</Card.Header>
           <Card.Body>
             <div className="form-row">
@@ -755,11 +751,10 @@ const MiddleBlock = ({
                       ;
                     </select>
                   </div>
-
                 </div>
 
                 <Form.Control.Feedback type="invalid">
-                  მიუთითეთ  მისამართი.
+                  მიუთითეთ მისამართი.
                 </Form.Control.Feedback>
                 {/* <input
             required
@@ -867,9 +862,6 @@ const MiddleBlock = ({
             </div>
           </Card.Body>
         </Card>
-
-
-
       </>
     );
   };
@@ -888,20 +880,19 @@ const MiddleBlock = ({
       //   oklButtonProps: { style: { display: "none" } },
       // });
       // console.log(777777);
-      console.log('visi', visibleLoginRegisterDialog)
-      setVisibleLoginRegisterDialog(true)
+      console.log("visi", visibleLoginRegisterDialog);
+      setVisibleLoginRegisterDialog(true);
       return;
     }
     console.log("productType", productType);
     setProductType(index);
     setShow1(true);
 
-    console.log('statement',statement)
-    if(statement.loantypeId == index){
+    console.log("statement", statement);
+    if (statement.loantypeId == index) {
       setStatement({ ...statement, ["loantypeId"]: index });
-    }
-    else{
-      setStatement({  ["loantypeId"]: index });
+    } else {
+      setStatement({ ["loantypeId"]: index });
     }
 
     switch (index) {
@@ -930,8 +921,7 @@ const MiddleBlock = ({
   };
   return (
     <S.MiddleBlock id="products">
-
-<AntModal
+      <AntModal
         visible={visibleLoginRegisterDialog}
         onCancel={() => setVisibleLoginRegisterDialog(false)}
         footer={null}
@@ -988,7 +978,6 @@ const MiddleBlock = ({
                 </Col>
               </Row>
             </Form>
-
           </TabPane>
           <TabPane tab="რეგისტრაცია" key="2">
             <Form noValidate validated={validated} onSubmit={onClickRegister}>
@@ -1203,127 +1192,198 @@ const MiddleBlock = ({
                 </Col>
               </Row>
             </Form>
-
           </TabPane>
         </Tabs>
       </AntModal>
 
-
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-around",
+            }}
+          >
+
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{
+                    backgroundColor: "#2e186a",
+                    color: "#fff",
+                  }}
+                >
+                  {t("ConsumerLoan")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-1.svg" height="110px" />
+                  <p className="card-text">{t("ConsumerLoanDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(1)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("Mortgage")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-2.svg" height="110px" />
+                  <p className="card-text">{t("MortgageDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(2)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("BusinessLoan")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-3.svg" height="110px" />
+                  <p className="card-text">{t("BusinessLoanDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(3)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("AgroLoan")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-4.svg" height="110px" />
+                  <p className="card-text">{t("AgroLoanDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(4)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              {" "}
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("CreditCard")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-5.svg" height="110px" />
+                  <p className="card-text">{t("CreditCard")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(5)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              {" "}
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("AutoLeasing")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-6.svg" height="110px" />
+                  <p className="card-text">{t("AutoLeasing")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(6)}
+                  >
+                    <span> {t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
           <br></br>
-          <div className="card border-dark mb-3" style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem" }}>
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("ConsumerLoan")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="56.svg" height="110px" />
-              <p className="card-text">{t("ConsumerLoanDesc")}</p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(1)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("Mortgage")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="55.svg" height="110px" />
-              <p className="card-text">{t("MortgageDesc")}</p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(2)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("BusinessLoan")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="54.svg" height="110px" />
-              <p className="card-text">
-                {t("BusinessLoanDesc")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(3)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AgroLoan")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="57.svg" height="110px" />
-              <p className="card-text">
-                {t("AgroLoanDesc")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(4)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "29px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("CreditCard")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="credit.svg" height="110px" />
-              <p className="card-text">
-                {t("CreditCard")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(5)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AutoLeasing")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="auto.svg" height="110px" />
-              <p className="card-text">
-                {t("AutoLeasing")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(6)}
-              >
-                <span> {t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
 
           <section id="pricing" className="bg-white">
-
             <div className="container">
-
               {/* <h2 className="text-center">პროდუქტები</h2> */}
 
               <div className="spacer spacer-line border-primary">&nbsp;</div>
@@ -1373,32 +1433,66 @@ const MiddleBlock = ({
 
                       <div className="form-row">
                         {/* {productType == 3 ? businessLoan() : ""} */}
-                        {productType == 3 ?
-                         <BusinessLoan statement={statement} setStatement={setStatement} /> : ""}
+                        {productType == 3 ? (
+                          <BusinessLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 1 ? consumerLoan() : ""} */}
-                        {productType == 1 ?
-                          <ConsumerLoan statement={statement} setStatement={setStatement} />
-                          : ""}
+                        {productType == 1 ? (
+                          <ConsumerLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 4 ? agroLoan() : ""} */}
-                        {productType == 4 ?
-                         <AgroLoan statement={statement} setStatement={setStatement} agroType={agroType} /> : ""}
+                        {productType == 4 ? (
+                          <AgroLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                            agroType={agroType}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {consumerLoan()} */}
                         {/* {productType == 2 ? mortgageLoan() : ""} */}
-                        {productType == 2 ?
-                         <MortgageLoan statement={statement} setStatement={setStatement} /> : ""}
+                        {productType == 2 ? (
+                          <MortgageLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 6 ? autoLeasing() : ""} */}
-                        {productType == 6 ?
-                         <AutoLeasing statement={statement} setStatement={setStatement} />
-                          : ""}
+                        {productType == 6 ? (
+                          <AutoLeasing
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 5 ? creditCard() : ""} */}
-                        {productType == 5 ?
-                        <CreditCard statement={statement} setStatement={setStatement} /> : ""}
-
+                        {productType == 5 ? (
+                          <CreditCard
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <br></br>
 

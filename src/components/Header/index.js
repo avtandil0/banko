@@ -42,7 +42,13 @@ const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 const Button = lazy(() => import("../../common/Button"));
 const MySwal = withReactContent(Swal);
 
-const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginRegisterDialog }) => {
+const Header = ({
+  t,
+  setInProfileMOde,
+  isAuthorize,
+  setIsAuthorize,
+  openLoginRegisterDialog,
+}) => {
   const history = useHistory();
 
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
@@ -79,11 +85,10 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
   // }, [openLoginRegisterDialog]);
 
   const handleChangeLang = (event) => {
-    console.log('i18n', i18n,event)
-    setLanguage(event.target.value)
+    console.log("i18n", i18n, event);
+    setLanguage(event.target.value);
     i18n.changeLanguage(event.target.value);
   };
-
 
   const handleSubmit = (event) => {
     console.log("bootsrtap sumit", user);
@@ -200,7 +205,19 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
       setRegisterLoading(false);
-      setUser({ ...user, userName: "", password: "", phoneNumber: "", rePassword: "", email: "", name: "", lastName: "", personalId: "", birthDate: "", address: "" });
+      setUser({
+        ...user,
+        userName: "",
+        password: "",
+        phoneNumber: "",
+        rePassword: "",
+        email: "",
+        name: "",
+        lastName: "",
+        personalId: "",
+        birthDate: "",
+        address: "",
+      });
       setValidated(false);
     } else {
       message.error(result.data.meessage);
@@ -252,8 +269,8 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
     };
 
     return (
-      <Fragment >
-        <div style={{ display: 'flex' }}>
+      <Fragment>
+        <div style={{ display: "flex" }}>
           <div>
             <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
               <S.Span>{t("Home")}</S.Span>
@@ -296,7 +313,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                 )}
               </S.Span>
             </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall >
+            <S.CustomNavLinkSmall>
               <Radio.Group onChange={handleChangeLang} value={language}>
                 <Radio.Button value="ge">ქარ</Radio.Button>
                 <Radio.Button value="en">Eng</Radio.Button>
@@ -314,7 +331,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
             </S.CustomNavLinkSmall>
           </div>
 
-          <div style={{ marginTop: '15px' }}>
+          <div style={{ marginTop: "15px" }}>
             {/* <S.CustomNavLinkSmall >
               <S.Select>
                 <S.LangSelect
@@ -329,8 +346,6 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
             </S.CustomNavLinkSmall> */}
           </div>
         </div>
-
-
       </Fragment>
     );
   };
@@ -401,7 +416,6 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                 </Col>
               </Row>
             </Form>
-
           </TabPane>
           <TabPane tab="რეგისტრაცია" key="2">
             <Form noValidate validated={validated} onSubmit={onClickRegister}>
@@ -616,7 +630,6 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                 </Col>
               </Row>
             </Form>
-
           </TabPane>
         </Tabs>
       </Modal>
@@ -624,7 +637,11 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
       <S.Container>
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
-            <SvgIcon src="logo.svg" />
+            {/* <SvgIcon src="logo.svg" /> */}
+            <div style={{ marginLeft: 20, marginBottom:5 }}>
+              <SvgIcon src="logo1.svg" height={80} width={60} />
+            </div>
+            {/* <SvgIcon src="logo1.svg" /> */}
             {/* <img src="../../public/img/svg/12.png" /> */}
           </S.LogoContainer>
           <S.NotHidden>
