@@ -114,7 +114,7 @@ const Profile = () => {
     setSentLoading(true);
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      `https://localhost:44314/api/Home/${user.id}`,
+      `https://weblive.com.ge/api/Home/${user.id}`,
       statement
     );
     console.log("result WorkExperience", result);

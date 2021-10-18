@@ -81,7 +81,7 @@ const Bank = () => {
     console.log(modal)
     var result = await axios.post(
       // `https://weblive.com.ge/api/Home`,
-      `https://localhost:44314/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`//დამუშავების პროცესში
+      `https://weblive.com.ge/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`//დამუშავების პროცესში
     );
 
     message.open({
@@ -124,7 +124,7 @@ const Bank = () => {
 
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      `https://localhost:44314/api/Statement/${user.id}/${item.id}/${2}`//დამუშავების პროცესში
+      `https://weblive.com.ge/api/Statement/${user.id}/${item.id}/${2}`//დამუშავების პროცესში
     );
     setReceiveLoading(false)
     setVisible(false)

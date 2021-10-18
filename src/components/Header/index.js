@@ -153,7 +153,7 @@ const Header = ({
 
   const sendSms = async () => {
     var result = await axios.post(
-      `https://localhost:44314/api/account`,user
+      `https://weblive.com.ge/api/account`,user
       // {
       //   params: { ...user },
       // }
