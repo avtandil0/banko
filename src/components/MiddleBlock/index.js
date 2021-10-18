@@ -983,7 +983,7 @@ const MiddleBlock = ({
             <Form noValidate validated={validated} onSubmit={onClickRegister}>
               <Row>
                 <Form.Label column lg={3}>
-                  მობილურის ნომერი
+                  მობილურის ნომერი111111111
                 </Form.Label>
                 <Col lg={16}>
                   <Form.Control

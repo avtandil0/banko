@@ -151,6 +151,17 @@ const Header = ({
     // }
   };
 
+  const sendSms = async () => {
+    var result = await axios.post(
+      `https://localhost:44314/api/account`,user
+      // {
+      //   params: { ...user },
+      // }
+    );
+
+    console.log('result',result)
+  }
+
   const handleLogin = async () => {
     console.log("user", user);
     if (!user?.userName || !user?.password) {
@@ -419,24 +430,6 @@ const Header = ({
           </TabPane>
           <TabPane tab="რეგისტრაცია" key="2">
             <Form noValidate validated={validated} onSubmit={onClickRegister}>
-              <Row>
-                <Form.Label column lg={3}>
-                  მობილურის ნომერი
-                </Form.Label>
-                <Col lg={16}>
-                  <Form.Control
-                    required
-                    type="text"
-                    placeholder="მობილურის ნომერი"
-                    name="phoneNumber"
-                    value={user?.phoneNumber}
-                    onChange={handleChangeInput}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    მიუთითეთ სახელი.
-                  </Form.Control.Feedback>
-                </Col>
-              </Row>
               <br></br>
               <Row>
                 <Form.Label column lg={3}>
@@ -619,7 +612,55 @@ const Header = ({
                 </Col>
               </Row>
               <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მობილურის ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Row>
+                    <Col lg={16}>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="მობილურის ნომერი"
+                        name="phoneNumber"
+                        value={user?.phoneNumber}
+                        onChange={handleChangeInput}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        მიუთითეთ სახელი.
+                      </Form.Control.Feedback>
+                    </Col>
+                    <Col lg={1}>
 
+                    </Col>
+                    <Col lg={7}>
+                      <AntdButton type="primary" onClick={sendSms}>
+                        სმს-ის გაგზავნა
+                      </AntdButton>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <br/>
+              <Row>
+                <Form.Label column lg={3}>
+                  სმს კოდი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="number"
+                    name="smsCode"
+                    placeholder=" სმს კოდი"
+                    value={user?.smsCode}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ  სმს კოდი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
               <br></br>
               <Row>
                 <Form.Label column lg={3}></Form.Label>
@@ -638,7 +679,7 @@ const Header = ({
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
             {/* <SvgIcon src="logo.svg" /> */}
-            <div style={{ marginLeft: 20, marginBottom:5 }}>
+            <div style={{ marginLeft: 20, marginBottom: 5 }}>
               <SvgIcon src="logo1.svg" height={80} width={60} />
             </div>
             {/* <SvgIcon src="logo1.svg" /> */}
