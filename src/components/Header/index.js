@@ -292,9 +292,9 @@ const Header = ({
             <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
               <S.Span>{t("HowItWorks")}</S.Span>
             </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
+            {/* <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
               <S.Span>{t("LoanCalculator")}</S.Span>
-            </S.CustomNavLinkSmall>
+            </S.CustomNavLinkSmall> */}
             <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
               <S.Span>{t("About")}</S.Span>
             </S.CustomNavLinkSmall>
