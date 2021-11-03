@@ -153,6 +153,7 @@ const Header = ({
 
   const sendSms = async () => {
     var result = await axios.post(
+      // https://weblive.com.ge
       `https://weblive.com.ge/api/account`,user
       // {
       //   params: { ...user },
@@ -160,6 +161,9 @@ const Header = ({
     );
 
     console.log('result',result)
+    if(result.data.isSuccess){
+      message.success('შეტყობინება წარმატებით გაიგზავნა');
+    }
   }
 
   const handleLogin = async () => {
@@ -211,7 +215,7 @@ const Header = ({
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
-    var result = await axios.post("https://weblive.com.ge/api/account", user);
+    var result = await axios.get(`https://weblive.com.ge/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
