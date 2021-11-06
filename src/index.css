@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'MyFont';
+    src: local('MyFont'), url(./fonts/calibri.ttf) format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+  }
+
+  @font-face {
+    font-family: 'MyFont1';
+    src: local('MyFont1'), url(./fonts/CalibriBold.ttf) format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+  }
+
+  @font-face {
+    font-family: 'MyFont2';
+    src: local('MyFont2'), url(./fonts/ASGrammatikaGeoMtavruli1.ttf) format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+  }

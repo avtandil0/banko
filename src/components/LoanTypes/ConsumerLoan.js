@@ -144,7 +144,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                         <div >
                             <div className="form-row">
                                 <div className="col-md-4">
-                                    <label for="inputEmail4">
+                                    <label for="inputEmail4" style={{fontSize:'15px'}}>
                                         მოთხოვნილი თანხა <span style={{ color: "red" }}>*</span>
                                     </label>
                                     <Form.Control
@@ -162,7 +162,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                     </Form.Control.Feedback>
                                 </div>
                                 <div className=" col-md-2">
-                                    <label for="inputEmail4">
+                                    <label for="inputEmail4" style={{fontSize:'15px'}}>
                                         ვალუტა<span style={{ color: "red" }}>*</span>
                                     </label>
                                     <select
@@ -180,7 +180,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 <div className=" col-md-2">
                                     {statement?.loantypeId != 5 ? (
                                         <>
-                                            <label for="inputPassword4">
+                                            <label for="inputPassword4" style={{fontSize:'15px'}}>
                                                 ვადა (თვე)<span style={{ color: "red" }}>*</span>
                                             </label>
                                             <input
@@ -206,7 +206,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
                                     {statement?.loantypeId != 5 ? (
                                         <>
-                                            <label for="inputPassword4">
+                                            <label for="inputPassword4" style={{fontSize:'15px'}}>
                                                 შენატანი (სავარაუდო)
                                             </label>
                                             <input
@@ -239,8 +239,8 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                     <Card.Text>
                         <div className="form-row">
                             <div className="form-group col-md-5">
-                                <label for="inputPassword4">
-                                    თვიური საშუალო შემოსავალი<span style={{ color: "red" }}>*</span>
+                                <label for="inputPassword4" style={{fontSize:'15px'}}>
+                                    თვიური საშუალო შემოსავალი (ლარში) <span style={{ color: "red" }}>*</span>
                                 </label>
                                 <Form.Control
                                     required
@@ -271,7 +271,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 </Form.Control.Feedback>
                             </div>
                             <div className="form-group col-md-3">
-                                <label for="inputState">
+                                <label for="inputState" style={{fontSize:'15px'}}>
                                     შემოსავლის წყარო <span style={{ color: "red" }}>*</span>
                                 </label>
                                 <Form.Control
@@ -304,7 +304,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
                                         {/* {statement?.incomeSourceId == 7 ? ( */}
                                         <>
-                                            <label for="inputPassword4">
+                                            <label for="inputPassword4" style={{fontSize:'15px'}}>
                                                 სხვა შემოსავლის წყარო
                                                 <span style={{ color: "red" }}>*</span>
                                             </label>
@@ -335,7 +335,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 <>
 
                                     <div className="form-group col-md-5">
-                                        <label for="inputState">
+                                        <label for="inputState" style={{fontSize:'15px'}}>
                                             სად გერიცხებათ ხელფასი<span style={{ color: "red" }}>*</span>
                                         </label>
                                         <select
@@ -355,7 +355,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         </Form.Control.Feedback>
                                     </div>
                                     <div className="form-group col-md-7">
-                                        <label for="inputState">
+                                        <label for="inputState" style={{fontSize:'15px'}}>
                                             სამუშო გამოცდილება - სტაჟი
                                             <span style={{ color: "red" }}>*</span>
                                         </label>
@@ -394,7 +394,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                 <Card.Body>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>
                                 ფაქტიური მისამართი<span style={{ color: "red" }}>*</span>
                             </label>
                             <div className="form-row">
@@ -456,8 +456,8 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
           </Form.Control.Feedback> */}
                         </div>
                         <div className="form-group col-md-6">
-                            <label for="inputPassword4">
-                                სხვა არსებული სესხები (ჯამურად)
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>
+                                სხვა არსებული სესხები (ჯამურად ლარში)
                                 <span style={{ color: "red" }}>*</span>
                             </label>
                             <input
@@ -474,9 +474,9 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 სხვა არსებული სესხები (ჯამურად).
                             </Form.Control.Feedback>
                         </div>
-                        <div className="form-group col-md-6">
-                            <label for="inputPassword4">
-                                რამდენს იხდით სესხებში ყოველთვიურად?
+                        <div className="form-group col-md-7">
+                            <label for="inputPassword4" style={{fontSize:'15px'}}>
+                                რამდენს იხდით სესხებში ყოველთვიურად? (ლარში)
                                 <span style={{ color: "red" }}>*</span>
                             </label>
                             <input
@@ -493,8 +493,8 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 სხვა არსებული სესხები (ჯამურად).
                             </Form.Control.Feedback>
                         </div>
-                        <div className="form-group col-md-6">
-                            <label for="inputState">
+                        <div className="form-group col-md-5">
+                            <label for="inputState" style={{fontSize:'15px'}}>
                                 {" "}
                                 გაქვს ნეგატიური სტატუსი?{" "}
                                 <span style={{ color: "red" }}>*</span>
@@ -523,7 +523,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                     checked={overlay}
                                     onChange={handleChangeOverlay}
                                 />{" "}
-                                აპირებთ თუ არა გადაფარვას?{" "}
+                                აპირებთ თუ არა სხვა სესხების გადაფარვას?{" "}
                             </label>
                         </div>
                         {overlay ? (
@@ -533,7 +533,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         type="number"
                                         className="form-control"
                                         id="inputPassword4"
-                                        placeholder="თანხა"
+                                        placeholder="მიუთითეთ თანხა"
                                         name="overlayAmount"
                                         onChange={handleChangeInput}
                                         value={statement?.overlayAmount}

@@ -43,7 +43,13 @@ const SvgIcon = lazy(() => import("../../common/SvgIcon"));
 const Button = lazy(() => import("../../common/Button"));
 const MySwal = withReactContent(Swal);
 
-const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginRegisterDialog }) => {
+const Header = ({
+  t,
+  setInProfileMOde,
+  isAuthorize,
+  setIsAuthorize,
+  openLoginRegisterDialog,
+}) => {
   const history = useHistory();
 
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
@@ -80,11 +86,10 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
   // }, [openLoginRegisterDialog]);
 
   const handleChangeLang = (event) => {
-    console.log('i18n', i18n,event)
-    setLanguage(event.target.value)
+    console.log("i18n", i18n, event);
+    setLanguage(event.target.value);
     i18n.changeLanguage(event.target.value);
   };
-
 
   const handleSubmit = (event) => {
     console.log("bootsrtap sumit", user);
@@ -156,6 +161,21 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
     // }
   };
 
+  const sendSms = async () => {
+    var result = await axios.post(
+      // https://weblive.com.ge
+      `https://weblive.com.ge/api/account`,user
+      // {
+      //   params: { ...user },
+      // }
+    );
+
+    console.log('result',result)
+    if(result.data.isSuccess){
+      message.success('შეტყობინება წარმატებით გაიგზავნა');
+    }
+  }
+
   const handleLogin = async () => {
     console.log("user", user);
     if (!user?.userName || !user?.password) {
@@ -205,12 +225,24 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
-    var result = await axios.post("https://weblive.com.ge/api/account", user);
+    var result = await axios.get(`https://weblive.com.ge/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
       setRegisterLoading(false);
-      setUser({ ...user, userName: "", password: "", phoneNumber: "", rePassword: "", email: "", name: "", lastName: "", personalId: "", birthDate: "", address: "" });
+      setUser({
+        ...user,
+        userName: "",
+        password: "",
+        phoneNumber: "",
+        rePassword: "",
+        email: "",
+        name: "",
+        lastName: "",
+        personalId: "",
+        birthDate: "",
+        address: "",
+      });
       setValidated(false);
     } else {
       message.error(result.data.meessage);
@@ -262,8 +294,8 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
     };
 
     return (
-      <Fragment >
-        <div style={{ display: 'flex' }}>
+      <Fragment>
+        <div style={{ display: "flex" }}>
           <div>
             <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
               <S.Span>{t("Home")}</S.Span>
@@ -274,9 +306,9 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
             <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
               <S.Span>{t("HowItWorks")}</S.Span>
             </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
+            {/* <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
               <S.Span>{t("LoanCalculator")}</S.Span>
-            </S.CustomNavLinkSmall>
+            </S.CustomNavLinkSmall> */}
             <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
               <S.Span>{t("About")}</S.Span>
             </S.CustomNavLinkSmall>
@@ -306,7 +338,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                 )}
               </S.Span>
             </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall >
+            <S.CustomNavLinkSmall>
               <Radio.Group onChange={handleChangeLang} value={language}>
                 <Radio.Button value="ge">ქარ</Radio.Button>
                 <Radio.Button value="en">Eng</Radio.Button>
@@ -324,7 +356,7 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
             </S.CustomNavLinkSmall>
           </div>
 
-          <div style={{ marginTop: '15px' }}>
+          <div style={{ marginTop: "15px" }}>
             {/* <S.CustomNavLinkSmall >
               <S.Select>
                 <S.LangSelect
@@ -339,8 +371,6 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
             </S.CustomNavLinkSmall> */}
           </div>
         </div>
-
-
       </Fragment>
     );
   };
@@ -411,98 +441,9 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                 </Col>
               </Row>
             </Form>
-            {/* <Form
-              name="basic"
-              labelCol={{ span: 6 }}
-              wrapperCol={{ span: 14 }}
-              // initialValues={{ userNameLabel: '77' }}
-            >
-              {/* <Form.Item
-                label="მობილურის ნომერი"
-                name="phoneNumber"
-                rules={[
-                  {
-                    required: true,
-                    message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="phoneNumber"
-                  value={user?.phoneNumber}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-              <Form.Item
-                label="მომხმარებლის სახელი"
-                name="userNameLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "გთხოვთ, შეიყვანოთ მომხმარებლის სახელი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="userName"
-                  value={user?.userName}
-                  onChange={handleChangeInput}
-                />
-
-              </Form.Item>
-
-              <Form.Item
-                label="პაროლი"
-                name="passwordLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ პაროლი!",
-                  },
-                ]}
-              >
-                <Input.Password
-                  name="password"
-                  value={user?.password}
-                  onChange={handleChangeInput}
-                  onKeyPress={handleKeypress}
-                />
-              </Form.Item>
-
-
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <AntdButton
-                  type="primary"
-                  onClick={handleLogin}
-                  loading={loginLoading}
-                  disabled={!user?.userName || !user?.password}
-                >
-                  შესვლა
-                </AntdButton>
-              </Form.Item>
-            </Form> */}
           </TabPane>
           <TabPane tab="რეგისტრაცია" key="2">
             <Form noValidate validated={validated} onSubmit={onClickRegister}>
-              <Row>
-                <Form.Label column lg={3}>
-                  მობილურის ნომერი
-                </Form.Label>
-                <Col lg={16}>
-                  <Form.Control
-                    required
-                    type="text"
-                    placeholder="მობილურის ნომერი"
-                    name="phoneNumber"
-                    value={user?.phoneNumber}
-                    onChange={handleChangeInput}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    მიუთითეთ სახელი.
-                  </Form.Control.Feedback>
-                </Col>
-              </Row>
               <br></br>
               <Row>
                 <Form.Label column lg={3}>
@@ -685,7 +626,55 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                 </Col>
               </Row>
               <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მობილურის ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Row>
+                    <Col lg={16}>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="მობილურის ნომერი"
+                        name="phoneNumber"
+                        value={user?.phoneNumber}
+                        onChange={handleChangeInput}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        მიუთითეთ სახელი.
+                      </Form.Control.Feedback>
+                    </Col>
+                    <Col lg={1}>
 
+                    </Col>
+                    <Col lg={7}>
+                      <AntdButton type="primary" onClick={sendSms}>
+                        სმს-ის გაგზავნა
+                      </AntdButton>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <br/>
+              <Row>
+                <Form.Label column lg={3}>
+                  სმს კოდი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="number"
+                    name="smsCode"
+                    placeholder=" სმს კოდი"
+                    value={user?.smsCode}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ  სმს კოდი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
               <br></br>
               <Row>
                 <Form.Label column lg={3}></Form.Label>
@@ -696,174 +685,6 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
                 </Col>
               </Row>
             </Form>
-            {/* <Form
-              name="basic"
-              labelCol={{ span: 6 }}
-              wrapperCol={{ span: 14 }}
-              initialValues={{ remember: true }}
-              onFinish={onClickRegister}
-            >
-              <Form.Item
-                label="მობილურის ნომერი"
-                name="phoneNumberlabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "გთხოვთ, შეიყვანოთ მობილურის ნომერი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="phoneNumber"
-                  value={user?.phoneNumber}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-              <Form.Item
-                label="მომხმარებლის სახელი"
-                name="userNameLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "გთხოვთ, შეიყვანოთ მომხმარებლის სახელი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="userName"
-                  value={user?.userName}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-              <Form.Item
-                label="პაროლი"
-                name="passwordLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ პაროლი!",
-                  },
-                ]}
-              >
-                <Input.Password
-                  name="password"
-                  value={user?.password}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-              <Form.Item
-                label="ელ. ფოსტა"
-                name="mailLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ ელ. ფოსტა!",
-                  },
-                ]}
-              >
-                <Input
-                  name="mail"
-                  value={user?.mail}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-              <Form.Item
-                label="სახლი"
-                name="nameLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ სახელი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="name"
-                  value={user?.name}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-              <Form.Item
-                label="გვარი"
-                name="lastNameLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ გვარი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="lastName"
-                  value={user?.lastName}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="პირადი ნომერი"
-                name="personalNumberLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ პირადი ნომერი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="personalNumber"
-                  value={user?.personalNumber}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="დაბადების თარიღი"
-                name="birthDateLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ დაბადების თარიღი!",
-                  },
-                ]}
-              >
-                <DatePicker
-                  value={user?.birthDate}
-                  onChange={handleChangeDate}
-                />
-              </Form.Item>
-
-              <Form.Item
-                label="მისამართი"
-                name="addressLabel"
-                rules={[
-                  {
-                    required: true,
-                    message: "შეიყვანეთ მისამართი!",
-                  },
-                ]}
-              >
-                <Input
-                  name="address"
-                  value={user?.address}
-                  onChange={handleChangeInput}
-                />
-              </Form.Item>
-
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <AntdButton
-                  loading={registerLoading}
-                  type="primary"
-                  htmlType="submit"
-                  // onClick={onClickRegister}
-                  htmlType="submit"
-
-                >
-                  რეგისტრაცია
-                </AntdButton>
-              </Form.Item>
-            </Form> */}
           </TabPane>
         </Tabs>
       </Modal>
@@ -871,7 +692,11 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
       <S.Container>
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
-            <SvgIcon src="logo.svg" />
+            {/* <SvgIcon src="logo.svg" /> */}
+            <div style={{ marginLeft: 20, marginBottom: 5 }}>
+              <SvgIcon src="logo1.svg" height={80} width={60} />
+            </div>
+            {/* <SvgIcon src="logo1.svg" /> */}
             {/* <img src="../../public/img/svg/12.png" /> */}
           </S.LogoContainer>
           <S.NotHidden>

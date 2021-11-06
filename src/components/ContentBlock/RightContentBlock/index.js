@@ -1,4 +1,4 @@
-import { Row, Col } from "antd";
+import { Row, Col, Alert } from "antd";
 import { withTranslation } from "react-i18next";
 import Slide from "react-reveal/Slide";
 
@@ -7,7 +7,15 @@ import Button from "../../../common/Button";
 
 import * as S from "./styles";
 
-const RightBlock = ({ title, content, button, icon, t, id }) => {
+const RightBlock = ({
+  title,
+  content,
+  button,
+  icon,
+  t,
+  id,
+  additionalText,
+}) => {
   const scrollTo = (id) => {
     const element = document.getElementById(id);
     element.scrollIntoView({
@@ -39,6 +47,8 @@ const RightBlock = ({ title, content, button, icon, t, id }) => {
                   })}
               </S.ButtonWrapper>
             </S.ContentWrapper>
+            {/* <div style={{marginTop: '25px', fontSize: 20}}>{t(additionalText)}</div> */}
+            <Alert description={t(additionalText)} type="success" showIcon />
           </Slide>
         </Col>
         <Col lg={11} md={11} sm={12} xs={24}>

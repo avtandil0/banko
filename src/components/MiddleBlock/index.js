@@ -2,6 +2,8 @@ import { useState, Fragment, lazy, useEffect } from "react";
 import {
   Row,
   message,
+  Col,
+  Tabs,
   Button as AntdButton,
   Modal as AntModal,
 } from "antd";
@@ -14,16 +16,18 @@ import Tab from "react-bootstrap/Tab";
 import * as S from "./styles";
 import "./index.css"; // Tell webpack that Button.js uses these styles
 import axios from "axios";
-import { ConsumerLoan } from '../LoanTypes/ConsumerLoan'
-import { MortgageLoan } from '../LoanTypes/MortgageLoan'
-import { BusinessLoan } from '../LoanTypes/BusinessLoan'
-import { AgroLoan } from '../LoanTypes/AgroLoan'
-import { CreditCard } from '../LoanTypes/CreditCard'
-import { AutoLeasing } from '../LoanTypes/AutoLeasing'
+import { ConsumerLoan } from "../LoanTypes/ConsumerLoan";
+import { MortgageLoan } from "../LoanTypes/MortgageLoan";
+import { BusinessLoan } from "../LoanTypes/BusinessLoan";
+import { AgroLoan } from "../LoanTypes/AgroLoan";
+import { CreditCard } from "../LoanTypes/CreditCard";
+import { AutoLeasing } from "../LoanTypes/AutoLeasing";
 // import  ComponentA  from '../LoanTypes'
 
 const Button = lazy(() => import("../../common/Button"));
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
+
+const { TabPane } = Tabs;
 
 const MiddleBlock = ({
   title,
@@ -32,7 +36,6 @@ const MiddleBlock = ({
   t,
   isAuthorize,
   setIsAuthorize,
-  setOpenLoginRegisterDialog,
 }) => {
   const [show1, setShow1] = useState(false);
   const [productType, setProductType] = useState(false);
@@ -53,6 +56,12 @@ const MiddleBlock = ({
   const [validated, setValidated] = useState(false);
   const [deposit, setDeposit] = useState(0);
 
+  const [user, setUser] = useState();
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
+    useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
+
   useEffect(async () => {
     // Good!
     let us = JSON.parse(localStorage.getItem("user"));
@@ -63,7 +72,7 @@ const MiddleBlock = ({
     console.log("currentUser", currentUser);
 
     var result1 = await axios.get(`https://weblive.com.ge/api/IncomeSource`);
-    console.log('result IncomeSource', result1)
+    console.log("result IncomeSource", result1);
     setIncomeSource(result1.data);
     var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
     console.log("result WorkExperience", result2);
@@ -71,15 +80,157 @@ const MiddleBlock = ({
 
     var regionsRes = await axios.get(`https://weblive.com.ge/api/Region`);
     console.log("result regions", regionsRes);
-    setRegions(regionsRes.data)
+    setRegions(regionsRes.data);
 
     var municipalsRes = await axios.get(`https://weblive.com.ge/api/Municipal`);
     console.log("result municipals", municipalsRes);
-    setMunicipals(municipalsRes.data)
-
+    setMunicipals(municipalsRes.data);
   }, []);
 
-  
+  const handleSubmit = (event) => {
+    console.log("bootsrtap sumit", user);
+
+    handleLogin();
+    const form = event.currentTarget;
+    // if (form.checkValidity() === false) {
+    //   console.log('33333333')
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    // }
+    console.log("22222222222");
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  const handleKeypress = (e) => {
+    //it triggers by pressing the enter key
+    console.log("key code", e.keyCode, e);
+    // if (e.charCode === 13) {
+    //   if (!user.userName || !user.password) {
+    //     return;
+    //   }
+    //   // handleLogin();
+    // }
+  };
+
+  const onClickRegister = async (event) => {
+    setValidated(true);
+    event.preventDefault();
+    event.stopPropagation();
+    const form = event.currentTarget;
+
+    if (user?.password != user?.rePassword) {
+      message.error("პაროლი და დასტური უნდა ემთხვეოდეს ერთმანეთს");
+      return;
+    }
+
+    if (form.checkValidity() === false) {
+      console.log("11111", form);
+      return;
+    }
+
+    console.log("aaaaaaa", user);
+    // console.log('valdiate', Object.entries(user))
+    // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
+    setRegisterLoading(true);
+    var result = await axios.post("https://weblive.com.ge/api/account", user);
+    if (result.data.isSuccess) {
+      message.success(result.data.meessage);
+      setVisibleLoginRegisterDialog(false);
+      setRegisterLoading(false);
+      setUser({
+        ...user,
+        userName: "",
+        password: "",
+        phoneNumber: "",
+        rePassword: "",
+        email: "",
+        name: "",
+        lastName: "",
+        personalId: "",
+        birthDate: "",
+        address: "",
+      });
+      setValidated(false);
+    } else {
+      message.error(result.data.meessage);
+      setRegisterLoading(false);
+    }
+    console.log("result ", result);
+  };
+
+  const handleLogin = async () => {
+    console.log("user", user);
+    if (!user?.userName || !user?.password) {
+      setValidated(true);
+      return;
+    }
+    setLoginLoading(true);
+    var result = await axios.get(
+      `https://weblive.com.ge/api/account/${user.userName}/${user.password}`
+      // {
+      //   params: { ...user },
+      // }
+    );
+    console.log("result", result);
+    if (result.data.token) {
+      // message.success(result.data.meessage);
+      localStorage.setItem("user", JSON.stringify(result.data));
+      window.location.reload();
+      return;
+      setVisibleLoginRegisterDialog(false);
+      setIsAuthorize(true);
+      setCurrentUser(result.data);
+      setUser({ ...user, userName: "", password: "" });
+      setValidated(false);
+      window.location.reload();
+    } else {
+      message.error("მომხმარებელი ან პაროლი არასწორია");
+    }
+    setLoginLoading(false);
+    console.log("result ", result);
+  };
+
+  const handleChangeInputUser = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value });
+    console.log("user", user);
+  };
+
+  const handleChangeInput = (e) => {
+    console.log("change", e.target.name, e.target.value);
+    if (e.target.name == "regionId") {
+      var cc = [...municipals.filter((r) => r.regionId == e.target.value)];
+      console.log(111111111111, cc);
+
+      setControledMunicipals([...cc]);
+    }
+    console.log("res", res);
+    // setStatement({...statement, deposit: res})
+    //10%
+    setStatement({ ...statement, [e.target.name]: e.target.value });
+
+    //setStatement({...statement, kk: res})
+    if (e.target.name == "term" || e.target.name == "requestedAmount") {
+      let t;
+      let r;
+      if (e.target.name == "requestedAmount") {
+        t = statement.term;
+        r = e.target.value;
+      }
+      if (e.target.name == "term") {
+        t = e.target.value;
+        r = statement.requestedAmount;
+      }
+      let per = 1 / 100;
+      let x = Math.pow(1 + per, t);
+      console.log("xxxxxxxxxxx", x);
+      var res = r / ((1 - 1 / x) / per);
+      setDeposit(res.toFixed(2));
+    }
+
+    console.log("statement", statement);
+  };
 
   const sendStatement = async (event) => {
     setValidated(true);
@@ -94,10 +245,7 @@ const MiddleBlock = ({
 
     console.log(statement);
     setSentLoading(true);
-    var result = await axios.post(
-      `https://localhost:44314/api/Home`,
-      statement
-    );
+    var result = await axios.post(`https://weblive.com.ge/api/Home`, statement);
     console.log("result WorkExperience", result);
     setSentLoading(false);
     setShow1(false);
@@ -121,8 +269,601 @@ const MiddleBlock = ({
     setOverlay(e.target.checked);
   };
 
+  const creditCard = () => {
+    return (
+      <>
+        {consumerLoan()}
+        {/* <div className="form-group col-md-6">
+          <label for="inputPassword4">მოთხოვნილი ლიმიტი</label>
+          <input
+            type="number"
+            className="form-control"
+            id="inputPassword4"
+            placeholder="მოთხოვნილი ლიმიტი"
+            name="requiredLimit"
+            value={statement?.requiredLimit}
+            onChange={handleChangeInput}
+          />
+        </div> */}
+      </>
+    );
+  };
 
- 
+  const agroLoan = () => {
+    return <>{agroType == "physical" ? consumerLoan() : businessLoan()}</>;
+  };
+
+  const autoLeasing = () => {
+    return (
+      <>
+        {consumerLoan()}
+        <br></br>
+        <Card border="info" style={{ width: "49rem" }}>
+          <Card.Header>ინფორმაცია ავტომობილზე</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ავტომობილის ღირებულება</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ავტომობილის ღირებულება"
+                  name="carCost"
+                  value={statement?.carCost}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ავტომობილის მარკა</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ავტომობილის მარკა"
+                  name="CarMake"
+                  value={statement?.CarMake}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ავტომობილის გამოშვების წელი</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder=" ავტომობილის გამოშვების წელი"
+                  name="vehicleYear"
+                  value={statement?.vehicleYear}
+                  onChange={handleChangeInput}
+                />
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+      </>
+    );
+  };
+
+  const mortgageLoan = () => {
+    return (
+      <>
+        {consumerLoan()}
+        <br></br>
+        <Card border="info" style={{ width: "49rem" }}>
+          <Card.Header>ინფორმაცია იპოთეკაზე</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">თანამსესხებელი</label>
+                <select
+                  id="inputState"
+                  className="form-control"
+                  name="coBorrowerRelative"
+                  value={statement?.coBorrowerRelative}
+                  onChange={handleChangeInput}
+                >
+                  <option selected>აირჩიეთ...</option>
+                  <option>მშობელი</option>
+                  <option>შვილი</option>
+                  <option>მეუღლე</option>
+                  <option>და-ძმა</option>
+                </select>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">თანამსესხებლის ხელფასი</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="თანხა"
+                  name="coBorrowerSalary"
+                  value={statement?.coBorrowerSalary}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">შესაძენი ქონების ღირებულება</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="შესაძენი ქონების ღირებულება"
+                  name="propertyCost"
+                  value={statement?.propertyCost}
+                  onChange={handleChangeInput}
+                />
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">ზუსტი მიზნობრიობა (აღწერა)</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ზუსტი მიზნობრიობა (აღწერა)"
+                  name="purpose"
+                  value={statement?.purpose}
+                  onChange={handleChangeInput}
+                />
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+      </>
+    );
+  };
+  const businessLoan = () => {
+    return (
+      <>
+        <Card border="info" style={{ width: "49rem" }}>
+          <Card.Header>კომპანიის შესახებ</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  კომპანიის დასახელება<span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="კომპანიის დასახელება"
+                  name="borrowerName"
+                  value={statement?.borrowerName}
+                  onChange={handleChangeInput}
+                />
+                <Form.Control.Feedback type="invalid">
+                  მოითითეთ კომპანიის დასახელება.
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  საიდენტიფიკაციო ნომერი<span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="საიდენტიფიკაციო ნომერი"
+                  name="taxcode"
+                  value={statement?.taxcode}
+                  onChange={handleChangeInput}
+                />
+                <Form.Control.Feedback type="invalid">
+                  საიდენტიფინაციო ნომერი.
+                </Form.Control.Feedback>
+              </div>
+            </div>
+          </Card.Body>
+        </Card>
+        <br></br>
+        {/* <div className="form-group col-md-6">
+          <label for="inputPassword4">ბიზნესის გამოცდილება</label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputPassword4"
+            placeholder="ბიზნესის გამოცდილება"
+            name="businessExperience"
+            onChange={handleChangeInput}
+          />
+        </div> */}
+        {consumerLoan()}
+      </>
+    );
+  };
+  const consumerLoan = () => {
+    return (
+      <>
+        <Card border="info" style={{ width: "49rem" }}>
+          <Card.Header>მოთხოვნილი პროდუქტი</Card.Header>
+          <Card.Body>
+            <Card.Text>
+              <div>
+                <div className="form-row">
+                  <div className="col-md-4">
+                    <label for="inputEmail4">
+                      მოთხოვნილი თანხა <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <Form.Control
+                      required
+                      type="number"
+                      className="form-control"
+                      id="inputEmail4"
+                      placeholder="თანხა"
+                      name="requestedAmount"
+                      value={statement?.requestedAmount}
+                      onChange={handleChangeInput}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      მიუთითეთ მოთხოვნილი თანხა.
+                    </Form.Control.Feedback>
+                  </div>
+                  <div className=" col-md-2">
+                    <label for="inputEmail4">
+                      ვალუტა<span style={{ color: "red" }}>*</span>
+                    </label>
+                    <select
+                      id="inputcurrency"
+                      className="form-control"
+                      name="currency"
+                      value={statement?.currency}
+                      onChange={handleChangeInput}
+                    >
+                      <option selected>GEL</option>
+                      <option>USD</option>
+                      <option>EUR</option>
+                    </select>
+                  </div>
+                  <div className=" col-md-2">
+                    {statement?.loantypeId != 5 ? (
+                      <>
+                        <label for="inputPassword4">
+                          ვადა (თვე)<span style={{ color: "red" }}>*</span>
+                        </label>
+                        <input
+                          required
+                          type="number"
+                          className="form-control"
+                          id="inputPassword4"
+                          placeholder="ვადა"
+                          name="term"
+                          value={statement?.term}
+                          onChange={handleChangeInput}
+                        />
+
+                        <Form.Control.Feedback type="invalid">
+                          მიუთითეთ ვადა.
+                        </Form.Control.Feedback>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className=" col-md-4">
+                    {statement?.loantypeId != 5 ? (
+                      <>
+                        <label for="inputPassword4">შენატანი (სავარაუდო)</label>
+                        <input
+                          disabled
+                          type="number"
+                          className="form-control"
+                          id="inputPassword4"
+                          placeholder="შენატანი"
+                          name="deposit"
+                          value={deposit}
+                          // onChange={handleChangeInput}
+                        />
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <br></br>
+
+        <Card border="info" style={{ width: "49rem" }}>
+          <Card.Header>შემოსავლები</Card.Header>
+          <Card.Body>
+            <Card.Text>
+              <div className="form-row">
+                <div className="form-group col-md-5">
+                  <label for="inputPassword4">
+                    თვიური საშუალო შემოსავალი
+                    <span style={{ color: "red" }}>*</span>
+                  </label>
+                  <input
+                    required
+                    type="number"
+                    className="form-control"
+                    id="inputPassword4"
+                    placeholder="შემოსავალი"
+                    name="monthlyAverageIncome"
+                    value={statement?.monthlyAverageIncome}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ თვიური საშუალო შემოსავალი.
+                  </Form.Control.Feedback>
+                </div>
+                <div className="form-group col-md-3">
+                  <label for="inputState">
+                    შემოსავლის წყარო <span style={{ color: "red" }}>*</span>
+                  </label>
+                  <Form.Control
+                    required
+                    as="select"
+                    id="inputState"
+                    className="form-control"
+                    name="incomeSourceId"
+                    value={statement?.incomeSourceId}
+                    onChange={handleChangeInput}
+                  >
+                    <option></option>
+                    {incomeSource.map((s) => (
+                      <option key={s.id} name={s.id} value={s.id}>
+                        {s.incomeSourceName}
+                      </option>
+                    ))}
+                    ;
+                  </Form.Control>
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ თვიური საშუალო შემოსავალი.
+                  </Form.Control.Feedback>
+                </div>
+                <div className="form-group col-md-4">
+                  {statement?.loantypeId == 3 ||
+                  (statement?.loantypeId == 4 && agroType == "legal") ? (
+                    ""
+                  ) : (
+                    <>
+                      {/* {statement?.incomeSourceId == 7 ? ( */}
+                      <>
+                        <label for="inputPassword4">
+                          სხვა შემოსავლის წყარო
+                          <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <input
+                          disabled={statement?.incomeSourceId != 7}
+                          type="text"
+                          className="form-control"
+                          id="inputPassword4"
+                          placeholder="სხვა შემოსავლის წყარო"
+                          name="otherIncomeSource"
+                          value={statement?.otherIncomeSource}
+                          onChange={handleChangeInput}
+                        />
+                      </>
+                      {/* ) : (
+                        ""
+                      )} */}
+                    </>
+                  )}
+                </div>
+                {statement?.loantypeId == 3 ||
+                (statement?.loantypeId == 4 && agroType == "legal") ? (
+                  ""
+                ) : (
+                  <>
+                    <div className="form-group col-md-5">
+                      <label for="inputState">
+                        სად გერიცხებათ ხელფასი
+                        <span style={{ color: "red" }}>*</span>
+                      </label>
+                      <select
+                        required
+                        id="inputState"
+                        className="form-control"
+                        name="IncomeAccrue"
+                        value={statement?.IncomeAccrue}
+                        onChange={handleChangeInput}
+                      >
+                        <option selected></option>
+                        <option>ბანკში</option>
+                        <option>ხელზე</option>
+                      </select>
+                      <Form.Control.Feedback type="invalid">
+                        მიუთითეთ სად გერიცებათ ხელფასი.
+                      </Form.Control.Feedback>
+                    </div>
+                    <div className="form-group col-md-7">
+                      <label for="inputState">
+                        სამუშო გამოცდილება - სტაჟი
+                        <span style={{ color: "red" }}>*</span>
+                      </label>
+                      <select
+                        required
+                        id="inputState"
+                        className="form-control"
+                        name="workExperienceId"
+                        value={statement?.workExperienceId}
+                        onChange={handleChangeInput}
+                      >
+                        <option selected></option>
+                        {workExperiance.map((s) => (
+                          <option key={s.id} name={s.id} value={s.id}>
+                            {s.workExperienceName}
+                          </option>
+                        ))}
+                        ;
+                      </select>
+                      <Form.Control.Feedback type="invalid">
+                        მიუთითეთ სტაჟი.
+                      </Form.Control.Feedback>
+                    </div>
+                  </>
+                )}
+              </div>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+        <br />
+
+        <Card border="info" style={{ width: "49rem" }}>
+          <Card.Header>დამატებითი ინფორმაცია</Card.Header>
+          <Card.Body>
+            <div className="form-row">
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  ფაქტიური მისამართი<span style={{ color: "red" }}>*</span>
+                </label>
+                <div className="form-row">
+                  <div className="form-group col-md-6">
+                    <select
+                      required
+                      id="inputState"
+                      className="form-control"
+                      name="regionId"
+                      value={statement?.regionId}
+                      onChange={handleChangeInput}
+                    >
+                      <option selected></option>
+                      {regions.map((s) => (
+                        <option key={s.id} name={s.id} value={s.id}>
+                          {s.regionName}
+                        </option>
+                      ))}
+                      ;
+                    </select>
+                  </div>
+                  <div className="form-group col-md-6">
+                    <select
+                      required
+                      id="inputState"
+                      className="form-control"
+                      name="municipalId"
+                      value={statement?.municipalId}
+                      onChange={handleChangeInput}
+                    >
+                      <option selected></option>
+                      {controledMunicipals.map((s) => (
+                        <option key={s.id} name={s.id} value={s.id}>
+                          {s.municipalName}
+                        </option>
+                      ))}
+                      ;
+                    </select>
+                  </div>
+                </div>
+
+                <Form.Control.Feedback type="invalid">
+                  მიუთითეთ მისამართი.
+                </Form.Control.Feedback>
+                {/* <input
+            required
+            type="text"
+            className="form-control"
+            id="inputPassword4"
+            placeholder="ფაქტიური მისამართი"
+            name="actualAddress"
+            onChange={handleChangeInput}
+            value={statement?.actualAddress}
+          /> */}
+
+                {/* <Form.Control.Feedback type="invalid">
+            მიუთითეთ ფაქტიური მისამართი.
+          </Form.Control.Feedback> */}
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  სხვა არსებული სესხები (ჯამურად)
+                  <span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="ჯამი"
+                  name="existingLoans"
+                  onChange={handleChangeInput}
+                  value={statement?.existingLoans}
+                />
+                <Form.Control.Feedback type="invalid">
+                  სხვა არსებული სესხები (ჯამურად).
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputPassword4">
+                  რამდენს იხდით სესხებში ყოველთვიურად?
+                  <span style={{ color: "red" }}>*</span>
+                </label>
+                <input
+                  required
+                  type="number"
+                  className="form-control"
+                  id="inputPassword4"
+                  placeholder="თანხა"
+                  name="montlyPaidAmount"
+                  onChange={handleChangeInput}
+                  value={statement?.montlyPaidAmount}
+                />
+                <Form.Control.Feedback type="invalid">
+                  სხვა არსებული სესხები (ჯამურად).
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label for="inputState">
+                  {" "}
+                  გაქვს ნეგატიური სტატუსი?{" "}
+                  <span style={{ color: "red" }}>*</span>
+                </label>
+                <select
+                  required
+                  id="inputState"
+                  className="form-control"
+                  name="negativeStatus"
+                  onChange={handleChangeInput}
+                >
+                  <option selected></option>
+                  <option>მაქვს</option>
+                  <option>მქონდა</option>
+                  <option>არასდროს მქონია</option>
+                </select>
+                <Form.Control.Feedback type="invalid">
+                  აირჩიეთ .
+                </Form.Control.Feedback>
+              </div>
+              <div className="form-group col-md-6">
+                <label>
+                  {" "}
+                  <input
+                    type="checkbox"
+                    checked={overlay}
+                    onChange={handleChangeOverlay}
+                  />{" "}
+                  აპირებთ თუ არა გადაფარვას?{" "}
+                </label>
+              </div>
+              {overlay ? (
+                <>
+                  <div className="form-group col-md-6">
+                    <input
+                      type="number"
+                      className="form-control"
+                      id="inputPassword4"
+                      placeholder="თანხა"
+                      name="overlayAmount"
+                      onChange={handleChangeInput}
+                      value={statement?.overlayAmount}
+                    />
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
+            </div>
+          </Card.Body>
+        </Card>
+      </>
+    );
+  };
   const onDialog = (index) => {
     if (!isAuthorize) {
       // message.warning('განცხადების შესატანად გაიარეთ ავტორიზაცია');
@@ -132,13 +873,14 @@ const MiddleBlock = ({
       //     'განცხადების შესატანად გაიარეთ ავტორიზაცია.',
       //     placement: 'bottomRight'
       // });
-      AntModal.warning({
-        title: "შეცდომა",
-        content: "განცხადების შესავსებად გაიარეთ ავტორიზაცია",
-        oklButtonProps: { style: { display: "none" } },
-      });
-      console.log(777777);
-      // setOpenLoginRegisterDialog(true)
+      // AntModal.warning({
+      //   title: "შეცდომა",
+      //   content: "განცხადების შესავსებად გაიარეთ ავტორიზაცია",
+      //   oklButtonProps: { style: { display: "none" } },
+      // });
+      // console.log(777777);
+      console.log("visi", visibleLoginRegisterDialog);
+      setVisibleLoginRegisterDialog(true);
       return;
     }
     console.log("productType", productType);
@@ -181,121 +923,469 @@ const MiddleBlock = ({
   };
   return (
     <S.MiddleBlock id="products">
+      <AntModal
+        visible={visibleLoginRegisterDialog}
+        onCancel={() => setVisibleLoginRegisterDialog(false)}
+        footer={null}
+        width={800}
+      >
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="ავტორიზაცია" key="1">
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+              <Row>
+                <Form.Label column lg={3}>
+                  მომხმარებლის სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="userName"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.userName}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    type="password"
+                    placeholder="პაროლი"
+                    required
+                    name="password"
+                    value={user?.password}
+                    onChange={handleChangeInputUser}
+                    onKeyPress={handleKeypress}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}></Form.Label>
+                <Col lg={12}>
+                  <AntdButton htmlType="submit" loading={loginLoading}>
+                    შესვლა
+                  </AntdButton>
+                </Col>
+              </Row>
+            </Form>
+          </TabPane>
+          <TabPane tab="რეგისტრაცია" key="2">
+            <Form noValidate validated={validated} onSubmit={onClickRegister}>
+              <Row>
+                <Form.Label column lg={3}>
+                  მობილურის ნომერი111111111
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    placeholder="მობილურის ნომერი"
+                    name="phoneNumber"
+                    value={user?.phoneNumber}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მომხმარებლის სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="userName"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.userName}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="password"
+                    name="password"
+                    placeholder="პაროლი"
+                    value={user?.password}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  გაიმეორეთ პაროლი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="password"
+                    name="rePassword"
+                    placeholder="გაიმეორეთ პაროლი"
+                    value={user?.rePassword}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    გაიმეორეთ პაროლი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  ელ. ფოსტა
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="email"
+                    placeholder=" ელ. ფოსტა"
+                    value={user?.email}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ ელ. ფოსტა.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  სახელი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="name"
+                    placeholder="სახელი"
+                    value={user?.name}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ სახელი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  გვარი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="lastName"
+                    placeholder="გვარი"
+                    value={user?.lastName}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ გვარი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  პირადი ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="personalId"
+                    placeholder="პირადი ნომერი"
+                    value={user?.personalId}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პირადი ნომერი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  დაბადების თარიღი
+                </Form.Label>
+                <Col lg={16}>
+                  {/* <Form.Control
+                    required
+                    type="text"
+                    name="birthDate"
+                    placeholder="მომხმარებლის სახელი"
+                    value={user?.birthDate}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                  დაბადების თარიღი.
+                  </Form.Control.Feedback> */}
+                  <Form.Control
+                    autoComplete="off"
+                    required
+                    type="date"
+                    name="birthDate"
+                    placeholder="დაბადების თარიღი"
+                    value={user?.birthDate}
+                    onChange={handleChangeInputUser}
+                    isValid={user?.birthDate != null}
+                  />
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მისამართი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="address"
+                    placeholder="მისამართი"
+                    value={user?.address}
+                    onChange={handleChangeInputUser}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ მისამართი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}></Form.Label>
+                <Col lg={12}>
+                  <AntdButton htmlType="submit" loading={registerLoading}>
+                    რეგისტრაცია
+                  </AntdButton>
+                </Col>
+              </Row>
+            </Form>
+          </TabPane>
+        </Tabs>
+      </AntModal>
+
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-around",
+            }}
+          >
+
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{
+                    backgroundColor: "#2e186a",
+                    color: "#fff",
+                  }}
+                >
+                  {t("ConsumerLoan")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-1.svg" height="110px" />
+                  <p className="card-text">{t("ConsumerLoanDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(1)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("Mortgage")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-2.svg" height="110px" />
+                  <p className="card-text">{t("MortgageDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(2)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("BusinessLoan")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-3.svg" height="110px" />
+                  <p className="card-text">{t("BusinessLoanDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(3)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("AgroLoan")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-4.svg" height="110px" />
+                  <p className="card-text">{t("AgroLoanDesc")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(4)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              {" "}
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("CreditCard")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-5.svg" height="110px" />
+                  <p className="card-text">{t("CreditCard")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(5)}
+                  >
+                    <span>{t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div>
+              {" "}
+              <div
+                className="card border-dark mb-3"
+                style={{
+                  maxWidth: "18rem",
+                  minWidth: "18rem",
+                  height: "19rem",
+                }}
+              >
+                <div
+                  className="card-header"
+                  style={{ backgroundColor: "#2e186a", color: "#fff" }}
+                >
+                  {t("AutoLeasing")}
+                </div>
+                <div className="card-body text-dark">
+                  {/* <h5 className="card-title">Dark card title</h5> */}
+                  <SvgIcon src="RANKO_ICONS-6.svg" height="110px" />
+                  <p className="card-text">{t("AutoLeasing")}</p>
+                  <span
+                    className="btn btn-outline-info"
+                    onClick={() => onDialog(6)}
+                  >
+                    <span> {t("ApplyNow")}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
           <br></br>
-          <div className="card border-dark mb-3" style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem" }}>
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("ConsumerLoan")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="56.svg" height="110px" />
-              <p className="card-text">{t("ConsumerLoanDesc")}</p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(1)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("Mortgage")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="55.svg" height="110px" />
-              <p className="card-text">{t("MortgageDesc")}</p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(2)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("BusinessLoan")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="54.svg" height="110px" />
-              <p className="card-text">
-                {t("BusinessLoanDesc")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(3)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AgroLoan")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="57.svg" height="110px" />
-              <p className="card-text">
-                {t("AgroLoanDesc")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(4)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "29px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("CreditCard")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="credit.svg" height="110px" />
-              <p className="card-text">
-                {t("CreditCard")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(5)}
-              >
-                <span>{t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
-          <div
-            className="card border-dark mb-3"
-            style={{ maxWidth: "18rem", minWidth: "18rem", height: "19rem", marginLeft: "12px" }}
-          >
-            <div className="card-header" style={{ backgroundColor: '#2e186a', color: '#fff' }}>{t("AutoLeasing")}</div>
-            <div className="card-body text-dark">
-              {/* <h5 className="card-title">Dark card title</h5> */}
-              <SvgIcon src="auto.svg" height="110px" />
-              <p className="card-text">
-                {t("AutoLeasing")}
-              </p>
-              <span
-                className="btn btn-outline-info"
-                onClick={() => onDialog(6)}
-              >
-                <span> {t("ApplyNow")}</span>
-              </span>
-            </div>
-          </div>
 
           <section id="pricing" className="bg-white">
-
             <div className="container">
-
               {/* <h2 className="text-center">პროდუქტები</h2> */}
 
               <div className="spacer spacer-line border-primary">&nbsp;</div>
@@ -345,8 +1435,14 @@ const MiddleBlock = ({
 
                       <div className="form-row">
                         {/* {productType == 3 ? businessLoan() : ""} */}
-                        {productType == 3 ? 
-                         <BusinessLoan statement={statement} setStatement={setStatement} /> : ""}
+                        {productType == 3 ? (
+                          <BusinessLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 1 ? consumerLoan() : ""} */}
                         {productType == 1 ?
@@ -354,23 +1450,46 @@ const MiddleBlock = ({
                           : ""}
 
                         {/* {productType == 4 ? agroLoan() : ""} */}
-                        {productType == 4 ? 
-                         <AgroLoan statement={statement} setStatement={setStatement} agroType={agroType} /> : ""}
+                        {productType == 4 ? (
+                          <AgroLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                            agroType={agroType}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {consumerLoan()} */}
                         {/* {productType == 2 ? mortgageLoan() : ""} */}
-                        {productType == 2 ?
-                         <MortgageLoan statement={statement} setStatement={setStatement} /> : ""}
+                        {productType == 2 ? (
+                          <MortgageLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 6 ? autoLeasing() : ""} */}
-                        {productType == 6 ? 
-                         <AutoLeasing statement={statement} setStatement={setStatement} />
-                          : ""}
+                        {productType == 6 ? (
+                          <AutoLeasing
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 5 ? creditCard() : ""} */}
-                        {productType == 5 ? 
-                        <CreditCard statement={statement} setStatement={setStatement} /> : ""}
-
+                        {productType == 5 ? (
+                          <CreditCard
+                            statement={statement}
+                            setStatement={setStatement}
+                          />
+                        ) : (
+                          ""
+                        )}
                       </div>
                       <br></br>
 

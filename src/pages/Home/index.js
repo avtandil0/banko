@@ -31,7 +31,8 @@ const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog }) =>
         first="true"
         title={t("introContentTitle")}
         content={t("introContentText")}
-        button={[{ "title": t("introContentButton1") }, { "title": t("introContentButton2"), "color": "#fff" }]}
+        additionalText={t('UsedFree')}
+        // button={[{ "title": t("introContentButton1") }, { "title": t("introContentButton2"), "color": "#fff" }]}
         icon="developer.svg"
         id="intro"
       />
