@@ -30,6 +30,7 @@ import {
   Dropdown,
 } from "antd";
 
+
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import * as S from "./styles";
 
@@ -114,10 +115,19 @@ const Header = ({ t, setInProfileMOde, isAuthorize, setIsAuthorize, openLoginReg
     setIsAuthorize(false);
     // history.push('/')
   };
+
+  const goToProfile = () =>{
+    console.log('setCurrentUser',currentUser)
+    if(currentUser.userRoleId == 2 && currentUser.bankId){
+      history.push("/bank");
+    }
+    setInProfileMOde(true)
+  }
+
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <a onClick={() => setInProfileMOde(true)}>პროფილი</a>
+        <a onClick={goToProfile}>პროფილი</a>
       </Menu.Item>
       <Menu.Item key="1" onClick={logOut}>
         <a>გასვლა</a>

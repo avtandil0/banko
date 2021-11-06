@@ -23,6 +23,8 @@ import Form from "react-bootstrap/Form";
 
 import Modal from "react-bootstrap/Modal";
 
+import constants from '../../constants'
+
 import axios from "axios";
 import { BusinessLoan } from '../../components/LoanTypes/BusinessLoan'
 import { ConsumerLoan } from '../../components/LoanTypes/ConsumerLoan'
@@ -84,7 +86,7 @@ const Profile = () => {
     console.log("us", us);
 
     setStatementLoading(true);
-    var result = await axios.get(`https://weblive.com.ge/api/Home`, {
+    var result = await axios.get(constants.API_PREFIX +`/api/Home`, {
       params: { userId: us.id },
     });
     console.log("res", result);
@@ -98,6 +100,20 @@ const Profile = () => {
   };
 
 
+  const getStatementStatus = (statusId) => {
+    switch (statusId) {
+      case 1:
+        return "ახალი";
+      case 2:
+        return "დამუშავების პროცესში";
+      case 3:
+        return "დაკმაყოფილდა";
+      case 4:
+        return "უარი ეთქვა";
+      default:
+        return "";
+    }
+  }
 
   const sendStatement = async (event) => {
     setValidated(true);
@@ -114,7 +130,7 @@ const Profile = () => {
     setSentLoading(true);
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      `https://localhost:44314/api/Home/${user.id}`,
+      constants.API_PREFIX +`/api/Home/${user.id}`,
       statement
     );
     console.log("result WorkExperience", result);
@@ -152,7 +168,7 @@ const Profile = () => {
         <>
           <Space>
             <Tooltip placement="bottom" title="რედაქტირება">
-              <Button type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
+              <Button disabled={row.statementStatus != 1} type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
           </Space>
@@ -163,9 +179,9 @@ const Profile = () => {
       title: "სტატუსი",
       dataIndex: "status",
       key: "status",
-      render: (text) => (
+      render: (text,row) => (
         <>
-          <Tag color="cyan">ახალი</Tag>
+          <Tag color="cyan">{getStatementStatus(row.statementStatus)}</Tag>
         </>
       ),
     },

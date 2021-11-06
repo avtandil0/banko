@@ -1,5 +1,5 @@
 import React, { useState, Fragment, lazy, useEffect } from "react";
-import { ArrowDownOutlined, CheckOutlined, EditOutlined, FundViewOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, CheckOutlined, EditOutlined, FundViewOutlined, CloseOutlined } from '@ant-design/icons';
 
 import {
   Modal as AntModal,
@@ -25,6 +25,7 @@ import {
 
 } from "antd";
 import axios from "axios";
+import constants from '../../constants'
 import { modalGlobalConfig } from "antd/lib/modal/confirm";
 
 import Modal from "react-bootstrap/Modal";
@@ -41,8 +42,9 @@ import { CreditCard } from '../../components/LoanTypes/CreditCard'
 const { Option } = Select;
 
 const Bank = () => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
   const [statements, setStatements] = useState([]);
+  const [loanTypesOptions, setLoanTypesOptions] = useState([]);
   const [statementLoading, setStatementLoading] = useState(false);
   const [statement, setStatement] = useState([]);
   const [show1, setShow1] = useState(false);
@@ -52,14 +54,48 @@ const Bank = () => {
   const [agroType, setAgroType] = useState("physical");
   const [sentLoading, setSentLoading] = useState(false);
   const [receiveLoading, setReceiveLoading] = useState(false);
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [approvaloading, setApprovaloading] = useState(false);
+  const [rejectionLoading, setRejectionLoading] = useState(false);
 
 
   const [modal, setModal] = useState({
     visible: false,
     type: '',
-    amount: 0
+    amount: 0,
+    loading: false
   });
+
+  const changeStatus = async (status) => {
+    switch (status) {
+      case 3:
+        setApprovaloading(true)
+        break;
+      case 4:
+        setRejectionLoading(true)
+        break;
+    }
+    var result = await axios.put(
+      // `https://weblive.com.ge/api/Home`,
+      constants.API_PREFIX + `/api/Statement/${user.id}/${statement.id}/${status}`//დამუშავების პროცესში
+    );
+
+    message.open({
+      key: 'updatable',
+      type: result.data.isSuccess ? 'success' : 'error',
+      content: result.data.meessage
+    });
+
+    setApprovaloading(false)
+    setRejectionLoading(false)
+
+    setShow1(false)
+
+    if (result.data.isSuccess) {
+      search()
+    }
+
+  }
 
   const modalSelectChange = (type) => {
     console.log(modal, type)
@@ -79,18 +115,25 @@ const Bank = () => {
 
   const handleOk = async () => {
     console.log(modal)
+    setModal({ ...modal, loading: true });
     var result = await axios.post(
       // `https://weblive.com.ge/api/Home`,
-      `https://localhost:44314/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`//დამუშავების პროცესში
+      constants.API_PREFIX + `/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`
     );
 
     message.open({
       key: 'updatable',
-      type: result.data.isSuccess ? 'succes' : 'error',
+      type: result.data.isSuccess ? 'success' : 'error',
       content: result.data.meessage
     });
     console.log(result)
-    setModal({ ...modal, visible: false });
+
+    setModal({ ...modal, visible: false, loading: false });
+
+    if (result.data.isSuccess) {
+      search()
+    }
+
   };
 
   const handleCancel = () => {
@@ -98,24 +141,49 @@ const Bank = () => {
   };
   useEffect(async () => {
     window.scrollTo(0, 0);
+
     console.log(JSON.parse(localStorage.getItem("user")));
     let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
     setUser(us);
-    console.log("us", us);
+    console.log("us", us, constants.API_PREFIX);
 
-    setStatementLoading(true);
-    var result = await axios.get(`https://weblive.com.ge/api/Home`, {
-      params: { userId: us.id },
-    });
-    console.log("data", result.data);
-    setStatements(result.data);
-    setStatementLoading(false);
+    //setLoanTypesOptions
+    var loanTypes = await axios.get(
+      constants.API_PREFIX + `/api/BankToLoan/${us.id}`);
+
+
+    let newArlloanto = loanTypes.data.map(el => { return { value: el.loantypeId.toString(), text: el.loantype.loanTypeName } })
+    // console.log('newArlloanto', newArlloanto)
+    setLoanTypesOptions(newArlloanto)
+    console.log('loanTypes', loanTypes)
+
+
+
   }, []);
+
+  useEffect(async () => {
+    if (user) {
+      search()
+    }
+  }, [user]);
 
   const showPopconfirm = () => {
     setVisible(true);
   };
+
+  const search = async () => {
+    setStatementLoading(true);
+
+    var result = await axios.get(
+      constants.API_PREFIX + '/api/Home',
+      {
+        params: { userId: user?.id },
+      });
+    console.log("data123", result.data);
+    setStatements(result.data);
+    setStatementLoading(false);
+  }
 
   const confirmReceive = async (item) => {
     setReceiveLoading(true)
@@ -124,7 +192,7 @@ const Bank = () => {
 
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      `https://localhost:44314/api/Statement/${user.id}/${item.id}/${2}`//დამუშავების პროცესში
+      constants.API_PREFIX + `/api/Statement/${user.id}/${item.id}/${2}`//დამუშავების პროცესში
     );
     setReceiveLoading(false)
     setVisible(false)
@@ -132,9 +200,13 @@ const Bank = () => {
     // if(resu)
     message.open({
       key: 'updatable',
-      type: result.data.isSuccess ? 'succes' : 'error',
+      type: result.data.isSuccess ? 'success' : 'error',
       content: result.data.meessage
     });
+
+    if (result.data.isSuccess) {
+      search()
+    }
     // console.log(item)
   }
 
@@ -180,6 +252,21 @@ const Bank = () => {
   }
 
 
+  const getStatementStatus = (statusId) => {
+    switch (statusId) {
+      case 1:
+        return "ახალი";
+      case 2:
+        return "დამუშავების პროცესში";
+      case 3:
+        return "დაკმაყოფილდა";
+      case 4:
+        return "უარი ეთქვა";
+      default:
+        return "";
+    }
+  }
+
   const getIncomeSourceName = (id) => {
     switch (id) {
       case 1:
@@ -214,14 +301,24 @@ const Bank = () => {
                 // onCancel={cancel}
                 // visible={visible}
                 okText="დიახ"
+                disabled={row.statementStatus != 1}
                 cancelText="არა"
               >
-                <Button type="primary" key={id} icon={<CheckOutlined style={{ color: 'white' }} />}>
+                <Button type="primary" disabled={row.statementStatus != 1} key={id} icon={<CheckOutlined style={{ color: 'white' }} />}>
                 </Button>
               </Popconfirm>
 
             </Tooltip>
 
+
+            <Tooltip placement="bottom" title="რედაქტირება">
+              <Button type="primary" disabled={row.statementStatus != 2} onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
+              </Button>
+            </Tooltip>
+            <Tooltip placement="bottom" title="ნახვა">
+              <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
+              </Button>
+            </Tooltip>
             <Tooltip placement="bottom" title="ჩამოტვირთვა">
               {/* <Popconfirm title="გსურთ მიღება? " okText="დიახ" cancelText="არა"> */}
 
@@ -230,15 +327,6 @@ const Bank = () => {
               {/* </Popconfirm> */}
 
             </Tooltip>
-
-            <Tooltip placement="bottom" title="რედაქტირება">
-              <Button type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
-              </Button>
-            </Tooltip>
-            <Tooltip placement="bottom" title="ნახვა">
-              <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
-              </Button>
-            </Tooltip>
           </Space>
 
         </>
@@ -246,11 +334,11 @@ const Bank = () => {
     },
     {
       title: "სტატუსი",
-      dataIndex: "status",
-      key: "status",
-      render: (text) => (
+      dataIndex: "statementStatus",
+      key: "statementStatus",
+      render: (statementStatus) => (
         <>
-          <Tag color="cyan">ახალი</Tag>
+          <Tag color="cyan">{getStatementStatus(statementStatus)}</Tag>
         </>
       ),
     },
@@ -271,7 +359,7 @@ const Bank = () => {
       key: "user",
       render: (user) => (
         <a>
-          {user.name} {user.lastName}
+          {user?.name} {user?.lastName}
         </a>
       ),
     },
@@ -279,7 +367,7 @@ const Bank = () => {
       title: "მობ. ნომერი",
       dataIndex: "user",
       key: "user",
-      render: (user) => <a>{user.phoneNumber}</a>,
+      render: (user) => <a>{user?.phoneNumber}</a>,
     },
     // {
     //   title: "Tags",
@@ -410,6 +498,32 @@ const Bank = () => {
             </div>
             <br></br>
 
+            {statement.statementStatus == 2 ?
+              <div style={{ margin: 'auto', width: '50%' }}>
+                <Space size="large">
+                  <Button
+                    size="large"
+                    icon={<CheckOutlined />}
+                    loading={approvaloading}
+                    onClick={() => changeStatus(3)}
+                  >
+                    დამტკიცება
+                  </Button>
+
+                  <Button
+                    danger
+                    size="large"
+                    icon={<CloseOutlined />}
+                    loading={rejectionLoading}
+                    onClick={() => changeStatus(4)}
+                  >
+                    უარყოფა
+                  </Button>
+                </Space>
+              </div>
+              : ''}
+
+
             {/* <AntdButton
               // onClick={sendStatement}
               htmlType="submit"
@@ -423,16 +537,20 @@ const Bank = () => {
         <Modal.Footer></Modal.Footer>
       </Modal>
 
-      <AntModal title="რედაქტირება" visible={modal.visible} onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
+      <AntModal title="რედაქტირება" visible={modal.visible} okButtonProps={{ loading: modal.loading }} onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
         cancelText="დახურვა">
         <Space size="large">
           <Select value={modal.type} style={{ width: 200 }} onChange={modalSelectChange}>
-            <Option value="1">სამომხმარებლო</Option>
+            {loanTypesOptions.map((option) => (
+              // <Select.Option key={option} value={option}>{option}</Select.Option>
+              <Option value={option.value}>{option.text}</Option>
+            ))}
+            {/* <Option value="1">სამომხმარებლო</Option>
             <Option value="2">იპოთეკური</Option>
             <Option value="3">ბიზნეს სესხი</Option>
             <Option value="4">აგრო</Option>
             <Option value="5">საკრედიტო ბარათები</Option>
-            <Option value="6">ავტო სესხი</Option>
+            <Option value="6">ავტო სესხი</Option> */}
           </Select>
           <InputNumber value={modal.amount} onChange={modalAmountChange} />
         </Space>
@@ -444,7 +562,7 @@ const Bank = () => {
       <Row justify="center">
         <Col span={16}>
           <PageHeader
-            title="Title"
+            title={user?.name?.toUpperCase()}
             tags={<Tag color="blue">Running</Tag>}
             subTitle="This is a subtitle"
             extra={[
@@ -488,11 +606,15 @@ const Bank = () => {
               <Option value="დამტკიცებული">დამტკიცებული</Option>
             </Select>
             <Select defaultValue="პროდუქტის ტიპი" style={{ width: 200 }}>
-              <Option value="იპოთეკური">იპოთეკური</Option>
+              {loanTypesOptions.map((option) => (
+                // <Select.Option key={option} value={option}>{option}</Select.Option>
+                <Option value={option.value}>{option.text}</Option>
+              ))}
+              {/* <Option value="იპოთეკური">იპოთეკური</Option>
               <Option value="სამომხმარებლო">სამომხმარებლო</Option>
               <Option value="აგრო">აგრო</Option>
               <Option value="საკრედიტო ბარათები">საკრედიტო ბარათები</Option>
-              <Option value="ავტო სესხი">ავტო სესხი</Option>
+              <Option value="ავტო სესხი">ავტო სესხი</Option> */}
             </Select>
             <Select defaultValue="რეგიონი" style={{ width: 200 }}>
 

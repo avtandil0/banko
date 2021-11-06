@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
 
-export function ConsumerLoan({ statement, setStatement }) {
+export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
     const [municipals, setMunicipals] = useState([]);
     const [controledMunicipals, setControledMunicipals] = useState([]);
@@ -13,7 +13,9 @@ export function ConsumerLoan({ statement, setStatement }) {
     const [workExperiance, setWorkExperiance] = useState([]);
     const [regions, setRegions] = useState([]);
     const [overlay, setOverlay] = useState(false);
+    const [monthlyAverageIncomeValidate, setMonthlyAverageIncomeValidate] = useState(null);
     const [agroType, setAgroType] = useState("physical");
+
 
     useEffect(async () => {
         // Good!
@@ -21,46 +23,90 @@ export function ConsumerLoan({ statement, setStatement }) {
         let us = JSON.parse(localStorage.getItem("user"));
         // setUser(localStorage.getItem('user'))
         // setCurrentUser(us);
-    
+
         // setStatement({ ...statement, userId: us?.id });
         // console.log("currentUser", currentUser);
-    
+
         var result1 = await axios.get(`https://weblive.com.ge/api/IncomeSource`);
         console.log('result IncomeSource', result1)
         setIncomeSource(result1.data);
         var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
         console.log("result WorkExperience", result2);
         setWorkExperiance(result2.data);
-    
+
         var regionsRes = await axios.get(`https://weblive.com.ge/api/Region`);
         console.log("result regions", regionsRes);
         setRegions(regionsRes.data)
-    
+
         var municipalsRes = await axios.get(`https://weblive.com.ge/api/Municipal`);
         console.log("result municipals", municipalsRes);
         setMunicipals(municipalsRes.data)
 
         var cc = [...municipalsRes.data.filter(r => r.regionId == statement.regionId)];
-            console.log(111111111111, cc)
+        console.log(111111111111, cc)
 
         setControledMunicipals([...cc])
-    
-      }, []);
+
+    }, []);
+
+    const calculateMonthlyAverageIncome = () =>{
+        console.log('currency', statement)
+        if (statement.currency == "GEL") {
+            if (statement?.monthlyAverageIncome < 1000) {
+                // setValidated(true)
+                let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 25 / 100;
+
+                let valid = monthlyAverageIncomePart > deposit ? true : false
+                setMonthlyAverageIncomeValidate(valid)
+
+                console.log('statement.monthlyAverageIncome', statement.monthlyAverageIncome)
+
+            } else {
+                let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 50 / 100;
+
+                let valid = monthlyAverageIncomePart > deposit ? true : false
+                setMonthlyAverageIncomeValidate(valid)
+            }
+        } else {
+            console.log('elslelsllelsllell')
+            if (statement?.monthlyAverageIncome < 1000) {
+                // setValidated(true)
+                let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 20 / 100;
+
+                let valid = monthlyAverageIncomePart > deposit ? true : false
+                setMonthlyAverageIncomeValidate(valid)
+
+                console.log('statement.monthlyAverageIncome', statement.monthlyAverageIncome)
+
+            } else {
+                let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 30 / 100;
+
+                let valid = monthlyAverageIncomePart > deposit ? true : false
+                setMonthlyAverageIncomeValidate(valid)
+            }
+        }
+
+    }
+
+    useEffect(async () => {
+
+        calculateMonthlyAverageIncome();
+
+    }, [statement?.monthlyAverageIncome,statement?.currency]);
 
     const handleChangeOverlay = (e) => {
         console.log("eee", e.target.checked);
         setOverlay(e.target.checked);
-      };
+    };
 
     const handleChangeInput = (e) => {
-        console.log('change', e.target.name, e.target.value)
+        console.log('change', statement, e.target.name, e.target.value)
         if (e.target.name == 'regionId') {
             var cc = [...municipals.filter(r => r.regionId == e.target.value)];
             console.log(111111111111, cc)
 
             setControledMunicipals([...cc])
         }
-        console.log('res', res)
         // setStatement({...statement, deposit: res})
         //10%
         setStatement({ ...statement, [e.target.name]: e.target.value });
@@ -83,6 +129,9 @@ export function ConsumerLoan({ statement, setStatement }) {
             var res = r / ((1 - (1 / x)) / per);
             setDeposit(res.toFixed(2))
         }
+
+        //თვიური შემოსავლის ვალიდაცია
+
 
         console.log("statement", statement);
     };
@@ -123,7 +172,7 @@ export function ConsumerLoan({ statement, setStatement }) {
                                         value={statement?.currency}
                                         onChange={handleChangeInput}
                                     >
-                                        <option selected>GEL</option>
+                                        <option >GEL</option>
                                         <option>USD</option>
                                         <option>EUR</option>
                                     </select>
@@ -193,7 +242,7 @@ export function ConsumerLoan({ statement, setStatement }) {
                                 <label for="inputPassword4">
                                     თვიური საშუალო შემოსავალი<span style={{ color: "red" }}>*</span>
                                 </label>
-                                <input
+                                <Form.Control
                                     required
                                     type="number"
                                     className="form-control"
@@ -202,7 +251,21 @@ export function ConsumerLoan({ statement, setStatement }) {
                                     name="monthlyAverageIncome"
                                     value={statement?.monthlyAverageIncome}
                                     onChange={handleChangeInput}
+                                    isInvalid={statement?.monthlyAverageIncome ? !monthlyAverageIncomeValidate : false}
+                                    isValid={monthlyAverageIncomeValidate}
                                 />
+                                {/* <input
+                                    required
+                                    type="number"
+                                    className="form-control"
+                                    id="inputPassword4"
+                                    placeholder="შემოსავალი"
+                                    name="monthlyAverageIncome"
+                                    value={statement?.monthlyAverageIncome}
+                                    onChange={handleChangeInput}
+                                    isInvalid={statement?.monthlyAverageIncome  > 10}
+                                    isValid={statement?.monthlyAverageIncome<  11}
+                                /> */}
                                 <Form.Control.Feedback type="invalid">
                                     მიუთითეთ თვიური საშუალო შემოსავალი.
                                 </Form.Control.Feedback>
