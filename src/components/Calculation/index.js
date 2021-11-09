@@ -61,7 +61,7 @@ const Calculation = ({ title, content, button, icon, t, id }) => {
     setDeposit(res.toFixed(2));
   };
   return (
-    <S.RightBlockContainer>
+    <S.RightBlockContainer style={{background:'#fff', borderRadius: 30, padding:35}}>
       <Row type="flex" justify="space-between" align="middle" id={id}>
         <Col lg={11} md={11} sm={11} xs={24}>
           <Slide left>

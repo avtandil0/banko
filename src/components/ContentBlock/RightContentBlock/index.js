@@ -53,12 +53,15 @@ const RightBlock = ({
         </Col>
         <Col lg={11} md={11} sm={12} xs={24}>
           <Slide right>
-            <SvgIcon
+            {/* <SvgIcon
               src={icon}
               className="about-block-image"
               width="100%"
               height="100%"
-            />
+            /> */}
+            <video width="550"  loop="true" autoPlay="true" controls>
+            <source src="/img/svg/video.mp4" type="video/mp4"/>
+          </video>
           </Slide>
         </Col>
       </Row>

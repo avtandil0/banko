@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { MenuOutlined } from '@ant-design/icons';
 
 export const Header = styled.header`
-  padding: 1rem 0.5rem;
+  /* padding: 0.1rem 0.5rem; */
 `;
 
 export const LogoContainer = styled(Link)`

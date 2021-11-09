@@ -26,16 +26,26 @@ const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog }) =>
   return (
     <Container>
       <ScrollToTop />
-      <ContentBlock
-        type="right"
-        first="true"
-        title={t("introContentTitle")}
-        // content={t("introContentText")}
-        additionalText={t('UsedFree')}
-        // button={[{ "title": t("introContentButton1") }, { "title": t("introContentButton2"), "color": "#fff" }]}
-        icon="developer.svg"
-        id="intro"
-      />
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+
+     
+      <div style={{ background: '#fff', borderRadius: 30, paddingLeft:15, paddingRight:15}}>
+        <ContentBlock
+          type="right"
+          first="true"
+          title={t("introContentTitle")}
+          content={t("introContentText")}
+          additionalText={t('UsedFree')}
+          // button={[{ "title": t("introContentButton1") }, { "title": t("introContentButton2"), "color": "#fff" }]}
+          icon="developer.svg"
+          id="intro"
+        />
+      </div>
+
       <MiddleBlock
         title={MiddleBlockContent.title}
         content={MiddleBlockContent.text}
@@ -67,9 +77,10 @@ const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog }) =>
         icon="product-launch.svg"
         id="mission"
       /> */}
+      <br />
       <Calculation title={t("CalcPageTiTle")}
         content={MissionContent.text} id="mission" icon="product-launch.svg" />
-
+      <br />
       <ContentBlock
         type="left"
         title={t("About").toUpperCase()}
@@ -79,7 +90,7 @@ const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog }) =>
       />
 
       {/* <TeamBlock /> */}
-
+      <br />
       <ContactFrom
         title={t("ContactForm")}
         content={t("ContactFormDesc")}

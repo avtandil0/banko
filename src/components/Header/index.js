@@ -380,7 +380,7 @@ const Header = ({
       style={{
         position: "fixed",
         width: "100%",
-        background: "#fff",
+        background: "#f3f4f5",
         zIndex: 100,
       }}
     >
@@ -693,8 +693,8 @@ const Header = ({
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
             {/* <SvgIcon src="logo.svg" /> */}
-            <div style={{ marginLeft: 20, marginBottom: 5 }}>
-              <SvgIcon src="ranko.svg" height={80} width={60} />
+            <div style={{ marginLeft: 20,marginTop:5 }}>
+              <SvgIcon src="ranko.svg" height={60} width={50} />
             </div>
             {/* <SvgIcon src="logo1.svg" /> */}
             {/* <img src="../../public/img/svg/12.png" /> */}
@@ -727,6 +727,7 @@ const Header = ({
           </Drawer>
         </CSSTransition>
       </S.Container>
+     <div style={{borderTop: '1px solid #ccc'}}></div>
     </S.Header>
   );
 };

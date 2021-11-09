@@ -8,7 +8,7 @@ import * as S from "./styles";
 
 const LeftContentBlock = ({ icon, title, content, section, t, id }) => {
   return (
-    <S.LeftContentBlock>
+    <S.LeftContentBlock  style={{background:'#fff', borderRadius: 30, padding:35}}>
       <Row type="flex" justify="space-between" align="middle" id={id}>
         <Col lg={11} md={11} sm={12} xs={24}>
           <Slide left>

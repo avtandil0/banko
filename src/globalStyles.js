@@ -17,7 +17,7 @@ const Styles = createGlobalStyle`
         padding:0;
         border: 0;
         outline: 0;
-        background: #fff;
+        background: #f3f4f5;
         overflow-x: hidden;
 
     }

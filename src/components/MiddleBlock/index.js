@@ -922,7 +922,7 @@ const MiddleBlock = ({
     }
   };
   return (
-    <S.MiddleBlock id="products">
+    <S.MiddleBlock id="products" >
       <AntModal
         visible={visibleLoginRegisterDialog}
         onCancel={() => setVisibleLoginRegisterDialog(false)}

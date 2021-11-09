@@ -5,7 +5,7 @@ import * as S from "./styles";
 
 const Block = ({ title, content, t }) => {
   return (
-    <S.Container>
+    <S.Container >
       <Fade left>
         <h6>{t(title)}</h6>
         <S.TextWrapper>
