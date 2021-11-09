@@ -30,7 +30,7 @@ const Contact = ({ title, content, id, t }) => {
   return (
     <S.ContactContainer id={id}>
       <S.Contact>
-        <Row type="flex" justify="space-between" align="middle">
+        <Row type="flex" justify="space-between" align="flex-start">
           <Col lg={12} md={11} sm={24}>
             <Block padding={true} title={title} content={content} />
           </Col>

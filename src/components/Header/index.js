@@ -694,7 +694,7 @@ const Header = ({
           <S.LogoContainer to="/" aria-label="homepage">
             {/* <SvgIcon src="logo.svg" /> */}
             <div style={{ marginLeft: 20, marginBottom: 5 }}>
-              <SvgIcon src="logo1.svg" height={80} width={60} />
+              <SvgIcon src="ranko.svg" height={80} width={60} />
             </div>
             {/* <SvgIcon src="logo1.svg" /> */}
             {/* <img src="../../public/img/svg/12.png" /> */}

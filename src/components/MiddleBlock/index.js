@@ -554,7 +554,7 @@ const MiddleBlock = ({
                           placeholder="შენატანი"
                           name="deposit"
                           value={deposit}
-                          // onChange={handleChangeInput}
+                        // onChange={handleChangeInput}
                         />
                       </>
                     ) : (
@@ -619,7 +619,7 @@ const MiddleBlock = ({
                 </div>
                 <div className="form-group col-md-4">
                   {statement?.loantypeId == 3 ||
-                  (statement?.loantypeId == 4 && agroType == "legal") ? (
+                    (statement?.loantypeId == 4 && agroType == "legal") ? (
                     ""
                   ) : (
                     <>
@@ -647,7 +647,7 @@ const MiddleBlock = ({
                   )}
                 </div>
                 {statement?.loantypeId == 3 ||
-                (statement?.loantypeId == 4 && agroType == "legal") ? (
+                  (statement?.loantypeId == 4 && agroType == "legal") ? (
                   ""
                 ) : (
                   <>
@@ -887,13 +887,13 @@ const MiddleBlock = ({
     setProductType(index);
     setShow1(true);
 
-    console.log('statement',statement)
-    
-    if(statement.loantypeId == index){
-      setStatement({ ...statement, ["loantypeId"]: index , ["currency"]: "GEL" });
+    console.log('statement', statement)
+
+    if (statement.loantypeId == index) {
+      setStatement({ ...statement, ["loantypeId"]: index, ["currency"]: "GEL" });
     }
-    else{
-      setStatement({  userId: currentUser?.id, ["loantypeId"]: index,  ["currency"]: "GEL"   });
+    else {
+      setStatement({ userId: currentUser?.id, ["loantypeId"]: index, ["currency"]: "GEL" });
     }
 
 
@@ -1198,16 +1198,19 @@ const MiddleBlock = ({
         </Tabs>
       </AntModal>
 
+
+
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
+         
           <div
             style={{
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "space-around",
+              maxWidth: 1000
             }}
           >
-
             <div>
               <div
                 className="card border-dark mb-3"
@@ -1446,7 +1449,7 @@ const MiddleBlock = ({
 
                         {/* {productType == 1 ? consumerLoan() : ""} */}
                         {productType == 1 ?
-                          <ConsumerLoan statement={statement} setStatement={setStatement} setValidated={setValidated}/>
+                          <ConsumerLoan statement={statement} setStatement={setStatement} setValidated={setValidated} />
                           : ""}
 
                         {/* {productType == 4 ? agroLoan() : ""} */}

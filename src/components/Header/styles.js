@@ -8,7 +8,7 @@ export const Header = styled.header`
 
 export const LogoContainer = styled(Link)`
   display: flex;
-  padding-top: 1rem;
+  /* padding-top: 1rem; */
 `;
 
 export const Container = styled.div`

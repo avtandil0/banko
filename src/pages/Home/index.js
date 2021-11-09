@@ -30,7 +30,7 @@ const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog }) =>
         type="right"
         first="true"
         title={t("introContentTitle")}
-        content={t("introContentText")}
+        // content={t("introContentText")}
         additionalText={t('UsedFree')}
         // button={[{ "title": t("introContentButton1") }, { "title": t("introContentButton2"), "color": "#fff" }]}
         icon="developer.svg"
@@ -72,7 +72,7 @@ const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog }) =>
 
       <ContentBlock
         type="left"
-        title={t("About")}
+        title={t("About").toUpperCase()}
         content={t("OurMission")}
         icon="waving.svg"
         id="product"
