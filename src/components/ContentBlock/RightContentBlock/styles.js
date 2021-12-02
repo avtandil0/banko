@@ -15,6 +15,10 @@ export const Content = styled.p`
 
 export const ContentWrapper = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
   max-width: 540px;
 
   @media only screen and (max-width: 480px) {

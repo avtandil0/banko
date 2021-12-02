@@ -8,6 +8,7 @@ import Profile from "../pages/Profile/index";
 import Home from "../pages/Home/index";
 import Bank from "../pages/Bank/index";
 import PrivateRoute from "../router/PrivateRoute"
+import Admin from "../pages/Admin";
 
 import routes from "./config";
 import GlobalStyles from "../globalStyles";
@@ -70,6 +71,12 @@ const Router = () => {
         )}
 
         <Footer />
+      </Route>
+      <Route exact path="/profile">
+        <Profile isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} />
+      </Route>
+      <Route exact path="/admin">
+        <Admin  />
       </Route>
       <PrivateRoute user={user} authed={isAuthorize} path='/bank' component={Bank} />
 

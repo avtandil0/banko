@@ -28,8 +28,12 @@ const RightBlock = ({
         <Col lg={11} md={11} sm={11} xs={24}>
           <Slide left>
             <S.ContentWrapper>
-              <h6>{t(title)}</h6>
-              <S.Content>{t(content)}</S.Content>
+              <div>
+                <h6>{t(title)}</h6>
+
+              </div>
+              <br />
+              {/* <S.Content>{t(content)}</S.Content> */}
               <S.ButtonWrapper>
                 {button &&
                   typeof button === "object" &&
@@ -48,7 +52,20 @@ const RightBlock = ({
               </S.ButtonWrapper>
             </S.ContentWrapper>
             {/* <div style={{marginTop: '25px', fontSize: 20}}>{t(additionalText)}</div> */}
-            <Alert description={t(additionalText)} type="success" showIcon />
+            {/* <Alert description={t(additionalText)} type="success" showIcon /> */}
+            {/* <div style={{ color: '#ff7340', borderColor: 1, fontSize: 17 }}>{t(additionalText)}</div> */}
+            <div style={{
+              border: '2px solid #FF6D00',
+              padding: '10px',
+              color: '#343D48',
+              borderRadius: 13,
+              fontSize: '1rem',
+              fontWeight: 590,
+              marginTop: 65
+            }}>
+              {t(additionalText)}
+            </div>
+
           </Slide>
         </Col>
         <Col lg={11} md={11} sm={12} xs={24}>
@@ -59,9 +76,9 @@ const RightBlock = ({
               width="100%"
               height="100%"
             /> */}
-            <video width="550"  loop="true" autoPlay="true" controls>
-            <source src="/img/svg/video.mp4" type="video/mp4"/>
-          </video>
+            <video width="550" autoPlay="true" controls>
+              <source src="/img/svg/video.mp4" type="video/mp4" />
+            </video>
           </Slide>
         </Col>
       </Row>

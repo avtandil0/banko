@@ -303,7 +303,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                     <>
 
                                         {/* {statement?.incomeSourceId == 7 ? ( */}
-                                        <>
+                                        {/* <>
                                             <label for="inputPassword4" style={{fontSize:'15px'}}>
                                                 სხვა შემოსავლის წყარო
                                                 <span style={{ color: "red" }}>*</span>
@@ -318,7 +318,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                                 value={statement?.otherIncomeSource}
                                                 onChange={handleChangeInput}
                                             />
-                                        </>
+                                        </> */}
                                         {/* ) : (
                         ""
                       )} */}
@@ -354,7 +354,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                             მიუთითეთ  სად გერიცებათ ხელფასი.
                                         </Form.Control.Feedback>
                                     </div>
-                                    <div className="form-group col-md-7">
+                                    {/* <div className="form-group col-md-7">
                                         <label for="inputState" style={{fontSize:'15px'}}>
                                             სამუშო გამოცდილება - სტაჟი
                                             <span style={{ color: "red" }}>*</span>
@@ -378,7 +378,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         <Form.Control.Feedback type="invalid">
                                             მიუთითეთ  სტაჟი.
                                         </Form.Control.Feedback>
-                                    </div>
+                                    </div> */}
                                 </>
                             )}
                         </div>

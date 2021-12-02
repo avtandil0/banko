@@ -625,7 +625,7 @@ const MiddleBlock = ({
                     <>
                       {/* {statement?.incomeSourceId == 7 ? ( */}
                       <>
-                        <label for="inputPassword4">
+                        {/* <label for="inputPassword4">
                           სხვა შემოსავლის წყარო
                           <span style={{ color: "red" }}>*</span>
                         </label>
@@ -638,7 +638,7 @@ const MiddleBlock = ({
                           name="otherIncomeSource"
                           value={statement?.otherIncomeSource}
                           onChange={handleChangeInput}
-                        />
+                        /> */}
                       </>
                       {/* ) : (
                         ""
@@ -672,7 +672,7 @@ const MiddleBlock = ({
                         მიუთითეთ სად გერიცებათ ხელფასი.
                       </Form.Control.Feedback>
                     </div>
-                    <div className="form-group col-md-7">
+                    {/* <div className="form-group col-md-7">
                       <label for="inputState">
                         სამუშო გამოცდილება - სტაჟი
                         <span style={{ color: "red" }}>*</span>
@@ -696,7 +696,7 @@ const MiddleBlock = ({
                       <Form.Control.Feedback type="invalid">
                         მიუთითეთ სტაჟი.
                       </Form.Control.Feedback>
-                    </div>
+                    </div> */}
                   </>
                 )}
               </div>

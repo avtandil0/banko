@@ -165,6 +165,7 @@ const Header = ({
     var result = await axios.post(
       // https://weblive.com.ge
       `https://weblive.com.ge/api/account`,user
+      // `https://localhost:44314/api/account`,user
       // {
       //   params: { ...user },
       // }
@@ -225,7 +226,8 @@ const Header = ({
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
-    var result = await axios.get(`https://weblive.com.ge/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
+    // var result = await axios.get(`https://weblive.com.ge/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
+    var result = await axios.get(`https://localhost:44314/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
@@ -395,19 +397,19 @@ const Header = ({
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Row>
                 <Form.Label column lg={3}>
-                  მომხმარებლის სახელი
+                 პირადი ნომერი
                 </Form.Label>
                 <Col lg={16}>
                   <Form.Control
                     required
                     type="text"
                     name="userName"
-                    placeholder="მომხმარებლის სახელი"
+                    placeholder="პირადი ნომერი"
                     value={user?.userName}
                     onChange={handleChangeInput}
                   />
                   <Form.Control.Feedback type="invalid">
-                    მიუთითეთ სახელი.
+                    მიუთითეთ პირადი ნომერი.
                   </Form.Control.Feedback>
                 </Col>
               </Row>
@@ -447,19 +449,19 @@ const Header = ({
               <br></br>
               <Row>
                 <Form.Label column lg={3}>
-                  მომხმარებლის სახელი
+                 პირადი ნომერი
                 </Form.Label>
                 <Col lg={16}>
                   <Form.Control
                     required
                     type="text"
                     name="userName"
-                    placeholder="მომხმარებლის სახელი"
+                    placeholder="პირადი ნომერი"
                     value={user?.userName}
                     onChange={handleChangeInput}
                   />
                   <Form.Control.Feedback type="invalid">
-                    მიუთითეთ სახელი.
+                    მიუთითეთ პირადი ნომერი.
                   </Form.Control.Feedback>
                 </Col>
               </Row>
@@ -559,7 +561,7 @@ const Header = ({
                 </Col>
               </Row>
               <br></br>
-              <Row>
+              {/* <Row>
                 <Form.Label column lg={3}>
                   პირადი ნომერი
                 </Form.Label>
@@ -577,23 +579,12 @@ const Header = ({
                   </Form.Control.Feedback>
                 </Col>
               </Row>
-              <br></br>
-              <Row>
+              <br></br> */}
+              {/* <Row>
                 <Form.Label column lg={3}>
                   დაბადების თარიღი
                 </Form.Label>
                 <Col lg={16}>
-                  {/* <Form.Control
-                    required
-                    type="text"
-                    name="birthDate"
-                    placeholder="მომხმარებლის სახელი"
-                    value={user?.birthDate}
-                    onChange={handleChangeInput}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                  დაბადების თარიღი.
-                  </Form.Control.Feedback> */}
                   <Form.Control
                     autoComplete="off"
                     required
@@ -605,9 +596,8 @@ const Header = ({
                     isValid={user?.birthDate != null}
                   />
                 </Col>
-              </Row>
-              <br></br>
-              <Row>
+              </Row> */}
+              {/* <Row>
                 <Form.Label column lg={3}>
                   მისამართი
                 </Form.Label>
@@ -624,8 +614,7 @@ const Header = ({
                     მიუთითეთ მისამართი.
                   </Form.Control.Feedback>
                 </Col>
-              </Row>
-              <br></br>
+              </Row> */}
               <Row>
                 <Form.Label column lg={3}>
                   მობილურის ნომერი
@@ -684,6 +673,7 @@ const Header = ({
                   </AntdButton>
                 </Col>
               </Row>
+              <br></br> <br></br> <br></br>
             </Form>
           </TabPane>
         </Tabs>

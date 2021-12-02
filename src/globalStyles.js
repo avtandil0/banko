@@ -45,7 +45,7 @@ const Styles = createGlobalStyle`
     p {
         color: #343D48;
         font-size: 1.125rem;
-        font-family: 'MyFont2'
+        /* font-family: 'MyFont2' */
     }
 
     h1 {
