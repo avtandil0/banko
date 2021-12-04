@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import { Table, Row, Col, Space, Tooltip, Popconfirm, Button, message, Modal, Input, Form, Select } from 'antd';
 import { PlusCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import constants from '../../constants'
 
 
 import axios from 'axios';
@@ -121,7 +122,7 @@ const Admin = () => {
     const confirm = async (record) => {
         setTableLoading(true);
         // console.log("record", record.id)
-        const result = await axios.delete(`https://localhost:44314/api/RedistributionCustomersToBanks?customersToBankId=${record.id}`);
+        const result = await axios.delete(constants.API_PREFIX + `/api/RedistributionCustomersToBanks?customersToBankId=${record.id}`);
         console.log('result', result)
         if (result.data.isSuccess) {
             message.success(result.data.meessage);
@@ -149,7 +150,7 @@ const Admin = () => {
         // console.log("click", post)
         // console.log("result", result, post)z
         if (!isEdit) {
-            const result = await axios.post('https://localhost:44314/api/RedistributionCustomersToBanks', post);
+            const result = await axios.post(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post);
             if (result.data.isSuccess) {
                 fetchData();
                 setIsModalVisible(false);
@@ -160,7 +161,7 @@ const Admin = () => {
             }
         }
         else {
-            const result = await axios.put('https://localhost:44314/api/RedistributionCustomersToBanks', post);
+            const result = await axios.put(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post);
             if (result.data.isSuccess) {
                 fetchData();
                 setIsModalVisible(false);
@@ -196,30 +197,30 @@ const Admin = () => {
 
     const fetchData = async () => {
         setTableLoading(true);
-        const result = await axios('https://localhost:44314/api/RedistributionCustomersToBanks');
+        const result = await axios(  constants.API_PREFIX + '/api/RedistributionCustomersToBanks');
         setCustomersToBanks(result.data)
         setTableLoading(false)
     }
 
     const fetchIncomesource = async () => {
-        const result = await axios('https://localhost:44314/api/IncomeSource');
+        const result = await axios(constants.API_PREFIX +'/api/IncomeSource');
         setIncomesource(result.data)
     }
 
     const fetchLoantype = async () => {
-        const result = await axios('https://localhost:44314/api/LoanType');
+        const result = await axios(constants.API_PREFIX + '/api/LoanType');
         setLoantype(result.data)
         console.log("setLoantype", loantype)
     }
 
     const fetchRegion = async () => {
-        const result = await axios('https://localhost:44314/api/Region');
+        const result = await axios(constants.API_PREFIX+ '/api/Region');
         setRegion(result.data)
         console.log("setRegion", region)
     }
 
     const fetchBank = async () => {
-        const result = await axios('https://localhost:44314/api/Bank');
+        const result = await axios(constants.API_PREFIX +'/api/Bank');
         setBank(result.data)
     }
 
