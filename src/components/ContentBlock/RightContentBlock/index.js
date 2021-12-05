@@ -77,7 +77,7 @@ const RightBlock = ({
               width="100%"
               height="100%"
             /> */}
-            <video width="100%" autoplay muted controls>
+            <video width="100%" autoPlay muted controls>
               <source src="/img/svg/video.mp4" type="video/mp4" />
             </video>
           </Slide>
