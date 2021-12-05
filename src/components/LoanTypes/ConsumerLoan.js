@@ -404,7 +404,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 ფაქტიური მისამართი<span style={{ color: "red" }}>*</span>
                             </label>
                             <div className="form-row">
-                                <div className="form-group col-md-6">
+                                <div className="form-group col-md-12">
                                     <select
                                         required
                                         id="inputState"
@@ -422,7 +422,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         ;
                                     </select>
                                 </div>
-                                <div className="form-group col-md-6">
+                                {/* <div className="form-group col-md-6">
                                     <select
                                         required
                                         id="inputState"
@@ -439,7 +439,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         ))}
                                         ;
                                     </select>
-                                </div>
+                                </div> */}
 
                             </div>
 

@@ -407,12 +407,9 @@ const Profile = () => {
                 value={user?.email}
               />
             </div>
-            <div className="form-group col-md-6">
+            {/* <div className="form-group col-md-6">
               <label for="inputPassword4">დაბ.თარიღი</label>
-              {/* <DatePicker
-                  value={user?.birthDate}
-                  onChange={handleChangeDate}
-                /> */}
+            
               <input
                 disabled
                 type="text"
@@ -421,9 +418,9 @@ const Profile = () => {
                 placeholder="დაბ.თარიღი"
                 value={user?.birthDate}
               />
-            </div>
+            </div> */}
 
-            <div className="form-group col-md-6">
+            {/* <div className="form-group col-md-6">
               <label for="inputPassword4">მისამართი</label>
               <input
                 disabled
@@ -433,7 +430,7 @@ const Profile = () => {
                 placeholder="წყარო"
                 value={user?.address}
               />
-            </div>
+            </div> */}
           </div>
           {/* <div className="form-group">
             <div className="form-check">

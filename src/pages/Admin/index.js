@@ -26,8 +26,8 @@ const Admin = () => {
                             onConfirm={() => confirm(record)}
                             okText="Yes"
                             cancelText="No"
-                            // okButtonProps={{ loading: confirmLoading }}
-                            // visible={true}
+                        // okButtonProps={{ loading: confirmLoading }}
+                        // visible={true}
 
 
                         >
@@ -47,47 +47,48 @@ const Admin = () => {
         //     dataIndex: 'id',
         // },
         {
-            title: 'AmountMax',
-            dataIndex: 'amountMax',
-        },
-        {
-            title: 'AmountMin',
-            dataIndex: 'amountMin',
-            // render: (item, row) => <p>{getAmountMin(row)}</p>,
-        },
-        {
-            title: 'BankId',
+            title: 'ბანკი',
             dataIndex: 'bankId',
             render: (item, row) => <p>{getBankId(row)}</p>,
         },
         {
-            title: 'DateCreated',
-            dataIndex: 'dateCreated',
-        },
-        {
-            title: 'DateDeleted',
-            dataIndex: 'dateDeleted',
-        },
-        {
-            title: 'IncomesourceId',
-            dataIndex: 'incomesourceId',
-            render: (item, row) => <p>{getIncomesourceId(row)}</p>,
-
-        },
-        {
-            title: 'LoantypeId',
+            title: 'სესხის ტიპი',
             dataIndex: 'loantypeId',
             render: (item, row) => <p>{getLoantypeId(row)}</p>,
 
         },
         {
+            title: 'მინ. თანხა',
+            dataIndex: 'amountMin',
+            // render: (item, row) => <p>{getAmountMin(row)}</p>,
+        },
+        {
+            title: 'მაქს. თანხა',
+            dataIndex: 'amountMax',
+        },
+
+
+       
+
+        {
+            title: 'შემოსავლის ტიპი',
+            dataIndex: 'incomesourceId',
+            render: (item, row) => <p>{getIncomesourceId(row)}</p>,
+
+        },
+       
+        {
             title: 'Pti',
             dataIndex: 'pti',
         },
         {
-            title: 'RegionId',
+            title: 'რეგიონი',
             dataIndex: 'regionId',
             render: (item, row) => <p>{getRegionId(row)}</p>,
+        },
+        {
+            title: 'DateCreated',
+            dataIndex: 'dateCreated',
         },
     ];
 
@@ -197,13 +198,13 @@ const Admin = () => {
 
     const fetchData = async () => {
         setTableLoading(true);
-        const result = await axios(  constants.API_PREFIX + '/api/RedistributionCustomersToBanks');
+        const result = await axios(constants.API_PREFIX + '/api/RedistributionCustomersToBanks');
         setCustomersToBanks(result.data)
         setTableLoading(false)
     }
 
     const fetchIncomesource = async () => {
-        const result = await axios(constants.API_PREFIX +'/api/IncomeSource');
+        const result = await axios(constants.API_PREFIX + '/api/IncomeSource');
         setIncomesource(result.data)
     }
 
@@ -214,13 +215,13 @@ const Admin = () => {
     }
 
     const fetchRegion = async () => {
-        const result = await axios(constants.API_PREFIX+ '/api/Region');
+        const result = await axios(constants.API_PREFIX + '/api/Region');
         setRegion(result.data)
         console.log("setRegion", region)
     }
 
     const fetchBank = async () => {
-        const result = await axios(constants.API_PREFIX +'/api/Bank');
+        const result = await axios(constants.API_PREFIX + '/api/Bank');
         setBank(result.data)
     }
 
@@ -326,7 +327,7 @@ const Admin = () => {
                 onOk={handleOk}
                 onCancel={handleCancel}
                 confirmLoading={buttonLoading}
-                width= {700}
+                width={700}
             >
                 <Row gutter={[16, 24]}>
                     <Col className="gutter-row" span={8}>
