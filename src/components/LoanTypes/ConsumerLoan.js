@@ -51,6 +51,10 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
     const calculateMonthlyAverageIncome = () =>{
         console.log('currency', statement)
+        if(statement.loantypeId != 1 && statement.loantypeId != 2){
+            setMonthlyAverageIncomeValidate(true)
+            return
+        }
         if (statement.currency == "GEL") {
             if (statement?.monthlyAverageIncome < 1000) {
                 // setValidated(true)
@@ -123,7 +127,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                 t = e.target.value;
                 r = statement.requestedAmount;
             }
-            let per = 10 / 100;
+            let per = 1 / 100;
             let x = Math.pow((1 + per), t);
             console.log('xxxxxxxxxxx', x)
             var res = r / ((1 - (1 / x)) / per);
