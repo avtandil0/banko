@@ -18,6 +18,7 @@ const Footer = ({ t }) => {
     return (
       <a
         href={href}
+        style={{marginRight: 35}}
         target="_blank"
         rel="noopener noreferrer"
         key={src}
@@ -137,6 +138,9 @@ const Footer = ({ t }) => {
                 /> */}
               </S.FooterContainer>
             </Row>
+            <br/>
+            <br/>
+            <br/>
           </Container>
         </S.Extra>
       </Fade>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 export const Footer = styled.footer`
   background: rgb(249, 250, 252);
   padding: 2.5rem 0;
+  /* margin-bottom: 45; */
 `;
 
 export const Title = styled.h4`
@@ -111,7 +112,7 @@ export const FooterContainer = styled.div`
   max-width: 310px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 
   @media screen and (max-width: 414px) {
     padding: 2rem 0;

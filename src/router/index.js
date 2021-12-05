@@ -70,13 +70,14 @@ const Router = () => {
 
         )}
 
-        <Footer />
+          <Footer />
+
       </Route>
       <Route exact path="/profile">
         <Profile isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} />
       </Route>
       <Route exact path="/admin">
-        <Admin  />
+        <Admin />
       </Route>
       <PrivateRoute user={user} authed={isAuthorize} path='/bank' component={Bank} />
 
