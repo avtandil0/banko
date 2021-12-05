@@ -61,7 +61,8 @@ const RightBlock = ({
               borderRadius: 13,
               fontSize: '1rem',
               fontWeight: 590,
-              marginTop: 65
+              marginTop: 65,
+              marginBottom: 15
             }}>
               {t(additionalText)}
             </div>
@@ -76,7 +77,7 @@ const RightBlock = ({
               width="100%"
               height="100%"
             /> */}
-            <video width="550"  loop="true" autoPlay="true"  controls>
+            <video width="100%" autoplay muted controls>
               <source src="/img/svg/video.mp4" type="video/mp4" />
             </video>
           </Slide>

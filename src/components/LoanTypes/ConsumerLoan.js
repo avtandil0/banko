@@ -123,7 +123,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                 t = e.target.value;
                 r = statement.requestedAmount;
             }
-            let per = 1 / 100;
+            let per = 10 / 100;
             let x = Math.pow((1 + per), t);
             console.log('xxxxxxxxxxx', x)
             var res = r / ((1 - (1 / x)) / per);
@@ -267,7 +267,9 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                     isValid={statement?.monthlyAverageIncome<  11}
                                 /> */}
                                 <Form.Control.Feedback type="invalid">
-                                    მიუთითეთ თვიური საშუალო შემოსავალი.
+                                    {/* მიუთითეთ თვიური საშუალო შემოსავალი. */}
+                                    შემოსავალი არ არის საკმარისი სესხის მომსახურებისთვის, 
+                                    გაზარდეთ სესხის ვადა ან შეამცირეთ თანხა
                                 </Form.Control.Feedback>
                             </div>
                             <div className="form-group col-md-3">

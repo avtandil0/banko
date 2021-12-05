@@ -115,13 +115,13 @@ const Footer = ({ t }) => {
                 </S.LogoContainer>
               </S.NavLink>
               <S.FooterContainer>
-                <SocialLink
+                {/* <SocialLink
                   // href="https://github.com/Adrinlol/create-react-app-adrinlol"
                   src="github.svg"
-                />
+                /> */}
                 <SocialLink
-                  // href="https://twitter.com/Adrinlolx"
-                  src="twitter.svg"
+                  href="https://www.facebook.com/rankoloanservice"
+                  src="fb.svg"
                 />
                 <SocialLink
                   // href="https://www.linkedin.com/in/lasha-kakabadze/"
@@ -131,10 +131,10 @@ const Footer = ({ t }) => {
                   // href="https://github.com/Adrinlol/"
                   src="instagram.svg"
                 />
-                <SocialLink
+                {/* <SocialLink
                   // href="https://medium.com/@lashakakabadze/"
                   src="medium.svg"
-                />
+                /> */}
               </S.FooterContainer>
             </Row>
           </Container>
