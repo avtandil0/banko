@@ -160,21 +160,21 @@ const Profile = () => {
   };
 
   const columns = [
-    {
-      title: "მოქმედება",
-      dataIndex: "action",
-      key: "action",
-      render: (text, row) => (
-        <>
-          <Space>
-            <Tooltip placement="bottom" title="რედაქტირება">
-              <Button disabled={row.statementStatus != 1} type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
-              </Button>
-            </Tooltip>
-          </Space>
-        </>
-      ),
-    },
+    // {
+    //   title: "მოქმედება",
+    //   dataIndex: "action",
+    //   key: "action",
+    //   render: (text, row) => (
+    //     <>
+    //       <Space>
+    //         <Tooltip placement="bottom" title="რედაქტირება">
+    //           <Button disabled={row.statementStatus != 1} type="primary" onClick={() => handleEdit(row)} icon={<EditOutlined style={{ color: 'white' }} />}>
+    //           </Button>
+    //         </Tooltip>
+    //       </Space>
+    //     </>
+    //   ),
+    // },
     {
       title: "სტატუსი",
       dataIndex: "status",

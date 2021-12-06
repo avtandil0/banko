@@ -521,7 +521,7 @@ const MiddleBlock = ({
                     {statement?.loantypeId != 5 ? (
                       <>
                         <label for="inputPassword4">
-                          ვადა (თვე)<span style={{ color: "red" }}>*</span>
+                          ვადა (თვე)1<span style={{ color: "red" }}>*</span>
                         </label>
                         <input
                           required

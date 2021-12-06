@@ -96,7 +96,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
         calculateMonthlyAverageIncome();
 
-    }, [statement?.monthlyAverageIncome,statement?.currency]);
+    }, [statement?.monthlyAverageIncome,statement?.currency, statement?.term, statement?.requestedAmount]);
 
     const handleChangeOverlay = (e) => {
         console.log("eee", e.target.checked);
@@ -152,6 +152,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         მოთხოვნილი თანხა <span style={{ color: "red" }}>*</span>
                                     </label>
                                     <Form.Control
+                                      min="0"
                                         required
                                         type="number"
                                         className="form-control"
@@ -188,6 +189,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                                 ვადა (თვე)<span style={{ color: "red" }}>*</span>
                                             </label>
                                             <input
+                                              min="0"
                                                 required
                                                 type="number"
                                                 className="form-control"
@@ -247,6 +249,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                     თვიური საშუალო შემოსავალი (ლარში) <span style={{ color: "red" }}>*</span>
                                 </label>
                                 <Form.Control
+                                    min="0"
                                     required
                                     type="number"
                                     className="form-control"
@@ -467,6 +470,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 <span style={{ color: "red" }}>*</span>
                             </label>
                             <input
+                              min="0"
                                 required
                                 type="number"
                                 className="form-control"
@@ -486,6 +490,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 <span style={{ color: "red" }}>*</span>
                             </label>
                             <input
+                              min="0"
                                 required
                                 type="number"
                                 className="form-control"
@@ -536,6 +541,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                             <>
                                 <div className="form-group col-md-6">
                                     <input
+                                      min="0"
                                         type="number"
                                         className="form-control"
                                         id="inputPassword4"
