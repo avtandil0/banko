@@ -23,6 +23,7 @@ import { AgroLoan } from "../LoanTypes/AgroLoan";
 import { CreditCard } from "../LoanTypes/CreditCard";
 import { AutoLeasing } from "../LoanTypes/AutoLeasing";
 // import  ComponentA  from '../LoanTypes'
+import constants from '../../constants'
 
 const Button = lazy(() => import("../../common/Button"));
 const SvgIcon = lazy(() => import("../../common/SvgIcon"));
@@ -245,7 +246,7 @@ const MiddleBlock = ({
 
     console.log(statement);
     setSentLoading(true);
-    var result = await axios.post(`https://weblive.com.ge/api/Home`, statement);
+    var result = await axios.post(constants.API_PREFIX + `/api/Home`, statement);
     console.log("result WorkExperience", result);
     setSentLoading(false);
     setShow1(false);
@@ -554,7 +555,7 @@ const MiddleBlock = ({
                           placeholder="შენატანი"
                           name="deposit"
                           value={deposit}
-                        // onChange={handleChangeInput}
+                          // onChange={handleChangeInput}
                         />
                       </>
                     ) : (
@@ -619,7 +620,7 @@ const MiddleBlock = ({
                 </div>
                 <div className="form-group col-md-4">
                   {statement?.loantypeId == 3 ||
-                    (statement?.loantypeId == 4 && agroType == "legal") ? (
+                  (statement?.loantypeId == 4 && agroType == "legal") ? (
                     ""
                   ) : (
                     <>
@@ -647,7 +648,7 @@ const MiddleBlock = ({
                   )}
                 </div>
                 {statement?.loantypeId == 3 ||
-                  (statement?.loantypeId == 4 && agroType == "legal") ? (
+                (statement?.loantypeId == 4 && agroType == "legal") ? (
                   ""
                 ) : (
                   <>
@@ -811,20 +812,20 @@ const MiddleBlock = ({
               <div className="form-group col-md-6">
                 <label for="inputState">
                   {" "}
-                  გაქვს ნეგატიური სტატუსი?{" "}
+                  თქვენი საკრედიტო ისტორია{" "}
                   <span style={{ color: "red" }}>*</span>
                 </label>
                 <select
                   required
                   id="inputState"
                   className="form-control"
-                  name="negativeStatus"
+                  name="currentOverdue"
                   onChange={handleChangeInput}
+                  value={statement?.currentOverdue}
                 >
                   <option selected></option>
-                  <option>მაქვს</option>
-                  <option>მქონდა</option>
-                  <option>არასდროს მქონია</option>
+                  <option value={1}>მაქვს ვადაგადაცილება</option>
+                  <option value={0}>არ მაქვს ვადაგადაცილება</option>
                 </select>
                 <Form.Control.Feedback type="invalid">
                   აირჩიეთ .
@@ -887,15 +888,21 @@ const MiddleBlock = ({
     setProductType(index);
     setShow1(true);
 
-    console.log('statement', statement)
+    console.log("statement", statement);
 
     if (statement.loantypeId == index) {
-      setStatement({ ...statement, ["loantypeId"]: index, ["currency"]: "GEL" });
+      setStatement({
+        ...statement,
+        ["loantypeId"]: index,
+        ["currency"]: "GEL",
+      });
+    } else {
+      setStatement({
+        userId: currentUser?.id,
+        ["loantypeId"]: index,
+        ["currency"]: "GEL",
+      });
     }
-    else {
-      setStatement({ userId: currentUser?.id, ["loantypeId"]: index, ["currency"]: "GEL" });
-    }
-
 
     switch (index) {
       case 1:
@@ -922,7 +929,7 @@ const MiddleBlock = ({
     }
   };
   return (
-    <S.MiddleBlock id="products" >
+    <S.MiddleBlock id="products">
       <AntModal
         visible={visibleLoginRegisterDialog}
         onCancel={() => setVisibleLoginRegisterDialog(false)}
@@ -1198,17 +1205,14 @@ const MiddleBlock = ({
         </Tabs>
       </AntModal>
 
-
-
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>
-         
           <div
             style={{
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "space-around",
-              maxWidth: 1000
+              maxWidth: 1000,
             }}
           >
             <div>
@@ -1448,9 +1452,15 @@ const MiddleBlock = ({
                         )}
 
                         {/* {productType == 1 ? consumerLoan() : ""} */}
-                        {productType == 1 ?
-                          <ConsumerLoan statement={statement} setStatement={setStatement} setValidated={setValidated} />
-                          : ""}
+                        {productType == 1 ? (
+                          <ConsumerLoan
+                            statement={statement}
+                            setStatement={setStatement}
+                            setValidated={setValidated}
+                          />
+                        ) : (
+                          ""
+                        )}
 
                         {/* {productType == 4 ? agroLoan() : ""} */}
                         {productType == 4 ? (

@@ -68,7 +68,7 @@ const Admin = () => {
         },
 
 
-       
+
 
         {
             title: 'შემოსავლის ტიპი',
@@ -76,7 +76,7 @@ const Admin = () => {
             render: (item, row) => <p>{getIncomesourceId(row)}</p>,
 
         },
-       
+
         {
             title: 'Pti',
             dataIndex: 'pti',
@@ -222,6 +222,7 @@ const Admin = () => {
 
     const fetchBank = async () => {
         const result = await axios(constants.API_PREFIX + '/api/Bank');
+        console.log("fetchBank", result)
         setBank(result.data)
     }
 
@@ -261,6 +262,9 @@ const Admin = () => {
         // const { name, value } = event
 
         setPost({ ...post, [name]: value })
+        if (name == 'currentOverdue') {
+            setPost({ ...post, [name]: JSON.parse(value) })
+        }
     }
 
 
@@ -314,6 +318,7 @@ const Admin = () => {
                         loading={tableLoading}
                         columns={columns}
                         dataSource={customersToBanks}
+                        pagination={{ pageSize: 50 }}
                     />
                 </Col>
                 <Col span={1}></Col>
@@ -327,30 +332,30 @@ const Admin = () => {
                 onOk={handleOk}
                 onCancel={handleCancel}
                 confirmLoading={buttonLoading}
-                width={700}
+                width={950}
             >
                 <Row gutter={[16, 24]}>
                     <Col className="gutter-row" span={8}>
                         <div >
-                            <Input type="number" name="amountMax" value={post?.amountMax} onChange={e => handleChange(e)} placeholder="AmountMax" />
+                            <Input type="number" name="amountMax" value={post?.amountMax} onChange={e => handleChange(e)} placeholder="მაქსიმალური თანხა" />
                         </div>
                     </Col>
                     <Col className="gutter-row" span={8}>
                         <div >
-                            <Input type="number" name="amountMin" value={post?.amountMin} onChange={e => handleChange(e)} placeholder="AmountMin" />
+                            <Input type="number" name="amountMin" value={post?.amountMin} onChange={e => handleChange(e)} placeholder="მინიმალური თანხა" />
                         </div>
                     </Col>
                     <Col className="gutter-row" span={8}>
                         <div >
                             <Select
                                 onChange={(value) => selectChange(value, 'bankId')}
-                                placeholder="bankId"
+                                placeholder="ბანკი"
                                 style={{ width: "100%" }}
                                 value={post?.bankId}
                             >
                                 {bank.map(item => {
                                     return (
-                                        <Option key={item.id} >{item.bankName}</Option>
+                                        <Option key={item.id} value={item.id} >{item.bankName}</Option>
                                     );
                                 })}
                             </Select>
@@ -360,7 +365,7 @@ const Admin = () => {
                     <Col className="gutter-row" span={8}>
                         <div >
                             <Select onChange={(value) => selectChange(value, 'incomesourceId')}
-                                placeholder="IncomesourceId"
+                                placeholder="შემოსავლის წყარო"
                                 style={{ width: "100%" }}
                                 value={post?.incomesourceId}
                             >
@@ -376,7 +381,7 @@ const Admin = () => {
                         <div >
                             <Select
                                 onChange={(value) => selectChange(value, 'loantypeId')}
-                                placeholder="LoantypeId"
+                                placeholder="სესხის ტიპი"
                                 style={{ width: "100%" }}
                                 value={post?.loantypeId}
                             >
@@ -397,7 +402,7 @@ const Admin = () => {
                         <div >
                             <Select
                                 onChange={(value) => selectChange(value, 'regionId')}
-                                placeholder="regionId"
+                                placeholder="რეგიონი"
                                 style={{ width: "100%" }}
                                 value={post?.regionId}
                             >
@@ -408,6 +413,21 @@ const Admin = () => {
                                 })}
                             </Select>
                         </div>
+
+                    </Col>
+                    <Col className="gutter-row" span={8}>
+                        <div >
+                            <Select
+                                onChange={(value) => selectChange(value, 'currentOverdue')}
+                                placeholder="საკრედიტო ისტორია/ვადაგადაცილება"
+                                style={{ width: "100%" }}
+                                value={post?.currentOverdue}
+                            >
+                                <option value={true}>მაქვს ვადაგადაცილება</option>
+                                <option value={false}>არ მაქვს ვადაგადაცილება</option>
+                            </Select>
+                        </div>
+
                     </Col>
                 </Row>
 

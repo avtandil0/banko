@@ -136,7 +136,9 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
         //თვიური შემოსავლის ვალიდაცია
 
-
+        if (e.target.name == 'currentOverdue') {
+            setStatement({ ...statement, [e.target.name]: JSON.parse(e.target.value) });
+        }
         console.log("statement", statement);
     };
     return (
@@ -275,7 +277,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 /> */}
                                 <Form.Control.Feedback type="invalid">
                                     {/* მიუთითეთ თვიური საშუალო შემოსავალი. */}
-                                    შემოსავალი არ არის საკმარისი სესხის მომსახურებისთვის, 
+                                    შემოსავალი არ არის საკმარისი სესხის მომსახურებისთვის,
                                     გაზარდეთ სესხის ვადა ან შეამცირეთ თანხა
                                 </Form.Control.Feedback>
                             </div>
@@ -507,20 +509,20 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                         <div className="form-group col-md-5">
                             <label for="inputState" style={{fontSize:'15px'}}>
                                 {" "}
-                                გაქვს ნეგატიური სტატუსი?{" "}
+                                თქვენი საკრედიტო ისტორია4444444{" "}
                                 <span style={{ color: "red" }}>*</span>
                             </label>
                             <select
                                 required
                                 id="inputState"
                                 className="form-control"
-                                name="negativeStatus"
+                                name="currentOverdue"
                                 onChange={handleChangeInput}
+                                value={statement?.currentOverdue}
                             >
                                 <option selected></option>
-                                <option>მაქვს</option>
-                                <option>მქონდა</option>
-                                <option>არასდროს მქონია</option>
+                                <option value={true}>მაქვს ვადაგადაცილება</option>
+                                <option value={false}>არ მაქვს ვადაგადაცილება</option>
                             </select>
                             <Form.Control.Feedback type="invalid">
                                 აირჩიეთ .
