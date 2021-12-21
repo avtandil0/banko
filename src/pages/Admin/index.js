@@ -78,6 +78,13 @@ const Admin = () => {
         },
 
         {
+            title: 'საკრედიტო ისტორია/ ვადაგადაცილება',
+            dataIndex: 'currentOverdue',
+            render: (item, row) => <p>{row?.currentOverdue ? 'აქვს ვადაგადაცილება': 'არ აქვს ვადაგადაცილება'}</p>,
+
+        },
+
+        {
             title: 'Pti',
             dataIndex: 'pti',
         },
@@ -199,6 +206,7 @@ const Admin = () => {
     const fetchData = async () => {
         setTableLoading(true);
         const result = await axios(constants.API_PREFIX + '/api/RedistributionCustomersToBanks');
+        console.log('resultresult',result)
         setCustomersToBanks(result.data)
         setTableLoading(false)
     }
@@ -423,8 +431,8 @@ const Admin = () => {
                                 style={{ width: "100%" }}
                                 value={post?.currentOverdue}
                             >
-                                <option value={true}>მაქვს ვადაგადაცილება</option>
-                                <option value={false}>არ მაქვს ვადაგადაცილება</option>
+                                <option value={true}>აქვს ვადაგადაცილება</option>
+                                <option value={false}>არ აქვს ვადაგადაცილება</option>
                             </Select>
                         </div>
 
