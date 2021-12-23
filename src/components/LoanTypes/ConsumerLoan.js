@@ -509,7 +509,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                         <div className="form-group col-md-5">
                             <label for="inputState" style={{fontSize:'15px'}}>
                                 {" "}
-                                თქვენი საკრედიტო ისტორია4444444{" "}
+                                თქვენი საკრედიტო ისტორია{" "}
                                 <span style={{ color: "red" }}>*</span>
                             </label>
                             <select
@@ -521,7 +521,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 value={statement?.currentOverdue}
                             >
                                 <option selected></option>
-                                <option value={true}>მაქვს ვადაგადაცილება</option>
+                                <option value={true}>მაქვს მიმდინარე ვადაგადაცილება</option>
                                 <option value={false}>არ მაქვს ვადაგადაცილება</option>
                             </select>
                             <Form.Control.Feedback type="invalid">
