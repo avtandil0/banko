@@ -80,7 +80,7 @@ const Admin = () => {
         {
             title: 'საკრედიტო ისტორია/ ვადაგადაცილება',
             dataIndex: 'currentOverdue',
-            render: (item, row) => <p>{row?.currentOverdue ? 'აქვს ვადაგადაცილება': 'არ აქვს ვადაგადაცილება'}</p>,
+            render: (item, row) => <p>{row?.currentOverdue ? 'აქვს ვადაგადაცილება': <p style={{color: 'red'}}>არ აქვს ვადაგადაცილება</p>}</p>,
 
         },
 
