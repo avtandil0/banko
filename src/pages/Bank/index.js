@@ -319,14 +319,7 @@ const Bank = () => {
               <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
-            <Tooltip placement="bottom" title="ჩამოტვირთვა">
-              {/* <Popconfirm title="გსურთ მიღება? " okText="დიახ" cancelText="არა"> */}
-
-              <Button type="primary" icon={<ArrowDownOutlined style={{ color: 'white' }} />}>
-              </Button>
-              {/* </Popconfirm> */}
-
-            </Tooltip>
+            
           </Space>
 
         </>

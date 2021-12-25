@@ -528,7 +528,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 აირჩიეთ .
                             </Form.Control.Feedback>
                         </div>
-                        <div className="form-group col-md-6">
+                        {/* <div className="form-group col-md-6">
                             <label>
                                 {" "}
                                 <input
@@ -556,7 +556,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                             </>
                         ) : (
                             ""
-                        )}
+                        )} */}
                     </div>
                 </Card.Body>
             </Card>

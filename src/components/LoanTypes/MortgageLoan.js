@@ -85,7 +85,7 @@ export function MortgageLoan({ statement, setStatement }) {
         <>
             <ConsumerLoan statement={statement} setStatement={setStatement} />
             <br></br>
-            <Card border="info" style={{ width: '49rem' }}>
+            {/* <Card border="info" style={{ width: '49rem' }}>
                 <Card.Header>ინფორმაცია იპოთეკაზე</Card.Header>
                 <Card.Body>
                     <div className="form-row">
@@ -143,7 +143,7 @@ export function MortgageLoan({ statement, setStatement }) {
                         </div>
                     </div>
                 </Card.Body>
-            </Card>
+            </Card> */}
 
 
 
