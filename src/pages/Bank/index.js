@@ -77,7 +77,11 @@ const Bank = () => {
     }
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      constants.API_PREFIX + `/api/Statement/${user.id}/${statement.id}/${status}`//დამუშავების პროცესში
+      constants.API_PREFIX + `/api/Statement/${user.id}/${statement.id}/${status}`,//დამუშავების პროცესში
+      null,{
+        params: {
+          token: user?.token
+        }}
     );
 
     message.open({
@@ -118,7 +122,12 @@ const Bank = () => {
     setModal({ ...modal, loading: true });
     var result = await axios.post(
       // `https://weblive.com.ge/api/Home`,
-      constants.API_PREFIX + `/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`
+      constants.API_PREFIX + `/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`,
+      null, {
+        params: {
+          token: user?.token
+        }
+    }
     );
 
     message.open({
@@ -145,12 +154,20 @@ const Bank = () => {
     console.log(JSON.parse(localStorage.getItem("user")));
     let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
+
+
+
+
     setUser(us);
     console.log("us", us, constants.API_PREFIX);
 
     //setLoanTypesOptions
     var loanTypes = await axios.get(
-      constants.API_PREFIX + `/api/BankToLoan/${us.id}`);
+      constants.API_PREFIX + `/api/BankToLoan/${us.id}`,
+       {
+        params: {
+          token: us?.token
+        }});
 
 
     let newArlloanto = loanTypes.data.map(el => { return { value: el.loantypeId.toString(), text: el.loantype.loanTypeName } })
@@ -163,8 +180,12 @@ const Bank = () => {
   }, []);
 
   useEffect(async () => {
+
+    let us = JSON.parse(localStorage.getItem("user"));
+
+
     if (user) {
-      search()
+      search(us)
     }
   }, [user]);
 
@@ -172,14 +193,13 @@ const Bank = () => {
     setVisible(true);
   };
 
-  const search = async () => {
+  const search = async (us) => {
     setStatementLoading(true);
 
+    console.log('usssseeer0000', us,user)
     var result = await axios.get(
-      constants.API_PREFIX + '/api/Home',
-      {
-        params: { userId: user?.id },
-      });
+      constants.API_PREFIX + `/api/Home?userId=${us? us.id: user?.id}&token=${us? us.token : user?.token}`,
+      );
     console.log("data123", result.data);
     setStatements(result.data);
     setStatementLoading(false);
@@ -193,6 +213,11 @@ const Bank = () => {
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
       constants.API_PREFIX + `/api/Statement/${user.id}/${item.id}/${2}`//დამუშავების პროცესში
+      , null, {
+        params: {
+          token: user?.token
+        }
+    }
     );
     setReceiveLoading(false)
     setVisible(false)
@@ -319,7 +344,7 @@ const Bank = () => {
               <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
-            
+
           </Space>
 
         </>
@@ -591,7 +616,7 @@ const Bank = () => {
 
           {/* <Button type="primary">შენახვა</Button> */}
           <br></br>
-          <Space size="large">
+          {/* <Space size="large">
             <Select defaultValue="სტატუსი" style={{ width: 200 }}>
               <Option value="ახალი">ახალი</Option>
               <Option value="მიღებული">მიღებული</Option>
@@ -600,14 +625,9 @@ const Bank = () => {
             </Select>
             <Select defaultValue="პროდუქტის ტიპი" style={{ width: 200 }}>
               {loanTypesOptions.map((option) => (
-                // <Select.Option key={option} value={option}>{option}</Select.Option>
                 <Option value={option.value}>{option.text}</Option>
               ))}
-              {/* <Option value="იპოთეკური">იპოთეკური</Option>
-              <Option value="სამომხმარებლო">სამომხმარებლო</Option>
-              <Option value="აგრო">აგრო</Option>
-              <Option value="საკრედიტო ბარათები">საკრედიტო ბარათები</Option>
-              <Option value="ავტო სესხი">ავტო სესხი</Option> */}
+             
             </Select>
             <Select defaultValue="რეგიონი" style={{ width: 200 }}>
 
@@ -615,7 +635,7 @@ const Bank = () => {
             <Select defaultValue="რაიონი" style={{ width: 200 }}>
 
             </Select>
-          </Space>
+          </Space> */}
 
           <br></br>
           <br></br>

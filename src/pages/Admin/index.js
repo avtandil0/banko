@@ -80,7 +80,7 @@ const Admin = () => {
         {
             title: 'საკრედიტო ისტორია/ ვადაგადაცილება',
             dataIndex: 'currentOverdue',
-            render: (item, row) => <p>{row?.currentOverdue ? 'აქვს ვადაგადაცილება': <p style={{color: 'red'}}>არ აქვს ვადაგადაცილება</p>}</p>,
+            render: (item, row) => <p>{row?.currentOverdue ? <p style={{color: 'red'}}>აქვს ვადაგადაცილება</p>: <p >არ აქვს ვადაგადაცილება</p>}</p>,
 
         },
 
@@ -110,6 +110,8 @@ const Admin = () => {
     const [isEdit, setIsEdit] = useState(false)
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [user, setUser] = useState(null);
+
 
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -130,7 +132,11 @@ const Admin = () => {
     const confirm = async (record) => {
         setTableLoading(true);
         // console.log("record", record.id)
-        const result = await axios.delete(constants.API_PREFIX + `/api/RedistributionCustomersToBanks?customersToBankId=${record.id}`);
+        const result = await axios.delete(constants.API_PREFIX + `/api/RedistributionCustomersToBanks?customersToBankId=${record.id}`,
+        {
+            params: {
+              token: user?.token
+            }});
         console.log('result', result)
         if (result.data.isSuccess) {
             message.success(result.data.meessage);
@@ -158,7 +164,11 @@ const Admin = () => {
         // console.log("click", post)
         // console.log("result", result, post)z
         if (!isEdit) {
-            const result = await axios.post(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post);
+            const result = await axios.post(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post,
+            {
+                params: {
+                  token: user?.token
+                }});
             if (result.data.isSuccess) {
                 fetchData();
                 setIsModalVisible(false);
@@ -169,7 +179,11 @@ const Admin = () => {
             }
         }
         else {
-            const result = await axios.put(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post);
+            const result = await axios.put(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post,
+            {
+                params: {
+                  token: user?.token
+                }});
             if (result.data.isSuccess) {
                 fetchData();
                 setIsModalVisible(false);
@@ -203,33 +217,48 @@ const Admin = () => {
 
 
 
-    const fetchData = async () => {
+    const fetchData = async (us) => {
         setTableLoading(true);
-        const result = await axios(constants.API_PREFIX + '/api/RedistributionCustomersToBanks');
+        const result = await axios(constants.API_PREFIX + '/api/RedistributionCustomersToBanks',{
+            params: {
+                token: us? us.token: user.token
+            }});
         console.log('resultresult',result)
         setCustomersToBanks(result.data)
         setTableLoading(false)
     }
 
-    const fetchIncomesource = async () => {
-        const result = await axios(constants.API_PREFIX + '/api/IncomeSource');
+    const fetchIncomesource = async (us) => {
+        const result = await axios(constants.API_PREFIX + '/api/IncomeSource',{
+            params: {
+              token: us? us.token: user.token
+            }});
         setIncomesource(result.data)
     }
 
-    const fetchLoantype = async () => {
-        const result = await axios(constants.API_PREFIX + '/api/LoanType');
+    const fetchLoantype = async (us) => {
+        const result = await axios(constants.API_PREFIX + '/api/LoanType',{
+            params: {
+                token: us? us.token: user.token
+            }});
         setLoantype(result.data)
         console.log("setLoantype", loantype)
     }
 
-    const fetchRegion = async () => {
-        const result = await axios(constants.API_PREFIX + '/api/Region');
+    const fetchRegion = async (us) => {
+        const result = await axios(constants.API_PREFIX + '/api/Region',{
+            params: {
+                token: us? us.token: user.token
+            }});
         setRegion(result.data)
         console.log("setRegion", region)
     }
 
-    const fetchBank = async () => {
-        const result = await axios(constants.API_PREFIX + '/api/Bank');
+    const fetchBank = async (us) => {
+        const result = await axios(constants.API_PREFIX + '/api/Bank',{
+            params: {
+                token: us? us.token: user.token
+            }});
         console.log("fetchBank", result)
         setBank(result.data)
     }
@@ -298,11 +327,15 @@ const Admin = () => {
     }
 
     useEffect(() => {
-        fetchData();
-        fetchIncomesource();
-        fetchLoantype();
-        fetchRegion();
-        fetchBank();
+        let us = JSON.parse(localStorage.getItem("user"));
+
+        setUser(us);
+
+        fetchData(us);
+        fetchIncomesource(us);
+        fetchLoantype(us);
+        fetchRegion(us);
+        fetchBank(us);
     }, []);
 
 

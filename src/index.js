@@ -7,6 +7,9 @@ import Router from "./router";
 import i18n from "./translation";
 import * as serviceWorker from "./serviceWorker";
 import './index.css';
+import axios from 'axios';
+
+
 
 const App = () => (
   <BrowserRouter>

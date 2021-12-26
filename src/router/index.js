@@ -79,7 +79,10 @@ const Router = () => {
       <Route exact path="/admin">
         <Admin />
       </Route>
-      <PrivateRoute user={user} authed={isAuthorize} path='/bank' component={Bank} />
+      <Route exact path="/bank">
+       {isAuthorize && user?.userRoleId == 2 && user?.bankId? <Bank /> : null} 
+      </Route>
+      {/* <PrivateRoute user={user} authed={isAuthorize} path='/bank' component={Bank} /> */}
 
 
 

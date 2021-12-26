@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Form, InputGroup } from "react-bootstrap";
 
 import axios from "axios";
+import constants from "../../constants";
 
 import {
   message,
@@ -164,7 +165,7 @@ const Header = ({
   const sendSms = async () => {
     var result = await axios.post(
       // https://weblive.com.ge
-      `https://weblive.com.ge/api/account`,user
+      constants.API_PREFIX +`/api/account`,user
       // `https://localhost:44314/api/account`,user
       // {
       //   params: { ...user },
@@ -185,7 +186,7 @@ const Header = ({
     }
     setLoginLoading(true);
     var result = await axios.get(
-      `https://weblive.com.ge/api/account/${user.userName}/${user.password}`
+      constants.API_PREFIX +`/api/account/${user.userName}/${user.password}`
       // {
       //   params: { ...user },
       // }
@@ -227,7 +228,7 @@ const Header = ({
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
     // var result = await axios.get(`https://weblive.com.ge/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
-    var result = await axios.get(`https://weblive.com.ge/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
+    var result = await axios.get(constants.API_PREFIX +`/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);

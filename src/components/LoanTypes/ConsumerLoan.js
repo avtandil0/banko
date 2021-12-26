@@ -3,6 +3,8 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
+import constants from '../../constants'
+
 
 export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
@@ -27,18 +29,30 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
         // setStatement({ ...statement, userId: us?.id });
         // console.log("currentUser", currentUser);
 
-        var result1 = await axios.get(`https://weblive.com.ge/api/IncomeSource`);
+        var result1 = await axios.get(constants.API_PREFIX +`/api/IncomeSource`,{
+            params: {
+              token: us?.token
+            }});
         console.log('result IncomeSource', result1)
         setIncomeSource(result1.data);
-        var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
+        var result2 = await axios.get(constants.API_PREFIX +`/api/WorkExperience`,{
+            params: {
+              token: us?.token
+            }});
         console.log("result WorkExperience", result2);
         setWorkExperiance(result2.data);
 
-        var regionsRes = await axios.get(`https://weblive.com.ge/api/Region`);
+        var regionsRes = await axios.get(constants.API_PREFIX +`/api/Region`,{
+            params: {
+              token: us?.token
+            }});
         console.log("result regions", regionsRes);
         setRegions(regionsRes.data)
 
-        var municipalsRes = await axios.get(`https://weblive.com.ge/api/Municipal`);
+        var municipalsRes = await axios.get(constants.API_PREFIX +`/api/Municipal`,{
+            params: {
+              token: us?.token
+            }});
         console.log("result municipals", municipalsRes);
         setMunicipals(municipalsRes.data)
 

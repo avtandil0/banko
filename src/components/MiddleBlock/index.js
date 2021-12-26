@@ -66,26 +66,42 @@ const MiddleBlock = ({
   useEffect(async () => {
     // Good!
     let us = JSON.parse(localStorage.getItem("user"));
+    // document.cookie=`token=${us?.token}`
     // setUser(localStorage.getItem('user'))
     setCurrentUser(us);
 
     setStatement({ ...statement, userId: us?.id });
     console.log("currentUser", currentUser);
 
-    var result1 = await axios.get(`https://weblive.com.ge/api/IncomeSource`);
+    axios.interceptors.request.use(function(config) {
+      if (us) {
+        config.params = {token: us?.token};
+      }
+       console.log('aaaxxxxsiooooooos', config)
+      return config;
+    }, function(err)  {
+      return Promise.reject(err);
+    });
+
+    // axios.defaults.withCredentials = true
+
+
+    // let par = {params: {token: us.token}}
+    // console.log('parparparpar',par)
+    var result1 = await axios.get(constants.API_PREFIX +`/api/IncomeSource`);
     console.log("result IncomeSource", result1);
     setIncomeSource(result1.data);
-    var result2 = await axios.get(`https://weblive.com.ge/api/WorkExperience`);
-    console.log("result WorkExperience", result2);
-    setWorkExperiance(result2.data);
+    // var result2 = await axios.get(constants.API_PREFIX +`/api/WorkExperience`);
+    // console.log("result WorkExperience", result2);
+    // setWorkExperiance(result2.data);
 
-    var regionsRes = await axios.get(`https://weblive.com.ge/api/Region`);
-    console.log("result regions", regionsRes);
-    setRegions(regionsRes.data);
+    // var regionsRes = await axios.get(constants.API_PREFIX +`/api/Region`);
+    // console.log("result regions", regionsRes);
+    // setRegions(regionsRes.data);
 
-    var municipalsRes = await axios.get(`https://weblive.com.ge/api/Municipal`);
-    console.log("result municipals", municipalsRes);
-    setMunicipals(municipalsRes.data);
+    // var municipalsRes = await axios.get(constants.API_PREFIX +`/api/Municipal`);
+    // console.log("result municipals", municipalsRes);
+    // setMunicipals(municipalsRes.data);
   }, []);
 
   const handleSubmit = (event) => {
@@ -135,7 +151,7 @@ const MiddleBlock = ({
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
-    var result = await axios.post("https://weblive.com.ge/api/account", user);
+    var result = await axios.post(constants.API_PREFIX +`/api/account`, user);
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
@@ -169,7 +185,7 @@ const MiddleBlock = ({
     }
     setLoginLoading(true);
     var result = await axios.get(
-      `https://weblive.com.ge/api/account/${user.userName}/${user.password}`
+      constants.API_PREFIX +`/api/account/${user.userName}/${user.password}`
       // {
       //   params: { ...user },
       // }
