@@ -37,6 +37,7 @@ const MiddleBlock = ({
   t,
   isAuthorize,
   setIsAuthorize,
+  setInProfileMOde
 }) => {
   const [show1, setShow1] = useState(false);
   const [productType, setProductType] = useState(false);
@@ -73,22 +74,27 @@ const MiddleBlock = ({
     setStatement({ ...statement, userId: us?.id });
     console.log("currentUser", currentUser);
 
-    axios.interceptors.request.use(function(config) {
-      if (us) {
-        config.params = {token: us?.token};
-      }
-       console.log('aaaxxxxsiooooooos', config)
-      return config;
-    }, function(err)  {
-      return Promise.reject(err);
-    });
+    // axios.interceptors.request.use(function(config) {
+    //   if (us) {
+    //     config.params = {token: us?.token};
+    //   }
+    //    console.log('aaaxxxxsiooooooos', config)
+    //   return config;
+    // }, function(err)  {
+    //   return Promise.reject(err);
+    // });
 
     // axios.defaults.withCredentials = true
 
 
     // let par = {params: {token: us.token}}
     // console.log('parparparpar',par)
-    var result1 = await axios.get(constants.API_PREFIX +`/api/IncomeSource`);
+    var result1 = await axios.get(constants.API_PREFIX +`/api/IncomeSource`,
+    {
+      params: {
+        token: us?.token
+      }
+    });
     console.log("result IncomeSource", result1);
     setIncomeSource(result1.data);
     // var result2 = await axios.get(constants.API_PREFIX +`/api/WorkExperience`);
@@ -151,7 +157,12 @@ const MiddleBlock = ({
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
-    var result = await axios.post(constants.API_PREFIX +`/api/account`, user);
+    var result = await axios.post(constants.API_PREFIX +`/api/account`, user,
+    {
+      params: {
+        token: currentUser?.token
+      }
+    });
     if (result.data.isSuccess) {
       message.success(result.data.meessage);
       setVisibleLoginRegisterDialog(false);
@@ -185,7 +196,12 @@ const MiddleBlock = ({
     }
     setLoginLoading(true);
     var result = await axios.get(
-      constants.API_PREFIX +`/api/account/${user.userName}/${user.password}`
+      constants.API_PREFIX +`/api/account/${user.userName}/${user.password}`,
+      {
+        params: {
+          token: currentUser?.token
+        }
+      }
       // {
       //   params: { ...user },
       // }
@@ -262,11 +278,22 @@ const MiddleBlock = ({
 
     console.log(statement);
     setSentLoading(true);
-    var result = await axios.post(constants.API_PREFIX + `/api/Home`, statement);
+    var result = await axios.post(constants.API_PREFIX + `/api/Home`, statement,
+    {
+      params: {
+        token: currentUser?.token
+      }
+    });
     console.log("result WorkExperience", result);
     setSentLoading(false);
     setShow1(false);
-    message.success(result.data.meessage);
+    if(result.data.isSuccess){
+      AntModal.success({
+        content: result.data.meessage,
+      });
+      // setInProfileMOde(true)
+    }
+    // message.success(result.data.meessage);
   };
 
   const scrollTo = (id) => {

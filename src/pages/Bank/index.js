@@ -1,5 +1,5 @@
 import React, { useState, Fragment, lazy, useEffect } from "react";
-import { ArrowDownOutlined, CheckOutlined, EditOutlined, FundViewOutlined, CloseOutlined } from '@ant-design/icons';
+import { ArrowDownOutlined, CheckOutlined, EditOutlined, FundViewOutlined, CloseOutlined, ArrowLeftOutlined,SyncOutlined } from '@ant-design/icons';
 
 import {
   Modal as AntModal,
@@ -30,6 +30,8 @@ import { modalGlobalConfig } from "antd/lib/modal/confirm";
 
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { useHistory } from "react-router-dom";
+
 
 
 import { BusinessLoan } from '../../components/LoanTypes/BusinessLoan'
@@ -42,6 +44,9 @@ import { CreditCard } from '../../components/LoanTypes/CreditCard'
 const { Option } = Select;
 
 const Bank = () => {
+
+  let history = useHistory();
+
   const [user, setUser] = useState(null);
   const [statements, setStatements] = useState([]);
   const [loanTypesOptions, setLoanTypesOptions] = useState([]);
@@ -78,10 +83,11 @@ const Bank = () => {
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
       constants.API_PREFIX + `/api/Statement/${user.id}/${statement.id}/${status}`,//დამუშავების პროცესში
-      null,{
-        params: {
-          token: user?.token
-        }}
+      null, {
+      params: {
+        token: user?.token
+      }
+    }
     );
 
     message.open({
@@ -124,9 +130,9 @@ const Bank = () => {
       // `https://weblive.com.ge/api/Home`,
       constants.API_PREFIX + `/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`,
       null, {
-        params: {
-          token: user?.token
-        }
+      params: {
+        token: user?.token
+      }
     }
     );
 
@@ -156,7 +162,7 @@ const Bank = () => {
     // setUser(localStorage.getItem('user'))
 
 
-
+    // search(us)
 
     setUser(us);
     console.log("us", us, constants.API_PREFIX);
@@ -164,10 +170,11 @@ const Bank = () => {
     //setLoanTypesOptions
     var loanTypes = await axios.get(
       constants.API_PREFIX + `/api/BankToLoan/${us.id}`,
-       {
+      {
         params: {
           token: us?.token
-        }});
+        }
+      });
 
 
     let newArlloanto = loanTypes.data.map(el => { return { value: el.loantypeId.toString(), text: el.loantype.loanTypeName } })
@@ -196,10 +203,9 @@ const Bank = () => {
   const search = async (us) => {
     setStatementLoading(true);
 
-    console.log('usssseeer0000', us,user)
+    console.log('usssseeer0000', us, user)
     var result = await axios.get(
-      constants.API_PREFIX + `/api/Home?userId=${us? us.id: user?.id}&token=${us? us.token : user?.token}`,
-      );
+      constants.API_PREFIX + `/api/Home?userId=${us ? us.id : user?.id}&token=${us ? us.token : user?.token}`);
     console.log("data123", result.data);
     setStatements(result.data);
     setStatementLoading(false);
@@ -214,9 +220,9 @@ const Bank = () => {
       // `https://weblive.com.ge/api/Home`,
       constants.API_PREFIX + `/api/Statement/${user.id}/${item.id}/${2}`//დამუშავების პროცესში
       , null, {
-        params: {
-          token: user?.token
-        }
+      params: {
+        token: user?.token
+      }
     }
     );
     setReceiveLoading(false)
@@ -407,11 +413,11 @@ const Bank = () => {
     //     </>
     //   ),
     // },
-    {
-      title: "მისამართი",
-      dataIndex: "actualAddress",
-      key: "actualAddress",
-    },
+    // {
+    //   title: "მისამართი",
+    //   dataIndex: "actualAddress",
+    //   key: "actualAddress",
+    // },
   ];
 
   const data = [
@@ -579,7 +585,10 @@ const Bank = () => {
 
       <Row justify="center">
         <Col span={16}>
-          <PageHeader
+          <Button onClick={() => window.location.href = '/'} icon={<ArrowLeftOutlined />} type="text">უკან</Button>
+          <br/>
+          <h2>{user?.name?.toUpperCase()}</h2>
+          {/* <PageHeader
             title={user?.name?.toUpperCase()}
             tags={<Tag color="blue">Running</Tag>}
             subTitle="This is a subtitle"
@@ -603,7 +612,7 @@ const Bank = () => {
               />
               <Statistic title="Balance" prefix="$" value={3345.08} />
             </Row>
-          </PageHeader>
+          </PageHeader> */}
           {/*  */}
           {/* <div className="form-group">
             <div className="form-check">
@@ -638,6 +647,8 @@ const Bank = () => {
           </Space> */}
 
           <br></br>
+          <br></br>
+          <Button onClick={() => search()} icon={<SyncOutlined spin={statementLoading}/>} type="primary">Sync</Button>
           <br></br>
           <br></br>
           <Table

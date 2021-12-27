@@ -33,6 +33,7 @@ const Router = () => {
     // Good!
     let us = JSON.parse(localStorage.getItem('user'));
     // setUser(localStorage.getItem('user'))
+    console.log(444444444444,us)
     setUser(us);
     if (us?.token) {
       setIsAuthorize(true)
@@ -63,7 +64,7 @@ const Router = () => {
             <Route
               path="/"
               isAuthorize={isAuthorize}
-              component={(() => <Home isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} setOpenLoginRegisterDialog={setOpenLoginRegisterDialog} />)}
+              component={(() => <Home setInProfileMOde={setInProfileMOde} isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} setOpenLoginRegisterDialog={setOpenLoginRegisterDialog} />)}
             />
 
           </>
@@ -80,7 +81,8 @@ const Router = () => {
         <Admin />
       </Route>
       <Route exact path="/bank">
-       {isAuthorize && user?.userRoleId == 2 && user?.bankId? <Bank /> : null} 
+       {isAuthorize && JSON.parse(localStorage.getItem('user'))?.userRoleId == 2 
+       && JSON.parse(localStorage.getItem('user'))?.bankId? <Bank /> : null} 
       </Route>
       {/* <PrivateRoute user={user} authed={isAuthorize} path='/bank' component={Bank} /> */}
 

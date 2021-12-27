@@ -20,6 +20,8 @@ import {
   message,
 } from "antd";
 import Form from "react-bootstrap/Form";
+import { useHistory } from "react-router-dom";
+
 
 import Modal from "react-bootstrap/Modal";
 
@@ -34,6 +36,11 @@ import { AutoLeasing } from '../../components/LoanTypes/AutoLeasing'
 import { CreditCard } from '../../components/LoanTypes/CreditCard'
 
 const Profile = () => {
+
+  let history = useHistory();
+
+
+
   const [user, setUser] = useState();
   const [statements, setStatements] = useState([]);
   const [statement, setStatement] = useState([]);
@@ -81,13 +88,18 @@ const Profile = () => {
     window.scrollTo(0, 0);
     console.log(JSON.parse(localStorage.getItem("user")));
     let us = JSON.parse(localStorage.getItem("user"));
+
+    // if(us.userRoleId != 1){
+    //   window.location.reload()
+    //   return null
+    // }
     // setUser(localStorage.getItem('user'))
     setUser(us);
     console.log("us", us);
 
     setStatementLoading(true);
     var result = await axios.get(constants.API_PREFIX +`/api/Home`, {
-      params: { userId: us.id },
+      params: { userId: us.id, token: us.token },
     });
     console.log("res", result);
     setStatements(result.data);
@@ -131,7 +143,12 @@ const Profile = () => {
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
       constants.API_PREFIX +`/api/Home/${user.id}`,
-      statement
+      statement,
+      {
+        params: {
+          token: user?.token
+        }
+      }
     );
     console.log("result WorkExperience", result);
     setSentLoading(false);
@@ -202,7 +219,7 @@ const Profile = () => {
       key: "user",
       render: (user) => (
         <a>
-          {user.name} {user.lastName}
+          {user?.name} {user?.lastName}
         </a>
       ),
     },
@@ -210,7 +227,7 @@ const Profile = () => {
       title: "მობ. ნომერი",
       dataIndex: "user",
       key: "user",
-      render: (user) => <a>{user.phoneNumber}</a>,
+      render: (user) => <a>{user?.phoneNumber}</a>,
     },
     // {
     //   title: "Tags",
