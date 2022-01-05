@@ -31,7 +31,7 @@ import { modalGlobalConfig } from "antd/lib/modal/confirm";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useHistory } from "react-router-dom";
-
+import { sumBy } from 'lodash'
 
 
 import { BusinessLoan } from '../../components/LoanTypes/BusinessLoan'
@@ -393,6 +393,12 @@ const Bank = () => {
       key: "user",
       render: (user) => <a>{user?.phoneNumber}</a>,
     },
+    {
+      title: "შევსების თარიღი",
+      dateCreated: "t",
+      key: "t",
+      render: (t) => <a>{t.dateCreated? t.dateCreated.substring(0,10) : ''}</a>,
+    },
     // {
     //   title: "Tags",
     //   key: "tags",
@@ -588,31 +594,35 @@ const Bank = () => {
           <Button onClick={() => window.location.href = '/'} icon={<ArrowLeftOutlined />} type="text">უკან</Button>
           <br/>
           <h2>{user?.name?.toUpperCase()}</h2>
-          {/* <PageHeader
-            title={user?.name?.toUpperCase()}
-            tags={<Tag color="blue">Running</Tag>}
-            subTitle="This is a subtitle"
-            extra={[
-              <Button key="3">Operation</Button>,
-              <Button key="2">Operation</Button>,
-              <Button key="1" type="primary">
-                Primary
-              </Button>,
-            ]}
+          <PageHeader
+            // title={user?.name?.toUpperCase()}
+            // tags={<Tag color="blue">აქტიური</Tag>}
+            // subTitle="This is a subtitle"
+            // extra={[
+            //   <Button key="3">Operation</Button>,
+            //   <Button key="2">Operation</Button>,
+            //   <Button key="1" type="primary">
+            //     Primary
+            //   </Button>,
+            // ]}
           >
             <Row>
-              <Statistic title="Status" value="Pending" />
+              {/* <Statistic title="Status" value="Pending" /> */}
               <Statistic
-                title="Price"
-                prefix="$"
-                value={568.08}
+                title="სულ განცხადებები"
+                value={statements.length}
                 style={{
                   margin: '0 32px',
                 }}
               />
-              <Statistic title="Balance" prefix="$" value={3345.08} />
+              <Statistic title="დამტკიც. რაოდენობა" 
+                value={statements.filter(r => r.statementStatus == 3).length} />
+              <Statistic title="დამტკიც. თანხა" prefix="₾" 
+              value={sumBy(statements.filter(r => r.statementStatus == 3), function(o) { return o.requestedAmount; })} style={{
+                  margin: '0 32px',
+                }}/>
             </Row>
-          </PageHeader> */}
+          </PageHeader>
           {/*  */}
           {/* <div className="form-group">
             <div className="form-check">

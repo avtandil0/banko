@@ -130,12 +130,66 @@ const Header = ({
     setInProfileMOde(true)
   }
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [passwordObject, setPasswordObject] = useState({
+    currentPass: '',
+    newPass: '',
+    reNewPass: '',
+    loading: false
+  });
+
+  const showModal = () => {
+    setPasswordObject({...passwordObject, ['currentPass']: '', ['newPass']: '', ['reNewPass']: '', ['loading']: false})
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async () => {
+    console.log('aa',passwordObject)
+    if(!passwordObject.currentPass || !passwordObject.newPass || !passwordObject.reNewPass){
+      message.error('შეიყვანეთ პაროლი');
+      return;
+    }
+    if(passwordObject.newPass != passwordObject.reNewPass){
+      message.error('განმეორებული პაროლი არ ემთხვევა ახალს');
+      return;
+    }
+    setPasswordObject({...passwordObject, ['loading']: true})
+    var result = await axios.post(
+      // https://weblive.com.ge
+      constants.API_PREFIX +`/api/account/changePassword/${currentUser.id}/${passwordObject.currentPass}/${passwordObject.newPass}`,user
+      // `https://localhost:44314/api/account`,user
+      // {
+      //   params: { ...user },
+      // }
+    );
+    setPasswordObject({...passwordObject, ['loading']: false})
+    console.log('result',result)
+    if(result.data.isSuccess){
+      message.success('პაროლი წარმატებით შეიცვალა');
+    }else{
+      message.error(result.data.meessage);
+    }
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleChangePass = (e) => {
+    console.log('aa',e.target)
+    setPasswordObject({...passwordObject, [e.target.name]: e.target.value})
+  }
+
   const menu = (
     <Menu>
       <Menu.Item key="0">
         <a onClick={goToProfile}>პროფილი</a>
       </Menu.Item>
-      <Menu.Item key="1" onClick={logOut}>
+      <Menu.Item key="1">
+        <a onClick={showModal}>პაროლის შეცვლა</a>
+      </Menu.Item>
+      <Menu.Item key="2" onClick={logOut}>
         <a>გასვლა</a>
       </Menu.Item>
       {/* <Menu.Divider /> */}
@@ -200,6 +254,10 @@ const Header = ({
       setCurrentUser(result.data);
       setUser({ ...user, userName: "", password: "" });
       setValidated(false);
+
+      if(result.data.userRoleId == 2){
+        history.push('/bank')
+      }
     } else {
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
@@ -283,18 +341,20 @@ const Header = ({
     setVisibleLoginRegisterDialog(true);
   };
 
+  const scrollTo = (id) => {
+    console.log("header setInProfileMOde", setInProfileMOde);
+    setInProfileMOde(false);
+    const element = document.getElementById(id);
+    element?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+      inline: "nearest",
+    });
+    setVisibility(false);
+  };
+
   const MenuItem = () => {
-    const scrollTo = (id) => {
-      console.log("header setInProfileMOde", setInProfileMOde);
-      setInProfileMOde(false);
-      const element = document.getElementById(id);
-      element?.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "nearest",
-      });
-      setVisibility(false);
-    };
+    
 
     return (
       <Fragment>
@@ -387,6 +447,14 @@ const Header = ({
         zIndex: 100,
       }}
     >
+
+      <Modal cancelText="დახურვა" okText="დადასტურება" confirmLoading={passwordObject.loading} title="პაროლის ცვლილება" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Input value={passwordObject?.currentPass} name="currentPass" onChange={handleChangePass} placeholder="მიმდინარე პაროლი" type="password"/>
+        <Input value={passwordObject?.newPass} name="newPass" onChange={handleChangePass} placeholder="ახალი პაროლი" type="password" style={{marginTop: 10, marginBottom: 10}}/>
+        <Input value={passwordObject?.reNewPass} name="reNewPass" onChange={handleChangePass} placeholder="გაიმეორეთ ახალი პაროლი" type="password"/>
+      </Modal>
+
+
       <Modal
         visible={visibleLoginRegisterDialog}
         onCancel={() => setVisibleLoginRegisterDialog(false)}
@@ -684,7 +752,7 @@ const Header = ({
         <Row type="flex" justify="space-between" gutter={20}>
           <S.LogoContainer to="/" aria-label="homepage">
             {/* <SvgIcon src="logo.svg" /> */}
-            <div style={{ marginLeft: 20,marginTop:5 }}>
+            <div style={{ marginLeft: 20,marginTop:5 }} onClick={() => scrollTo("intro")}>
               <SvgIcon src="ranko.svg" height={60} width={50} />
             </div>
             {/* <SvgIcon src="logo1.svg" /> */}
