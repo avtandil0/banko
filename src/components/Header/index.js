@@ -341,6 +341,40 @@ const Header = ({
     setVisibleLoginRegisterDialog(true);
   };
 
+  const [isResetPassModalVisible, setIsPassResetModalVisible] = useState(false);
+
+  const showResetPassModal = () => {
+    setVisibleLoginRegisterDialog(false)
+    setIsPassResetModalVisible(true);
+  };
+
+  const handleOkResetPass = async () => {
+    setLoginLoading(true)
+    var result = await axios.post(
+      constants.API_PREFIX +`/api/account/recoveryPassword/${user.userName}/${user.phoneNumber}`
+      // {
+      //   params: { ...user },
+      // }
+    );
+    setLoginLoading(false)
+    if (result.data.isSuccess) {
+      message.success(result.data.meessage)
+      setIsPassResetModalVisible(false);
+    }
+    else{
+      message.error(result.data.meessage)
+    }
+    console.log("result", result);
+
+    
+  };
+
+  const handleCancelResetPass = () => {
+    setIsPassResetModalVisible(false);
+  };
+
+  
+
   const scrollTo = (id) => {
     console.log("header setInProfileMOde", setInProfileMOde);
     setInProfileMOde(false);
@@ -454,6 +488,48 @@ const Header = ({
         <Input value={passwordObject?.reNewPass} name="reNewPass" onChange={handleChangePass} placeholder="გაიმეორეთ ახალი პაროლი" type="password"/>
       </Modal>
 
+      <Modal width={800} cancelText="დახურვა" okText="აღდგენა" confirmLoading={loginLoading} title="პაროლის აღდგენა" 
+      visible={isResetPassModalVisible} onOk={handleOkResetPass} onCancel={handleCancelResetPass}>
+      <Row>
+                <Form.Label column lg={3}>
+                 პირადი ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="userName"
+                    placeholder="პირადი ნომერი"
+                    value={user?.userName}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პირადი ნომერი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br>
+              <Row>
+                <Form.Label column lg={3}>
+                  მობილურის ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    type="text"
+                    placeholder="მობილურის ნომერი"
+                    required
+                    name="phoneNumber"
+                    value={user?.phoneNumber}
+                    onChange={handleChangeInput}
+                    onKeyPress={handleKeypress}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ  მობილურის ნომერი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+      </Modal>
+
 
       <Modal
         visible={visibleLoginRegisterDialog}
@@ -508,6 +584,9 @@ const Header = ({
                 <Col lg={12}>
                   <AntdButton htmlType="submit" loading={loginLoading}>
                     შესვლა
+                  </AntdButton>
+                  <AntdButton type="link" onClick={showResetPassModal}>
+                    პაროლის აღდგენა
                   </AntdButton>
                 </Col>
               </Row>
