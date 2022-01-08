@@ -358,7 +358,7 @@ const Header = ({
     );
     setLoginLoading(false)
     if (result.data.isSuccess) {
-      message.success(result.data.meessage)
+      message.success(result.data.meessage + ', დროებითი პაროლი გამოიგზავნა მითითებულ ნიომერზე ', 10)
       setIsPassResetModalVisible(false);
     }
     else{
