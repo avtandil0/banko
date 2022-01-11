@@ -9,6 +9,7 @@ import Home from "../pages/Home/index";
 import Bank from "../pages/Bank/index";
 import PrivateRoute from "../router/PrivateRoute"
 import Admin from "../pages/Admin";
+import StatementDetail from "../pages/Bank/statementDetail";
 
 import routes from "./config";
 import GlobalStyles from "../globalStyles";
@@ -83,6 +84,10 @@ const Router = () => {
       <Route exact path="/bank">
        {isAuthorize && JSON.parse(localStorage.getItem('user'))?.userRoleId == 2 
        && JSON.parse(localStorage.getItem('user'))?.bankId? <Bank /> : null} 
+      </Route>
+
+      <Route exact  path="/detail/:id">
+        <StatementDetail />
       </Route>
       {/* <PrivateRoute user={user} authed={isAuthorize} path='/bank' component={Bank} /> */}
 

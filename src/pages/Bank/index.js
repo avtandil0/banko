@@ -1,5 +1,9 @@
 import React, { useState, Fragment, lazy, useEffect } from "react";
-import { ArrowDownOutlined, CheckOutlined, EditOutlined, FundViewOutlined, CloseOutlined, ArrowLeftOutlined,SyncOutlined } from '@ant-design/icons';
+
+import { ArrowDownOutlined,
+   CheckOutlined, EditOutlined, FundViewOutlined,
+   FilePdfOutlined,
+    CloseOutlined, ArrowLeftOutlined,SyncOutlined } from '@ant-design/icons';
 
 import {
   Modal as AntModal,
@@ -251,6 +255,14 @@ const Bank = () => {
     setAgroType(e.target.id);
   };
 
+  const download = (row) => {
+    history.push(`detail/${row.id}`)
+    console.log('aaaa',row)
+   
+
+
+  }
+
   const handleView = (item) => {
     console.log('item', item)
     setStatement(item);
@@ -348,6 +360,11 @@ const Bank = () => {
             </Tooltip>
             <Tooltip placement="bottom" title="ნახვა">
               <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
+              </Button>
+            </Tooltip>
+
+            <Tooltip placement="bottom" title="ჩამოტვირთვა">
+              <Button type="primary" onClick={() => download(row)} icon={<FilePdfOutlined  style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
 
@@ -457,6 +474,8 @@ const Bank = () => {
   ];
   return (
     <div>
+
+
       <Modal show={show1} onHide={() => setShow1(false)} size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{productTypeName}</Modal.Title>
