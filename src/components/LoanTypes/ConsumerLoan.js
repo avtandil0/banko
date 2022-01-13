@@ -6,7 +6,7 @@ import axios from "axios";
 import constants from '../../constants'
 
 
-export function ConsumerLoan({ statement, setStatement, setValidated }) {
+export function ConsumerLoan({ statement, setStatement, setValidated, disabled }) {
 
     const [municipals, setMunicipals] = useState([]);
     const [controledMunicipals, setControledMunicipals] = useState([]);
@@ -190,6 +190,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         name="requestedAmount"
                                         value={statement?.requestedAmount}
                                         onChange={handleChangeInput}
+                                        disabled={disabled}
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         მიუთითეთ მოთხოვნილი თანხა.
@@ -205,6 +206,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         name="currency"
                                         value={statement?.currency}
                                         onChange={handleChangeInput}
+                                        disabled={disabled}
                                     >
                                         <option >GEL</option>
                                         <option>USD</option>
@@ -227,6 +229,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                                 name="term"
                                                 value={statement?.term}
                                                 onChange={handleChangeInput}
+                                                disabled={disabled}
                                             />
 
                                             <Form.Control.Feedback type="invalid">
@@ -252,6 +255,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                                 placeholder="შენატანი"
                                                 name="deposit"
                                                 value={deposit}
+                                                disabled={disabled}
                                             // onChange={handleChangeInput}
                                             />
                                         </>
@@ -289,6 +293,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                     onChange={handleChangeInput}
                                     isInvalid={statement?.monthlyAverageIncome ? !monthlyAverageIncomeValidate : false}
                                     isValid={monthlyAverageIncomeValidate}
+                                    disabled={disabled}
                                 />
                                 {/* <input
                                     required
@@ -320,6 +325,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                     name="incomeSourceId"
                                     value={statement?.incomeSourceId}
                                     onChange={handleChangeInput}
+                                    disabled={disabled}
                                 >
                                     <option></option>
                                     {incomeSource.map((s) => (
@@ -383,6 +389,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                             name="incomeAccrue"
                                             value={statement?.incomeAccrue}
                                             onChange={handleChangeInput}
+                                            disabled={disabled}
                                         >
                                             <option selected></option>
                                             <option value="ბანკში">ბანკში</option>
@@ -444,6 +451,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                         name="regionId"
                                         value={statement?.regionId}
                                         onChange={handleChangeInput}
+                                        disabled={disabled}
                                     >
                                         <option selected></option>
                                         {regions.map((s) => (
@@ -508,6 +516,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 name="existingLoans"
                                 onChange={handleChangeInput}
                                 value={statement?.existingLoans}
+                                disabled={disabled}
                             />
                             <Form.Control.Feedback type="invalid">
                                 სხვა არსებული სესხები (ჯამურად).
@@ -528,6 +537,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 name="montlyPaidAmount"
                                 onChange={handleChangeInput}
                                 value={statement?.montlyPaidAmount}
+                                disabled={disabled}
                             />
                             <Form.Control.Feedback type="invalid">
                                 სხვა არსებული სესხები (ჯამურად).
@@ -546,6 +556,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
                                 name="currentOverdue"
                                 onChange={handleChangeInput}
                                 value={statement?.currentOverdue}
+                                disabled={disabled}
                             >
                                 <option selected></option>
                                 <option value={true}>მაქვს მიმდინარე ვადაგადაცილება</option>

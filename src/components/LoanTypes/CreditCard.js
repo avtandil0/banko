@@ -6,11 +6,11 @@ import axios from "axios";
 import { ConsumerLoan } from "./ConsumerLoan";
 import { BusinessLoan } from "./BusinessLoan";
 
-export function CreditCard({ statement, setStatement }) {
+export function CreditCard({ statement, setStatement, disabled }) {
 
     return (
         <>
-            <ConsumerLoan statement={statement} setStatement={setStatement} />
+            <ConsumerLoan statement={statement} setStatement={setStatement} disabled={disabled} />
         </>
     );
 }

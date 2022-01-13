@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import { ConsumerLoan } from "./ConsumerLoan";
 
-export function BusinessLoan({ statement, setStatement }) {
+export function BusinessLoan({ statement, setStatement, disabled }) {
 
     const [municipals, setMunicipals] = useState([]);
     const [controledMunicipals, setControledMunicipals] = useState([]);
@@ -101,6 +101,7 @@ export function BusinessLoan({ statement, setStatement }) {
                                 name="borrowerName"
                                 value={statement?.borrowerName}
                                 onChange={handleChangeInput}
+                                disabled={disabled}
                             />
                             <Form.Control.Feedback type="invalid">
                                 მოითითეთ კომპანიის დასახელება.
@@ -119,6 +120,7 @@ export function BusinessLoan({ statement, setStatement }) {
                                 name="taxcode"
                                 value={statement?.taxcode}
                                 onChange={handleChangeInput}
+                                disabled={disabled}
                             />
                             <Form.Control.Feedback type="invalid">
                                 საიდენტიფინაციო ნომერი.
@@ -139,7 +141,7 @@ export function BusinessLoan({ statement, setStatement }) {
             onChange={handleChangeInput}
           />
         </div> */}
-            <ConsumerLoan statement={statement} setStatement={setStatement} />
+            <ConsumerLoan statement={statement} setStatement={setStatement} disabled={disabled}/>
 
 
         </>

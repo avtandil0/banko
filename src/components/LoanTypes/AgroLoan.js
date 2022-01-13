@@ -6,13 +6,13 @@ import axios from "axios";
 import { ConsumerLoan } from "./ConsumerLoan";
 import { BusinessLoan } from "./BusinessLoan";
 
-export function AgroLoan({ statement, setStatement, agroType }) {
+export function AgroLoan({ statement, setStatement, agroType, disabled }) {
 
     return (
         <>
 
-            {agroType == "physical" ? <ConsumerLoan statement={statement} setStatement={setStatement} /> 
-            : <BusinessLoan statement={statement} setStatement={setStatement}/>}
+            {agroType == "physical" ? <ConsumerLoan statement={statement} setStatement={setStatement} disabled={disabled}/>
+            : <BusinessLoan statement={statement} setStatement={setStatement}  disabled={disabled}/>}
 
         </>
     );

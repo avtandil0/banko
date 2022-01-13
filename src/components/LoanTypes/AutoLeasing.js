@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import { ConsumerLoan } from "./ConsumerLoan";
 
-export function AutoLeasing({ statement, setStatement }) {
+export function AutoLeasing({ statement, setStatement, disabled }) {
 
     const [municipals, setMunicipals] = useState([]);
     const [controledMunicipals, setControledMunicipals] = useState([]);
@@ -99,6 +99,7 @@ export function AutoLeasing({ statement, setStatement }) {
                   name="carCost"
                   value={statement?.carCost}
                   onChange={handleChangeInput}
+                  disabled={disabled}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -111,6 +112,7 @@ export function AutoLeasing({ statement, setStatement }) {
                   name="CarMake"
                   value={statement?.CarMake}
                   onChange={handleChangeInput}
+                  disabled={disabled}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -123,6 +125,7 @@ export function AutoLeasing({ statement, setStatement }) {
                   name="vehicleYear"
                   value={statement?.vehicleYear}
                   onChange={handleChangeInput}
+                  disabled={disabled}
                 />
               </div>
             </div>

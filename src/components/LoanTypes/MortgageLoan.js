@@ -5,7 +5,7 @@ import Card from "react-bootstrap/Card";
 import axios from "axios";
 import { ConsumerLoan } from "./ConsumerLoan";
 
-export function MortgageLoan({ statement, setStatement }) {
+export function MortgageLoan({ statement, setStatement, disabled }) {
 
     const [municipals, setMunicipals] = useState([]);
     const [controledMunicipals, setControledMunicipals] = useState([]);
@@ -83,7 +83,7 @@ export function MortgageLoan({ statement, setStatement }) {
     };
     return (
         <>
-            <ConsumerLoan statement={statement} setStatement={setStatement} />
+            <ConsumerLoan statement={statement} setStatement={setStatement} disabled={disabled} />
             <br></br>
             {/* <Card border="info" style={{ width: '49rem' }}>
                 <Card.Header>ინფორმაცია იპოთეკაზე</Card.Header>

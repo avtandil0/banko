@@ -1,0 +1,6 @@
+@media print /* ეს აუცილებელი სტილია! ღილაკი ქრება საბეჭდი ფორმიდან. */ {
+    div.print {
+      display: none;
+      padding: 20px;
+    }
+  }
