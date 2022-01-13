@@ -551,8 +551,9 @@ const Bank = () => {
               <div style={{ margin: 'auto', width: '50%' }}>
                 <Space size="large">
                   <Button
+                  style={{color: 'green'}}
                     size="large"
-                    icon={<CheckOutlined />}
+                    icon={<CheckOutlined style={{color: 'green'}}/>}
                     loading={approvaloading}
                     onClick={() => changeStatus(3)}
                   >
