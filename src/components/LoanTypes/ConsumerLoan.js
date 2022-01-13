@@ -61,7 +61,12 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
 
         setControledMunicipals([...cc])
 
+       
+       
 
+    }, []);
+
+    useEffect(async () => {
         if(statement?.requestedAmount || statement?.term){
             let t = statement?.term;
             let r = statement?.requestedAmount;
@@ -70,11 +75,14 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
             let x = Math.pow((1 + per), t);
             console.log('xxxxxxxxxxx', x)
             var res = r / ((1 - (1 / x)) / per);
+            console.log('---------',res)
             setDeposit(res.toFixed(2))
+
         }
         
 
-    }, []);
+    }, [ statement?.term, statement?.requestedAmount]);
+
 
     const calculateMonthlyAverageIncome = () =>{
         console.log('currency', statement)

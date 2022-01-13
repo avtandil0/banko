@@ -3,4 +3,8 @@
       display: none;
       padding: 20px;
     }
+    div.fb_dialog_content{
+      display: none;
+      padding: 20px;
+    }
   }
