@@ -586,22 +586,24 @@ const Bank = () => {
         <Modal.Footer></Modal.Footer>
       </Modal>
 
-      <AntModal title="რედაქტირება" visible={modal.visible} okButtonProps={{ loading: modal.loading }} onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
+      <AntModal width={600} title="რედაქტირება" visible={modal.visible} okButtonProps={{ loading: modal.loading }}
+       onOk={handleOk} okText="შენახვა" onCancel={handleCancel}
         cancelText="დახურვა">
         <Space size="large">
+          სესხის ტიპი
           <Select value={modal.type} style={{ width: 200 }} onChange={modalSelectChange}>
-            {loanTypesOptions.map((option) => (
+            {/* {loanTypesOptions.map((option) => (
               // <Select.Option key={option} value={option}>{option}</Select.Option>
               <Option value={option.value}>{option.text}</Option>
-            ))}
-            {/* <Option value="1">სამომხმარებლო</Option>
+            ))} */}
+            <Option value="1">სამომხმარებლო</Option>
             <Option value="2">იპოთეკური</Option>
             <Option value="3">ბიზნეს სესხი</Option>
-            <Option value="4">აგრო</Option>
+            <Option value="4">აგრო სესხი</Option>
             <Option value="5">საკრედიტო ბარათები</Option>
-            <Option value="6">ავტო სესხი</Option> */}
+            <Option value="6">ავტო სესხი</Option>
           </Select>
-          <InputNumber value={modal.amount} onChange={modalAmountChange} />
+          თანხა<InputNumber value={modal.amount} onChange={modalAmountChange} />
         </Space>
 
       </AntModal>

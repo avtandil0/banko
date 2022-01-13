@@ -61,6 +61,19 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
 
         setControledMunicipals([...cc])
 
+
+        if(statement?.requestedAmount || statement?.term){
+            let t = statement?.term;
+            let r = statement?.requestedAmount;
+            
+            let per = 1 / 100;
+            let x = Math.pow((1 + per), t);
+            console.log('xxxxxxxxxxx', x)
+            var res = r / ((1 - (1 / x)) / per);
+            setDeposit(res.toFixed(2))
+        }
+        
+
     }, []);
 
     const calculateMonthlyAverageIncome = () =>{
@@ -107,7 +120,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated }) {
     }
 
     useEffect(async () => {
-
+        console.log('5556666')
         calculateMonthlyAverageIncome();
 
     }, [statement?.monthlyAverageIncome,statement?.currency, statement?.term, statement?.requestedAmount]);
