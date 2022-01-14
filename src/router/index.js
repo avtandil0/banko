@@ -79,7 +79,10 @@ const Router = () => {
         <Profile isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} />
       </Route>
       <Route exact path="/admin">
-        <Admin />
+        {
+          JSON.parse(localStorage.getItem('user'))?.userRoleId == 3?  <Admin /> : ''
+        }
+       
       </Route>
       <Route exact path="/bank">
        {isAuthorize && JSON.parse(localStorage.getItem('user'))?.userRoleId == 2 
