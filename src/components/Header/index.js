@@ -145,6 +145,14 @@ const Header = ({
   };
 
   const handleOk = async () => {
+
+    if(!(/[0-9]/.test(passwordObject?.newPass)) 
+          || !(/[A-Z]/.test(passwordObject?.newPass)) 
+          || passwordObject.newPass?.length < 8){
+      message.error("პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, შეიცავდეს მინიმუმ ერთი ციფრს და ერთ დიდ ასოს",9);
+      return;
+    }
+
     console.log('aa',passwordObject)
     if(!passwordObject.currentPass || !passwordObject.newPass || !passwordObject.reNewPass){
       message.error('შეიყვანეთ პაროლი');
@@ -155,9 +163,14 @@ const Header = ({
       return;
     }
     setPasswordObject({...passwordObject, ['loading']: true})
+    let newOb = {
+      id: currentUser.id,
+      password: passwordObject.currentPass,
+      newPassword: passwordObject.newPass
+    }
     var result = await axios.post(
       // https://weblive.com.ge
-      constants.API_PREFIX +`/api/account/changePassword/${currentUser.id}/${passwordObject.currentPass}/${passwordObject.newPass}`,user
+      constants.API_PREFIX +`/api/account/changePassword`,newOb
       // `https://localhost:44314/api/account`,user
       // {
       //   params: { ...user },
