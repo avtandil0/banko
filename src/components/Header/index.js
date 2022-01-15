@@ -218,6 +218,10 @@ const Header = ({
   };
 
   const sendSms = async () => {
+    if (!user?.phoneNumber) {
+      message.error("მიუთითეთ მობილურის ნომერი ! ");
+      return;
+    }
     if(!(/[0-9]/.test(user?.password)) || !(/[A-Z]/.test(user?.password)) || user?.password?.length < 8){
       message.error("პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, შეიცავდეს მინიმუმ ერთი ციფრს და ერთ დიდ ასოს",9);
       return;
