@@ -64,6 +64,7 @@ const Header = ({
   const [isSmallScreen] = useState(false);
   const [visible, setVisibility] = useState(false);
   const [visibleDrawer, setVisibleDrawer] = useState(false);
+  const [sendSmsLoading, setSendSmsLoading] = useState(false);
 
   const [show, setShow] = useState(false);
   const [user, setUser] = useState();
@@ -217,6 +218,16 @@ const Header = ({
   };
 
   const sendSms = async () => {
+    if(!(/[0-9]/.test(user?.password)) || !(/[A-Z]/.test(user?.password)) || user?.password?.length < 8){
+      message.error("პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, შეიცავდეს მინიმუმ ერთი ციფრს და ერთ დიდ ასოს",9);
+      return;
+    }
+
+    if (user?.password != user?.rePassword) {
+      message.error("პაროლი და დასტური უნდა ემთხვეოდეს ერთმანეთს");
+      return;
+    }
+    setSendSmsLoading(true)
     var result = await axios.post(
       // https://weblive.com.ge
       constants.API_PREFIX +`/api/account`,user
@@ -225,10 +236,15 @@ const Header = ({
       //   params: { ...user },
       // }
     );
+    
+    setSendSmsLoading(false)
 
     console.log('result',result)
     if(result.data.isSuccess){
       message.success('შეტყობინება წარმატებით გაიგზავნა');
+    }
+    else{
+      message.error(result.data.message);
     }
   }
 
@@ -791,7 +807,7 @@ const Header = ({
 
                     </Col>
                     <Col lg={7}>
-                      <AntdButton type="primary" onClick={sendSms}>
+                      <AntdButton type="primary" onClick={sendSms} loading={sendSmsLoading}>
                         სმს-ის გაგზავნა
                       </AntdButton>
                     </Col>
