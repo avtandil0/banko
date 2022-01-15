@@ -256,10 +256,10 @@ const Header = ({
     }
     setLoginLoading(true);
     var result = await axios.get(
-      constants.API_PREFIX +`/api/account/${user.userName}/${user.password}`
-      // {
-      //   params: { ...user },
-      // }
+      constants.API_PREFIX +`/api/account/authorize`,
+      {
+        params: { userName:user.userName, password: user.password },
+      }
     );
     console.log("result", result);
     if (result.data.token) {
@@ -307,7 +307,14 @@ const Header = ({
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
     // var result = await axios.get(`https://weblive.com.ge/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
-    var result = await axios.get(constants.API_PREFIX +`/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
+    var result = await axios.get(constants.API_PREFIX +`/api/account/checkRegistation`,{
+      params:{
+        smsCode: user?.smsCode,
+        userName: user?.userName,
+        password: user?.password,
+      }
+    });//https://weblive.com.ge
+    // var result = await axios.get(constants.API_PREFIX +`/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
     if (result.data.isSuccess) {
       message.success("რეგისტრაცია წარმატებით დასრულდა, გაიარეთ ავტორიზაცია", 8);
       setVisibleLoginRegisterDialog(false);
