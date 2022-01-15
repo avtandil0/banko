@@ -80,7 +80,7 @@ const Router = () => {
       </Route>
       <Route exact path="/admin">
         {
-          JSON.parse(localStorage.getItem('user'))?.userRoleId == 3?  <Admin /> : ''
+          JSON.parse(localStorage.getItem('user'))?.userRoleId == 1?  <Admin /> : ''
         }
        
       </Route>
