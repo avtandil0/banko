@@ -4,6 +4,7 @@
   "HowItWorks": "How it works",
   "LoanCalculator":"Loan calculator",
   "SignUp": "Sign Up",
+  "SignIn": "SignIn",
   "introContentTitle":"FIND THE LOAN WITH THE LOWEST INSTERET RATE",
   "introContentText":"Ranko simplifies the borrowing process",
   "introContentButton1":"Products",
@@ -65,5 +66,5 @@
   "LegalIssues":"Legal issues",
   "TermsAndConditions": "Terms And Conditions",
   "Privacy": "Privacy Policy",
-  "UsedFree":"პლატფორმით სარგებლობა მომხმარებლისთვის სრულიად უფასოა"
+  "UsedFree":"Platform services are free for users"
 }

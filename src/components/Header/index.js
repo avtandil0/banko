@@ -455,7 +455,11 @@ const Header = ({
                     </div>
                   </Dropdown>
                 ) : (
-                  <Button onClick={onDialog}>{t("SignUp")}</Button>
+                  <Button onClick={onDialog} style={{margin:40}}>
+                    {t("SignUp")} /
+<br/>
+                    {t("SignIn")}
+                  </Button>
                 )}
               </S.Span>
             </S.CustomNavLinkSmall>
