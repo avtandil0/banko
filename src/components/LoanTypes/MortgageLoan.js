@@ -43,19 +43,15 @@ export function MortgageLoan({ statement, setStatement, disabled }) {
     }, []);
 
     const handleChangeOverlay = (e) => {
-        console.log("eee", e.target.checked);
         setOverlay(e.target.checked);
     };
 
     const handleChangeInput = (e) => {
-        console.log('change', e.target.name, e.target.value)
         if (e.target.name == 'regionId') {
             var cc = [...municipals.filter(r => r.regionId == e.target.value)];
-            console.log(111111111111, cc)
 
             setControledMunicipals([...cc])
         }
-        console.log('res', res)
         // setStatement({...statement, deposit: res})
         //10%
         setStatement({ ...statement, [e.target.name]: e.target.value });
@@ -74,12 +70,10 @@ export function MortgageLoan({ statement, setStatement, disabled }) {
             }
             let per = 1 / 100;
             let x = Math.pow((1 + per), t);
-            console.log('xxxxxxxxxxx', x)
             var res = r / ((1 - (1 / x)) / per);
             setDeposit(res.toFixed(2))
         }
 
-        console.log("statement", statement);
     };
     return (
         <>

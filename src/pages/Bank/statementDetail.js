@@ -35,13 +35,11 @@ const StatementDetail = () => {
         },
       }
     );
-    console.log("resresres", res.data[0]);
     setProductType(res.data[0].loantypeId);
     setStatement(res.data[0]);
   }, []);
 
   const printPage = () => {
-    console.log("aaaaaa");
   };
 
   return (

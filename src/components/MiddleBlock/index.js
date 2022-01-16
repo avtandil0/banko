@@ -80,7 +80,6 @@ const MiddleBlock = ({
     setCurrentUser(us);
 
     setStatement({ ...statement, userId: us?.id });
-    console.log("currentUser", currentUser);
 
     // axios.interceptors.request.use(function(config) {
     //   if (us) {
@@ -103,7 +102,6 @@ const MiddleBlock = ({
         token: us?.token
       }
     });
-    console.log("result IncomeSource", result1);
     setIncomeSource(result1.data);
     // var result2 = await axios.get(constants.API_PREFIX +`/api/WorkExperience`);
     // console.log("result WorkExperience", result2);
@@ -121,12 +119,10 @@ const MiddleBlock = ({
 
   const [agreeTerms, setAgreeTerms] = useState(false)
   const onChangeTermAgree = (e) => {
-    console.log(`checked = ${e.target.checked}`);
     setAgreeTerms(e.target.checked)
   }
 
   const handleSubmit = (event) => {
-    console.log("bootsrtap sumit", user);
 
     handleLogin();
     const form = event.currentTarget;
@@ -135,7 +131,6 @@ const MiddleBlock = ({
     //   event.preventDefault();
     //   event.stopPropagation();
     // }
-    console.log("22222222222");
     setValidated(true);
     event.preventDefault();
     event.stopPropagation();
@@ -143,7 +138,6 @@ const MiddleBlock = ({
 
   const handleKeypress = (e) => {
     //it triggers by pressing the enter key
-    console.log("key code", e.keyCode, e);
     // if (e.charCode === 13) {
     //   if (!user.userName || !user.password) {
     //     return;
@@ -164,11 +158,9 @@ const MiddleBlock = ({
     }
 
     if (form.checkValidity() === false) {
-      console.log("11111", form);
       return;
     }
 
-    console.log("aaaaaaa", user);
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
@@ -200,11 +192,9 @@ const MiddleBlock = ({
       message.error(result.data.meessage);
       setRegisterLoading(false);
     }
-    console.log("result ", result);
   };
 
   const handleLogin = async () => {
-    console.log("user", user);
     if (!user?.userName || !user?.password) {
       setValidated(true);
       return;
@@ -221,7 +211,6 @@ const MiddleBlock = ({
       //   params: { ...user },
       // }
     );
-    console.log("result", result);
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
@@ -237,23 +226,18 @@ const MiddleBlock = ({
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
     setLoginLoading(false);
-    console.log("result ", result);
   };
 
   const handleChangeInputUser = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    console.log("user", user);
   };
 
   const handleChangeInput = (e) => {
-    console.log("change", e.target.name, e.target.value);
     if (e.target.name == "regionId") {
       var cc = [...municipals.filter((r) => r.regionId == e.target.value)];
-      console.log(111111111111, cc);
 
       setControledMunicipals([...cc]);
     }
-    console.log("res", res);
     // setStatement({...statement, deposit: res})
     //10%
     setStatement({ ...statement, [e.target.name]: e.target.value });
@@ -272,12 +256,10 @@ const MiddleBlock = ({
       }
       let per = 1 / 100;
       let x = Math.pow(1 + per, t);
-      console.log("xxxxxxxxxxx", x);
       var res = r / ((1 - 1 / x) / per);
       setDeposit(res.toFixed(2));
     }
 
-    console.log("statement", statement);
   };
 
   const sendStatement = async (event) => {
@@ -288,14 +270,12 @@ const MiddleBlock = ({
     document.body.style.overflow = 'auto';
     document.body.style.height = 'auto';
 
-    
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      console.log("11111", form);
       return;
     }
 
-    console.log(statement);
     setSentLoading(true);
     var result = await axios.post(constants.API_PREFIX + `/api/Home`, statement,
     {
@@ -303,7 +283,6 @@ const MiddleBlock = ({
         token: currentUser?.token
       }
     });
-    console.log("result -------------=---=====--", result);
     setSentLoading(false);
     setShow1(false);
     if(result.data.isSuccess){
@@ -339,12 +318,10 @@ const MiddleBlock = ({
   };
 
   const handleChangeRadio = (e) => {
-    console.log("aaaa", e.target);
     setAgroType(e.target.id);
   };
 
   const handleChangeOverlay = (e) => {
-    console.log("eee", e.target.checked);
     setOverlay(e.target.checked);
   };
 
@@ -958,7 +935,6 @@ const MiddleBlock = ({
       //   oklButtonProps: { style: { display: "none" } },
       // });
       // console.log(777777);
-      console.log("visi", visibleLoginRegisterDialog);
 
       setVisibleLoginRegisterDialog(true);
       return;
@@ -971,11 +947,9 @@ const MiddleBlock = ({
 
       return;
     }
-    console.log("productType", productType);
     setProductType(index);
     setShow1(true);
 
-    console.log("statement", statement);
 
     if (statement.loantypeId == index) {
       setStatement({

@@ -79,7 +79,6 @@ const Header = ({
   const [language, setLanguage] = useState("ge");
 
   const onFinish = () => {
-    console.log("Received values of form: ");
   };
 
   // useEffect(() => {
@@ -90,13 +89,11 @@ const Header = ({
   // }, [openLoginRegisterDialog]);
 
   const handleChangeLang = (event) => {
-    console.log("i18n", i18n, event);
     setLanguage(event.target.value);
     i18n.changeLanguage(event.target.value);
   };
 
   const handleSubmit = (event) => {
-    console.log("bootsrtap sumit", user);
 
     handleLogin();
     const form = event.currentTarget;
@@ -105,7 +102,6 @@ const Header = ({
     //   event.preventDefault();
     //   event.stopPropagation();
     // }
-    console.log("22222222222");
     setValidated(true);
     event.preventDefault();
     event.stopPropagation();
@@ -126,7 +122,6 @@ const Header = ({
   };
 
   const goToProfile = () =>{
-    console.log('setCurrentUser',currentUser)
     if(currentUser.userRoleId == 2 && currentUser.bankId){
       history.push("/bank");
     }
@@ -155,7 +150,6 @@ const Header = ({
       return;
     }
 
-    console.log('aa',passwordObject)
     if(!passwordObject.currentPass || !passwordObject.newPass || !passwordObject.reNewPass){
       message.error('შეიყვანეთ პაროლი');
       return;
@@ -179,7 +173,6 @@ const Header = ({
       // }
     );
     setPasswordObject({...passwordObject, ['loading']: false})
-    console.log('result',result)
     if(result.data.isSuccess){
       message.success('პაროლი წარმატებით შეიცვალა');
     }else{
@@ -193,7 +186,6 @@ const Header = ({
   };
 
   const handleChangePass = (e) => {
-    console.log('aa',e.target)
     setPasswordObject({...passwordObject, [e.target.name]: e.target.value})
   }
 
@@ -214,7 +206,6 @@ const Header = ({
 
   useEffect(() => {
     // Good!
-    console.log("111111111111111111");
 
     let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
@@ -223,7 +214,6 @@ const Header = ({
 
   const handleKeypress = (e) => {
     //it triggers by pressing the enter key
-    console.log("key code", e.keyCode, e);
     // if (e.charCode === 13) {
     //   if (!user.userName || !user.password) {
     //     return;
@@ -258,7 +248,6 @@ const Header = ({
     
     setSendSmsLoading(false)
 
-    console.log('result',result)
     if(result.data.isSuccess){
       message.success('შეტყობინება წარმატებით გაიგზავნა');
     }
@@ -268,7 +257,6 @@ const Header = ({
   }
 
   const handleLogin = async () => {
-    console.log("user", user);
     if (!user?.userName || !user?.password) {
       setValidated(true);
       return;
@@ -280,7 +268,6 @@ const Header = ({
         params: { userName:user.userName, password: user.password },
       }
     );
-    console.log("result", result);
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
@@ -297,7 +284,6 @@ const Header = ({
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
     setLoginLoading(false);
-    console.log("result ", result);
   };
 
   const onClickRegister = async (event) => {
@@ -317,11 +303,9 @@ const Header = ({
     }
 
     if (form.checkValidity() === false) {
-      console.log("11111", form);
       return;
     }
 
-    console.log("aaaaaaa", user);
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
@@ -356,16 +340,13 @@ const Header = ({
       message.error(result.data.meessage);
       setRegisterLoading(false);
     }
-    console.log("result ", result);
   };
 
   const handleChangeInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    console.log("user", user);
   };
 
   const handleChangeDate = (date, dateString) => {
-    console.log(date, dateString);
     setUser({ ...user, ["birthDate"]: dateString });
   };
 
@@ -378,11 +359,9 @@ const Header = ({
   };
 
   const registerFormValidate = () => {
-    console.log("valdiate", Object.entries(user));
   };
 
   const onDialog = () => {
-    console.log("aaaaaa", user);
     // setUser(null);
     // setTest(777777);
     setVisibleLoginRegisterDialog(true);
@@ -411,7 +390,6 @@ const Header = ({
     else{
       message.error(result.data.meessage)
     }
-    console.log("result", result);
 
     
   };
@@ -423,7 +401,6 @@ const Header = ({
   
 
   const scrollTo = (id) => {
-    console.log("header setInProfileMOde", setInProfileMOde);
     setInProfileMOde(false);
     const element = document.getElementById(id);
     element?.scrollIntoView({

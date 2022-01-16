@@ -27,7 +27,6 @@ const Router = () => {
   const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
     useState(false);
   const onRegisterPage = () => {
-    console.log("aaaaa");
     setInProfileMOde(true);
     // history.push("/register");
   };
@@ -36,12 +35,10 @@ const Router = () => {
     // Good!
     let us = JSON.parse(localStorage.getItem('user'));
     // setUser(localStorage.getItem('user'))
-    console.log(444444444444,us)
     setUser(us);
     if (us?.token) {
       setIsAuthorize(true)
     }
-    console.log("inProfileMOde", inProfileMOde);
 
   }, []);
 

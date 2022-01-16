@@ -54,7 +54,6 @@ const Profile = () => {
 
   const handleEdit = (item) => {
     // showModal(item)
-    console.log('item', item)
     setStatement(item);
     setProductType(item.loantypeId);
     switch (item.loantypeId) {
@@ -86,7 +85,6 @@ const Profile = () => {
 
   useEffect(async () => {
     window.scrollTo(0, 0);
-    console.log(JSON.parse(localStorage.getItem("user")));
     let us = JSON.parse(localStorage.getItem("user"));
 
     // if(us.userRoleId != 1){
@@ -95,19 +93,16 @@ const Profile = () => {
     // }
     // setUser(localStorage.getItem('user'))
     setUser(us);
-    console.log("us", us);
 
     setStatementLoading(true);
     var result = await axios.get(constants.API_PREFIX +`/api/Home`, {
       params: { userId: us.id, token: us.token },
     });
-    console.log("res", result);
     setStatements(result.data);
     setStatementLoading(false);
   }, []);
 
   const handleChangeRadio = (e) => {
-    console.log("aaaa", e.target);
     setAgroType(e.target.id);
   };
 
@@ -134,11 +129,9 @@ const Profile = () => {
 
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      console.log("11111", form);
       return;
     }
 
-    console.log(statement);
     setSentLoading(true);
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
@@ -150,7 +143,6 @@ const Profile = () => {
         }
       }
     );
-    console.log("result WorkExperience", result);
     setSentLoading(false);
     setShow1(false);
     // message.success(result.data.meessage);

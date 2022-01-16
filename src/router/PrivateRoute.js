@@ -6,7 +6,6 @@ export default function PrivateRoute({ component: Component, user, authed, ...re
 
     useEffect(() => {
         // Good!
-        console.log('authed', authed, user)
         // goTo();
     }, [authed]);
 

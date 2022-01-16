@@ -112,23 +112,19 @@ const Bank = () => {
   }
 
   const modalSelectChange = (type) => {
-    console.log(modal, type)
     setModal({ ...modal, type: type });
   }
 
 
   const modalAmountChange = (amount) => {
-    console.log(modal, amount)
     setModal({ ...modal, amount: amount });
   }
 
   const showModal = (item) => {
-    console.log(item)
     setModal({ ...modal, id: item.id, visible: true, amount: item.requestedAmount, type: item.loantypeId.toString() });
   };
 
   const handleOk = async () => {
-    console.log(modal)
     setModal({ ...modal, loading: true });
     var result = await axios.post(
       // `https://weblive.com.ge/api/Home`,
@@ -145,7 +141,6 @@ const Bank = () => {
       type: result.data.isSuccess ? 'success' : 'error',
       content: result.data.meessage
     });
-    console.log(result)
 
     setModal({ ...modal, visible: false, loading: false });
 
@@ -161,7 +156,6 @@ const Bank = () => {
   useEffect(async () => {
     window.scrollTo(0, 0);
 
-    console.log(JSON.parse(localStorage.getItem("user")));
     let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
 
@@ -169,7 +163,6 @@ const Bank = () => {
     // search(us)
 
     setUser(us);
-    console.log("us", us, constants.API_PREFIX);
 
     //setLoanTypesOptions
     var loanTypes = await axios.get(
@@ -184,7 +177,6 @@ const Bank = () => {
     let newArlloanto = loanTypes.data.map(el => { return { value: el.loantypeId.toString(), text: el.loantype.loanTypeName } })
     // console.log('newArlloanto', newArlloanto)
     setLoanTypesOptions(newArlloanto)
-    console.log('loanTypes', loanTypes)
 
 
 
@@ -194,7 +186,6 @@ const Bank = () => {
     let us = JSON.parse(localStorage.getItem("user"));
 
     const interval = setInterval(() => {
-      console.log('aaaaa')
       search(us)
     }, 60000);
     return () => clearInterval(interval);
@@ -217,10 +208,8 @@ const Bank = () => {
   const search = async (us) => {
     setStatementLoading(true);
 
-    console.log('usssseeer0000', us, user)
     var result = await axios.get(
       constants.API_PREFIX + `/api/Home?userId=${us ? us.id : user?.id}&token=${us ? us.token : user?.token}`);
-    console.log("data123", result.data);
     setStatements(result.data);
     setStatementLoading(false);
   }
@@ -241,7 +230,6 @@ const Bank = () => {
     );
     setReceiveLoading(false)
     setVisible(false)
-    console.log(result)
     // if(resu)
     message.open({
       key: 'updatable',
@@ -257,24 +245,18 @@ const Bank = () => {
 
   const handleEdit = (item) => {
     showModal(item)
-    console.log('item', item)
   }
 
   const handleChangeRadio = (e) => {
-    console.log("aaaa", e.target);
     setAgroType(e.target.id);
   };
 
   const download = (row) => {
     history.push(`detail/${row.id}`)
-    console.log('aaaa',row)
-   
-
 
   }
 
   const handleView = (item) => {
-    console.log('item', item)
     setStatement(item);
     setProductType(item.loantypeId);
     switch (item.loantypeId) {
@@ -301,7 +283,6 @@ const Bank = () => {
         break;
     }
     setShow1(true);
-    console.log('item', item)
   }
 
 

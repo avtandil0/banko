@@ -21,7 +21,6 @@ const Home = ({ t, isAuthorize, setIsAuthorize, setOpenLoginRegisterDialog,setIn
 
   useEffect(() => {
     // Good!
-    console.log("isAuthorize", isAuthorize);
   }, [isAuthorize]);
   return (
     <Container>

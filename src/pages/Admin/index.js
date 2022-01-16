@@ -35,7 +35,6 @@ const Admin = () => {
             params: {
                 token: us? us.token: user.token
             }});
-        console.log("fetchBank", result)
         setBank(result.data)
     }
 

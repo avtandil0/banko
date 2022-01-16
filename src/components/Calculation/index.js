@@ -30,7 +30,6 @@ const Calculation = ({ title, content, button, icon, t, id }) => {
   };
 
   const handleChangeInput = (e) => {
-    console.log("res", statement);
     // setStatement({...statement, deposit: res})
     //10%
     setStatement({ ...statement, [e.target.name]: e.target.value });
@@ -55,9 +54,7 @@ const Calculation = ({ title, content, button, icon, t, id }) => {
     }
     let per = p / 12 / 100;
     let x = Math.pow(1 + per, t);
-    console.log("xxxxxxxxxxx", x);
     var res = r / ((1 - 1 / x) / per);
-    console.log("res", res);
     setDeposit(res.toFixed(2));
   };
   return (

@@ -183,13 +183,11 @@ const Validation = ({bank}) => {
 
     const confirm = async (record) => {
         setTableLoading(true);
-        console.log("record", record)
         const result = await axios.delete(constants.API_PREFIX + `/api/RedistributionCustomersToBanks?customersToBankId=${record.id}`,
         {
             params: {
               token: user?.token
             }});
-        console.log('result', result)
         if (result.data.isSuccess) {
             message.success(result.data.meessage);
             fetchData();
@@ -205,15 +203,12 @@ const Validation = ({bank}) => {
     const clickEdit = (record) => {
         setIsEdit(true)
         setIsModalVisible(true);
-        console.log("clickEdit", record)
         setPost(record);
-        console.log(post)
 
     }
 
     const handleOk = async () => {
         setButtonLoading(true)
-        console.log("click", post)
         // console.log("result", result, post)z
         if (!isEdit) {
             const result = await axios.post(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post,
@@ -275,7 +270,6 @@ const Validation = ({bank}) => {
             params: {
                 token: us? us.token: user.token
             }});
-        console.log('resultresult',result)
         setCustomersToBanks(result.data)
         setTableLoading(false)
     }
@@ -294,7 +288,6 @@ const Validation = ({bank}) => {
                 token: us? us.token: user.token
             }});
         setLoantype(result.data)
-        console.log("setLoantype", loantype)
     }
 
     const fetchRegion = async (us) => {
@@ -303,7 +296,6 @@ const Validation = ({bank}) => {
                 token: us? us.token: user.token
             }});
         setRegion(result.data)
-        console.log("setRegion", region)
     }
 
    
@@ -334,7 +326,6 @@ const Validation = ({bank}) => {
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        console.log("event", name, value)
 
         setPost({ ...post, [name]: value })
     }

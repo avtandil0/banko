@@ -21,7 +21,6 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
 
     useEffect(async () => {
         // Good!
-        console.log('ConsumerLoanConsumerLoanConsumerLoanConsumerLoanConsumerLoanConsumerLoan')
         let us = JSON.parse(localStorage.getItem("user"));
         // setUser(localStorage.getItem('user'))
         // setCurrentUser(us);
@@ -33,31 +32,26 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
             params: {
               token: us?.token
             }});
-        console.log('result IncomeSource', result1)
         setIncomeSource(result1.data);
         var result2 = await axios.get(constants.API_PREFIX +`/api/WorkExperience`,{
             params: {
               token: us?.token
             }});
-        console.log("result WorkExperience", result2);
         setWorkExperiance(result2.data);
 
         var regionsRes = await axios.get(constants.API_PREFIX +`/api/Region`,{
             params: {
               token: us?.token
             }});
-        console.log("result regions", regionsRes);
         setRegions(regionsRes.data)
 
         var municipalsRes = await axios.get(constants.API_PREFIX +`/api/Municipal`,{
             params: {
               token: us?.token
             }});
-        console.log("result municipals", municipalsRes);
         setMunicipals(municipalsRes.data)
 
         var cc = [...municipalsRes.data.filter(r => r.regionId == statement.regionId)];
-        console.log(111111111111, cc)
 
         setControledMunicipals([...cc])
 
@@ -73,9 +67,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
             
             let per = 1 / 100;
             let x = Math.pow((1 + per), t);
-            console.log('xxxxxxxxxxx', x)
             var res = r / ((1 - (1 / x)) / per);
-            console.log('---------',res)
             setDeposit(res.toFixed(2))
 
         }
@@ -85,7 +77,6 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
 
 
     const calculateMonthlyAverageIncome = () =>{
-        console.log('currency', statement)
         if(statement.loantypeId != 1 && statement.loantypeId != 2){
             setMonthlyAverageIncomeValidate(true)
             return
@@ -98,7 +89,6 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
                 let valid = monthlyAverageIncomePart > deposit ? true : false
                 setMonthlyAverageIncomeValidate(valid)
 
-                console.log('statement.monthlyAverageIncome', statement.monthlyAverageIncome)
 
             } else {
                 let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 50 / 100;
@@ -107,7 +97,6 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
                 setMonthlyAverageIncomeValidate(valid)
             }
         } else {
-            console.log('elslelsllelsllell')
             if (statement?.monthlyAverageIncome < 1000) {
                 // setValidated(true)
                 let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 20 / 100;
@@ -115,7 +104,6 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
                 let valid = monthlyAverageIncomePart > deposit ? true : false
                 setMonthlyAverageIncomeValidate(valid)
 
-                console.log('statement.monthlyAverageIncome', statement.monthlyAverageIncome)
 
             } else {
                 let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 30 / 100;
@@ -128,21 +116,17 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
     }
 
     useEffect(async () => {
-        console.log('5556666')
         calculateMonthlyAverageIncome();
 
     }, [statement?.monthlyAverageIncome,statement?.currency, statement?.term, statement?.requestedAmount]);
 
     const handleChangeOverlay = (e) => {
-        console.log("eee", e.target.checked);
         setOverlay(e.target.checked);
     };
 
     const handleChangeInput = (e) => {
-        console.log('change', statement, e.target.name, e.target.value)
         if (e.target.name == 'regionId') {
             var cc = [...municipals.filter(r => r.regionId == e.target.value)];
-            console.log(111111111111, cc)
 
             setControledMunicipals([...cc])
         }
@@ -164,7 +148,6 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
             }
             let per = 1 / 100;
             let x = Math.pow((1 + per), t);
-            console.log('xxxxxxxxxxx', x)
             var res = r / ((1 - (1 / x)) / per);
             setDeposit(res.toFixed(2))
         }
@@ -174,7 +157,6 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
         if (e.target.name == 'currentOverdue') {
             setStatement({ ...statement, [e.target.name]: JSON.parse(e.target.value) });
         }
-        console.log("statement", statement);
     };
     return (
         <>

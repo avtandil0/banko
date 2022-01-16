@@ -76,7 +76,6 @@ const LoginModal = ({
   const [language, setLanguage] = useState("ge");
 
   const onFinish = () => {
-    console.log("Received values of form: ");
   };
 
   // useEffect(() => {
@@ -87,13 +86,11 @@ const LoginModal = ({
   // }, [openLoginRegisterDialog]);
 
   const handleChangeLang = (event) => {
-    console.log("i18n", i18n, event);
     setLanguage(event.target.value);
     i18n.changeLanguage(event.target.value);
   };
 
   const handleSubmit = (event) => {
-    console.log("bootsrtap sumit", user);
 
     handleLogin();
     const form = event.currentTarget;
@@ -102,7 +99,6 @@ const LoginModal = ({
     //   event.preventDefault();
     //   event.stopPropagation();
     // }
-    console.log("22222222222");
     setValidated(true);
     event.preventDefault();
     event.stopPropagation();
@@ -123,7 +119,6 @@ const LoginModal = ({
   };
 
   const goToProfile = () =>{
-    console.log('setCurrentUser',currentUser)
     if(currentUser.userRoleId == 2 && currentUser.bankId){
       history.push("/bank");
     }
@@ -151,7 +146,6 @@ const LoginModal = ({
       return;
     }
 
-    console.log('aa',passwordObject)
     if(!passwordObject.currentPass || !passwordObject.newPass || !passwordObject.reNewPass){
       message.error('შეიყვანეთ პაროლი');
       return;
@@ -175,7 +169,6 @@ const LoginModal = ({
       // }
     );
     setPasswordObject({...passwordObject, ['loading']: false})
-    console.log('result',result)
     if(result.data.isSuccess){
       message.success('პაროლი წარმატებით შეიცვალა');
     }else{
@@ -189,13 +182,11 @@ const LoginModal = ({
   };
 
   const handleChangePass = (e) => {
-    console.log('aa',e.target)
     setPasswordObject({...passwordObject, [e.target.name]: e.target.value})
   }
 
   useEffect(() => {
     // Good!
-    console.log("111111111111111111");
 
     let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
@@ -228,7 +219,6 @@ const LoginModal = ({
     
     setSendSmsLoading(false)
 
-    console.log('result',result)
     if(result.data.isSuccess){
       message.success('შეტყობინება წარმატებით გაიგზავნა');
     }
@@ -238,7 +228,6 @@ const LoginModal = ({
   }
 
   const handleLogin = async () => {
-    console.log("user", user);
     if (!user?.userName || !user?.password) {
       setValidated(true);
       return;
@@ -250,7 +239,6 @@ const LoginModal = ({
         params: { userName:user.userName, password: user.password },
       }
     );
-    console.log("result", result);
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
@@ -273,7 +261,6 @@ const LoginModal = ({
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
     setLoginLoading(false);
-    console.log("result ", result);
   };
 
   const onClickRegister = async (event) => {
@@ -293,11 +280,9 @@ const LoginModal = ({
     }
 
     if (form.checkValidity() === false) {
-      console.log("11111", form);
       return;
     }
 
-    console.log("aaaaaaa", user);
     // console.log('valdiate', Object.entries(user))
     // var result  = await axios.post('https://avtandil-002-site2.ftempurl.com/api/Registration', user)
     setRegisterLoading(true);
@@ -332,19 +317,16 @@ const LoginModal = ({
       message.error(result.data.meessage);
       setRegisterLoading(false);
     }
-    console.log("result ", result);
   };
 
   const handleChangeInput = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
-    console.log("user", user);
   };
   const onClose = () => {
     setVisibility(!visible);
   };
 
   const onDialog = () => {
-    console.log("aaaaaa", user);
     // setUser(null);
     // setTest(777777);
     setVisibleLoginRegisterDialog(true);
@@ -372,14 +354,12 @@ const LoginModal = ({
     else{
       message.error(result.data.meessage)
     }
-    console.log("result", result);
 
     
   };
 
   const [agreeTerms, setAgreeTerms] = useState(false)
   const onChangeTermAgree = (e) => {
-    console.log(`checked = ${e.target.checked}`);
     setAgreeTerms(e.target.checked)
   }
 
