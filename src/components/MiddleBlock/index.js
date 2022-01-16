@@ -292,6 +292,7 @@ const MiddleBlock = ({
       AntModal.success({
         content: result.data.meessage,
       });
+      window.scrollTo(0, 0); 
       // setInProfileMOde(true)
     }
     // message.success(result.data.meessage);
