@@ -116,7 +116,7 @@ const Validation = ({bank}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const [post, setPost] = useState({
-        // id: null,
+        id: null,
         amountMax: null,
         amountMin: null,
         bankId: null,
@@ -130,7 +130,7 @@ const Validation = ({bank}) => {
 
     const confirm = async (record) => {
         setTableLoading(true);
-        // console.log("record", record.id)
+        console.log("record", record)
         const result = await axios.delete(constants.API_PREFIX + `/api/RedistributionCustomersToBanks?customersToBankId=${record.id}`,
         {
             params: {
@@ -160,7 +160,7 @@ const Validation = ({bank}) => {
 
     const handleOk = async () => {
         setButtonLoading(true)
-        // console.log("click", post)
+        console.log("click", post)
         // console.log("result", result, post)z
         if (!isEdit) {
             const result = await axios.post(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post,
@@ -261,7 +261,7 @@ const Validation = ({bank}) => {
 
         setPost({
             ...post,
-            id: "",
+            id: null,
             amountMax: null,
             amountMin: null,
             bankId: null,
