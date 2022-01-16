@@ -292,9 +292,11 @@ const MiddleBlock = ({
       AntModal.success({
         content: result.data.meessage,
       });
-      window.scrollTo(0, 0); 
       // setInProfileMOde(true)
     }
+
+    document.body.style.overflow = 'auto';
+    document.body.style.height = 'auto';
     // message.success(result.data.meessage);
   };
 
@@ -1439,8 +1441,7 @@ const MiddleBlock = ({
             <div className="container">
               {/* <h2 className="text-center">პროდუქტები</h2> */}
 
-              <div className="spacer spacer-line border-primary">&nbsp;</div>
-              <div className="spacer">&nbsp;</div>
+           
 
               <div className="row">
                 {/* სამომხმარებლოს მოდალი */}
