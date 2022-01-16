@@ -22,6 +22,7 @@ import { BusinessLoan } from "../LoanTypes/BusinessLoan";
 import { AgroLoan } from "../LoanTypes/AgroLoan";
 import { CreditCard } from "../LoanTypes/CreditCard";
 import { AutoLeasing } from "../LoanTypes/AutoLeasing";
+import LoginModal from "../../common/LoginModal";
 // import  ComponentA  from '../LoanTypes'
 import constants from '../../constants'
 
@@ -284,7 +285,7 @@ const MiddleBlock = ({
         token: currentUser?.token
       }
     });
-    console.log("result WorkExperience", result);
+    console.log("result -------------=---=====--", result);
     setSentLoading(false);
     setShow1(false);
     if(result.data.isSuccess){
@@ -924,6 +925,7 @@ const MiddleBlock = ({
       // });
       // console.log(777777);
       console.log("visi", visibleLoginRegisterDialog);
+
       setVisibleLoginRegisterDialog(true);
       return;
     }
@@ -973,7 +975,15 @@ const MiddleBlock = ({
   };
   return (
     <S.MiddleBlock id="products">
-      <AntModal
+
+<LoginModal 
+      visibleLoginRegisterDialog={visibleLoginRegisterDialog}
+      setVisibleLoginRegisterDialog={setVisibleLoginRegisterDialog}
+      setInProfileMOde={setInProfileMOde}
+      isAuthorize={isAuthorize}
+      setIsAuthorize={setIsAuthorize}
+      />
+      {/* <AntModal
         visible={visibleLoginRegisterDialog}
         onCancel={() => setVisibleLoginRegisterDialog(false)}
         footer={null}
@@ -1190,17 +1200,7 @@ const MiddleBlock = ({
                   დაბადების თარიღი
                 </Form.Label>
                 <Col lg={16}>
-                  {/* <Form.Control
-                    required
-                    type="text"
-                    name="birthDate"
-                    placeholder="მომხმარებლის სახელი"
-                    value={user?.birthDate}
-                    onChange={handleChangeInput}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                  დაბადების თარიღი.
-                  </Form.Control.Feedback> */}
+                  
                   <Form.Control
                     autoComplete="off"
                     required
@@ -1246,7 +1246,7 @@ const MiddleBlock = ({
             </Form>
           </TabPane>
         </Tabs>
-      </AntModal>
+      </AntModal> */}
 
       <Row type="flex" justify="center" align="middle">
         <Fade bottom>

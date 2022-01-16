@@ -13,6 +13,8 @@ import StatementDetail from "../pages/Bank/statementDetail";
 
 import routes from "./config";
 import GlobalStyles from "../globalStyles";
+import Terms from "../common/Terms";
+import Privacy from "../common/Privacy";
 
 
 const Router = () => {
@@ -91,6 +93,13 @@ const Router = () => {
 
       <Route exact  path="/detail/:id">
         <StatementDetail />
+      </Route>
+
+      <Route exact  path="/terms">
+        <Terms />
+      </Route>
+      <Route exact  path="/privacy">
+        <Privacy />
       </Route>
       {/* <PrivateRoute user={user} authed={isAuthorize} path='/bank' component={Bank} /> */}
 

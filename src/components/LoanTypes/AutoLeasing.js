@@ -85,7 +85,7 @@ export function AutoLeasing({ statement, setStatement, disabled }) {
         <>
             <ConsumerLoan statement={statement} setStatement={setStatement} />
             <br></br>
-            <Card border="info" style={{ width: '49rem' }}>
+            {/* <Card border="info" style={{ width: '49rem' }}>
           <Card.Header>ინფორმაცია ავტომობილზე</Card.Header>
           <Card.Body>
             <div className="form-row">
@@ -130,7 +130,7 @@ export function AutoLeasing({ statement, setStatement, disabled }) {
               </div>
             </div>
           </Card.Body>
-        </Card>
+        </Card> */}
 
 
 

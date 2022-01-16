@@ -31,8 +31,6 @@ import {
   Dropdown,
 } from "antd";
 
-import LoginModal from '../../common/LoginModal/index'
-
 
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import * as S from "./styles";
@@ -42,24 +40,23 @@ import i18n from "i18next";
 const { Option } = Select;
 const { TabPane } = Tabs;
 
-const SvgIcon = lazy(() => import("../../common/SvgIcon"));
-const Button = lazy(() => import("../../common/Button"));
-const MySwal = withReactContent(Swal);
 
-const Header = ({
-  t,
-  setInProfileMOde,
-  isAuthorize,
-  setIsAuthorize,
-  openLoginRegisterDialog,
-}) => {
-  const history = useHistory();
+const LoginModal = ({
+      visibleLoginRegisterDialog,
+      setVisibleLoginRegisterDialog,
+    setInProfileMOde,
+    isAuthorize,
+    setIsAuthorize}) => {
+
+    const history = useHistory();
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isResetPassModalVisible, setIsPassResetModalVisible] = useState(false);
+    // const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
+    // useState(false);
 
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
-  const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
-    useState(false);
   const [formLayout, setFormLayout] = useState("horizontal");
 
   const [isNavVisible] = useState(false);
@@ -133,7 +130,6 @@ const Header = ({
     setInProfileMOde(true)
   }
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [passwordObject, setPasswordObject] = useState({
     currentPass: '',
     newPass: '',
@@ -197,21 +193,6 @@ const Header = ({
     setPasswordObject({...passwordObject, [e.target.name]: e.target.value})
   }
 
-  const menu = (
-    <Menu>
-      <Menu.Item key="0">
-        <a onClick={goToProfile}>პროფილი</a>
-      </Menu.Item>
-      <Menu.Item key="1">
-        <a onClick={showModal}>პაროლის შეცვლა</a>
-      </Menu.Item>
-      <Menu.Item key="2" onClick={logOut}>
-        <a>გასვლა</a>
-      </Menu.Item>
-      {/* <Menu.Divider /> */}
-    </Menu>
-  );
-
   useEffect(() => {
     // Good!
     console.log("111111111111111111");
@@ -220,17 +201,6 @@ const Header = ({
     // setUser(localStorage.getItem('user'))
     setCurrentUser(us);
   }, []);
-
-  const handleKeypress = (e) => {
-    //it triggers by pressing the enter key
-    console.log("key code", e.keyCode, e);
-    // if (e.charCode === 13) {
-    //   if (!user.userName || !user.password) {
-    //     return;
-    //   }
-    //   // handleLogin();
-    // }
-  };
 
   const sendSms = async () => {
     if (!user?.phoneNumber) {
@@ -284,15 +254,21 @@ const Header = ({
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
-      setVisibleLoginRegisterDialog(false);
-      setIsAuthorize(true);
-      setCurrentUser(result.data);
-      setUser({ ...user, userName: "", password: "" });
-      setValidated(false);
+     
 
       if(result.data.userRoleId == 2){
+        setVisibleLoginRegisterDialog(false);
+        setIsAuthorize(true);
+        setCurrentUser(result.data);
+        setUser({ ...user, userName: "", password: "" });
+        setValidated(false);
+
         history.push('/bank')
+        return;
       }
+
+      window.location.reload();
+
     } else {
       message.error("მომხმარებელი ან პაროლი არასწორია");
     }
@@ -363,22 +339,8 @@ const Header = ({
     setUser({ ...user, [e.target.name]: e.target.value });
     console.log("user", user);
   };
-
-  const handleChangeDate = (date, dateString) => {
-    console.log(date, dateString);
-    setUser({ ...user, ["birthDate"]: dateString });
-  };
-
-  const showDrawer = () => {
-    setVisibility(!visible);
-  };
-
   const onClose = () => {
     setVisibility(!visible);
-  };
-
-  const registerFormValidate = () => {
-    console.log("valdiate", Object.entries(user));
   };
 
   const onDialog = () => {
@@ -388,7 +350,6 @@ const Header = ({
     setVisibleLoginRegisterDialog(true);
   };
 
-  const [isResetPassModalVisible, setIsPassResetModalVisible] = useState(false);
 
   const showResetPassModal = () => {
     setVisibleLoginRegisterDialog(false)
@@ -416,127 +377,21 @@ const Header = ({
     
   };
 
+  const [agreeTerms, setAgreeTerms] = useState(false)
+  const onChangeTermAgree = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+    setAgreeTerms(e.target.checked)
+  }
+
   const handleCancelResetPass = () => {
     setIsPassResetModalVisible(false);
   };
 
-  
 
-  const scrollTo = (id) => {
-    console.log("header setInProfileMOde", setInProfileMOde);
-    setInProfileMOde(false);
-    const element = document.getElementById(id);
-    element?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-      inline: "nearest",
-    });
-    setVisibility(false);
-  };
-
-  const MenuItem = () => {
-    
 
     return (
-      <Fragment>
-        <div style={{ display: "flex" }}>
-          <div>
-            <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
-              <S.Span>{t("Home")}</S.Span>
-            </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall onClick={() => scrollTo("products")}>
-              <S.Span>{t("Product")}</S.Span>
-            </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
-              <S.Span>{t("HowItWorks")}</S.Span>
-            </S.CustomNavLinkSmall>
-            {/* <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
-              <S.Span>{t("LoanCalculator")}</S.Span>
-            </S.CustomNavLinkSmall> */}
-            <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
-              <S.Span>{t("About")}</S.Span>
-            </S.CustomNavLinkSmall>
-            {/* <S.CustomNavLinkSmall onClick={() => scrollTo("team")}>
-            <S.Span>{t("გუნდი")}</S.Span>
-          </S.CustomNavLinkSmall> */}
-            <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
-              <S.Span>{t("Contact")}</S.Span>
-            </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall style={{ width: "180px" }}>
-              <S.Span>
-                {isAuthorize ? (
-                  <Dropdown overlay={menu}>
-                    <div>
-                      {currentUser?.name}{" "}
-                      <UserOutlined
-                        style={{
-                          fontSize: "30px",
-                          marginTop: "14px",
-                          color: "#08c",
-                        }}
-                      />
-                    </div>
-                  </Dropdown>
-                ) : (
-                  <Button onClick={onDialog}>{t("SignUp")}</Button>
-                )}
-              </S.Span>
-            </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall>
-              <Radio.Group onChange={handleChangeLang} value={language}>
-                <Radio.Button value="ge">ქარ</Radio.Button>
-                <Radio.Button value="en">Eng</Radio.Button>
-              </Radio.Group>
-              {/* <S.Select>
-                <S.LangSelect
-                  onChange={handleChangeLang}
-                  value={i18n.language}
-                  id="select-lang"
-                >
-                  <option value="ge">ქართული</option>
-                  <option value="en">English</option>
-                </S.LangSelect>
-              </S.Select> */}
-            </S.CustomNavLinkSmall>
-          </div>
-
-          <div style={{ marginTop: "15px" }}>
-            {/* <S.CustomNavLinkSmall >
-              <S.Select>
-                <S.LangSelect
-                  onChange={handleChangeLang}
-                  value={i18n.language}
-                  id="select-lang"
-                >
-                  <option value="ge">ქართული</option>
-                  <option value="en">English</option>
-                </S.LangSelect>
-              </S.Select>
-            </S.CustomNavLinkSmall> */}
-          </div>
-        </div>
-      </Fragment>
-    );
-  };
-
-  return (
-    <S.Header
-      style={{
-        position: "fixed",
-        width: "100%",
-        background: "#f3f4f5",
-        zIndex: 100,
-      }}
-    >
-
-      <LoginModal 
-      visibleLoginRegisterDialog={visibleLoginRegisterDialog}
-      setVisibleLoginRegisterDialog={setVisibleLoginRegisterDialog}
-      setInProfileMOde={setInProfileMOde}
-      isAuthorize={isAuthorize}
-      setIsAuthorize={setIsAuthorize}/>
-{/* 
-      <Modal cancelText="დახურვა" okText="დადასტურება" confirmLoading={passwordObject.loading} title="პაროლის ცვლილება" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <div>
+           <Modal cancelText="დახურვა" okText="დადასტურება" confirmLoading={passwordObject.loading} title="პაროლის ცვლილება" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Input value={passwordObject?.currentPass} name="currentPass" onChange={handleChangePass} placeholder="მიმდინარე პაროლი" type="password"/>
         <Input value={passwordObject?.newPass} name="newPass" onChange={handleChangePass} placeholder="ახალი პაროლი" type="password" style={{marginTop: 10, marginBottom: 10}}/>
         <Input value={passwordObject?.reNewPass} name="reNewPass" onChange={handleChangePass} placeholder="გაიმეორეთ ახალი პაროლი" type="password"/>
@@ -575,7 +430,6 @@ const Header = ({
                     name="phoneNumber"
                     value={user?.phoneNumber}
                     onChange={handleChangeInput}
-                    onKeyPress={handleKeypress}
                   />
                   <Form.Control.Feedback type="invalid">
                     მიუთითეთ  მობილურის ნომერი.
@@ -625,7 +479,6 @@ const Header = ({
                     name="password"
                     value={user?.password}
                     onChange={handleChangeInput}
-                    onKeyPress={handleKeypress}
                   />
                   <Form.Control.Feedback type="invalid">
                     მიუთითეთ პაროლი.
@@ -763,7 +616,60 @@ const Header = ({
                 </Col>
               </Row>
               <br></br>
-              
+              {/* <Row>
+                <Form.Label column lg={3}>
+                  პირადი ნომერი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="personalId"
+                    placeholder="პირადი ნომერი"
+                    value={user?.personalId}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ პირადი ნომერი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row>
+              <br></br> */}
+              {/* <Row>
+                <Form.Label column lg={3}>
+                  დაბადების თარიღი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    autoComplete="off"
+                    required
+                    type="date"
+                    name="birthDate"
+                    placeholder="დაბადების თარიღი"
+                    value={user?.birthDate}
+                    onChange={handleChangeInput}
+                    isValid={user?.birthDate != null}
+                  />
+                </Col>
+              </Row> */}
+              {/* <Row>
+                <Form.Label column lg={3}>
+                  მისამართი
+                </Form.Label>
+                <Col lg={16}>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="address"
+                    placeholder="მისამართი"
+                    value={user?.address}
+                    onChange={handleChangeInput}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    მიუთითეთ მისამართი.
+                  </Form.Control.Feedback>
+                </Col>
+              </Row> */}
               <Row>
                 <Form.Label column lg={3}>
                   მობილურის ნომერი
@@ -813,11 +719,17 @@ const Header = ({
                   </Form.Control.Feedback>
                 </Col>
               </Row>
-              <br></br>
+              <br/>
               <Row>
                 <Form.Label column lg={3}></Form.Label>
                 <Col lg={12}>
-                  <AntdButton htmlType="submit" loading={registerLoading}>
+                <Checkbox checked={agreeTerms} onChange={onChangeTermAgree}> ვეთანხმები </Checkbox>
+
+                <AntdButton type="link" onClick={() => window.open('/terms')}>
+                    წესებსა და პირობებებს
+                  </AntdButton>
+                
+                  <AntdButton disabled={!agreeTerms} style={{marginTop:20}} htmlType="submit" loading={registerLoading}>
                     რეგისტრაცია
                   </AntdButton>
                 </Col>
@@ -826,49 +738,10 @@ const Header = ({
             </Form>
           </TabPane>
         </Tabs>
-      </Modal> */}
-
-      <S.Container>
-        <Row type="flex" justify="space-between" gutter={20}>
-          <S.LogoContainer to="/" aria-label="homepage">
-            {/* <SvgIcon src="logo.svg" /> */}
-            <div style={{ marginLeft: 20,marginTop:5 }} onClick={() => scrollTo("intro")}>
-              <SvgIcon src="ranko.svg" height={60} width={50} />
-            </div>
-            {/* <SvgIcon src="logo1.svg" /> */}
-            {/* <img src="../../public/img/svg/12.png" /> */}
-          </S.LogoContainer>
-          <S.NotHidden>
-            <MenuItem />
-          </S.NotHidden>
-          <S.Burger onClick={showDrawer}>
-            <S.Outline />
-          </S.Burger>
-        </Row>
-        <CSSTransition
-          in={!isSmallScreen || isNavVisible}
-          timeout={350}
-          classNames="NavAnimation"
-          unmountOnExit
-        >
-          <Drawer closable={false} visible={visible} onClose={onClose}>
-            <Col style={{ marginBottom: "2.5rem" }}>
-              <S.Label onClick={onClose}>
-                <Col span={12}>
-                  <S.Menu>Menu</S.Menu>
-                </Col>
-                <Col span={12}>
-                  <S.Outline padding="true" />
-                </Col>
-              </S.Label>
-            </Col>
-            <MenuItem />
-          </Drawer>
-        </CSSTransition>
-      </S.Container>
-     <div style={{borderTop: '1px solid #ccc'}}></div>
-    </S.Header>
-  );
-};
-
-export default withTranslation()(Header);
+      </Modal>
+      </div>
+    );
+  };
+  
+  export default LoginModal;
+  

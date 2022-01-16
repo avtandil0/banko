@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import { Table, Row, Col, Space, Tooltip, Popconfirm, Button, message, Modal, Input, Form, Select } from 'antd';
-import { PlusCircleOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, DeleteOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import constants from '../../constants'
 
 
@@ -42,7 +42,8 @@ const Admin = () => {
 
 
     return (
-        <div style={{ marginLeft:27}}>
+        <div style={{ marginLeft:27, marginTop: 7}}>
+            <Button onClick={() => window.location.href = '/'} icon={<ArrowLeftOutlined />} type="text">უკან</Button>
             <Tabs defaultActiveKey="1" >
                 <TabPane tab="ვალიდაციები" key="1" >
                 <Validation bank={bank}/>

@@ -3,6 +3,8 @@ import { Row, Col } from "antd";
 import i18n from "i18next";
 import { withTranslation } from "react-i18next";
 import Fade from "react-reveal/Fade";
+import { Button } from "antd";
+
 
 import * as S from "./styles";
 
@@ -42,9 +44,13 @@ const Footer = ({ t }) => {
                
               </Col>
               <Col lg={8} md={8} sm={12} xs={24}>
-                <S.Title>{t("LegalIssues")}</S.Title>
-                <S.Large to="/" left="true">
+                <S.Title >
+                  {t("LegalIssues")}</S.Title>
+                <S.Large onClick={()=> window.open('/terms')} left="true">
                   {t("TermsAndConditions")}
+                </S.Large>
+                <S.Large onClick={()=> window.open('/privacy')} left="true">
+                  {t("Privacy")}
                 </S.Large>
               
               </Col>
@@ -125,7 +131,7 @@ const Footer = ({ t }) => {
                   src="fb.svg"
                 />
                 <SocialLink
-                  // href="https://www.linkedin.com/in/lasha-kakabadze/"
+                  href="https://www.linkedin.com/company/rankoloanservice/"
                   src="linkedin.svg"
                 />
                 <SocialLink
