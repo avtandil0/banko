@@ -192,16 +192,16 @@ const Profile = () => {
     //     </>
     //   ),
     // },
-    {
-      title: "სტატუსი",
-      dataIndex: "status",
-      key: "status",
-      render: (text,row) => (
-        <>
-          <Tag color="cyan">{getStatementStatus(row.statementStatus)}</Tag>
-        </>
-      ),
-    },
+    // {
+    //   title: "სტატუსი",
+    //   dataIndex: "status",
+    //   key: "status",
+    //   render: (text,row) => (
+    //     <>
+    //       <Tag color="cyan">{getStatementStatus(row.statementStatus)}</Tag>
+    //     </>
+    //   ),
+    // },
     {
       title: "ტიპი",
       dataIndex: "loantypeId",
@@ -249,11 +249,11 @@ const Profile = () => {
     //     </>
     //   ),
     // },
-    {
-      title: "მისამართი",
-      dataIndex: "actualAddress",
-      key: "actualAddress",
-    },
+    // {
+    //   title: "მისამართი",
+    //   dataIndex: "actualAddress",
+    //   key: "actualAddress",
+    // },
   ];
 
   const data = [
