@@ -4,9 +4,16 @@ import {
   message,
   Col,
   Tabs,
+  Checkbox,
   Button as AntdButton,
   Modal as AntModal,
 } from "antd";
+
+
+import { CheckOutlined,
+} from '@ant-design/icons';
+
+
 import { withTranslation } from "react-i18next";
 import Fade from "react-reveal/Fade";
 import Modal from "react-bootstrap/Modal";
@@ -110,6 +117,13 @@ const MiddleBlock = ({
     // console.log("result municipals", municipalsRes);
     // setMunicipals(municipalsRes.data);
   }, []);
+
+
+  const [agreeTerms, setAgreeTerms] = useState(false)
+  const onChangeTermAgree = (e) => {
+    console.log(`checked = ${e.target.checked}`);
+    setAgreeTerms(e.target.checked)
+  }
 
   const handleSubmit = (event) => {
     console.log("bootsrtap sumit", user);
@@ -271,6 +285,10 @@ const MiddleBlock = ({
     event.preventDefault();
     event.stopPropagation();
 
+    document.body.style.overflow = 'auto';
+    document.body.style.height = 'auto';
+
+    
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       console.log("11111", form);
@@ -289,9 +307,22 @@ const MiddleBlock = ({
     setSentLoading(false);
     setShow1(false);
     if(result.data.isSuccess){
-      AntModal.success({
-        content: result.data.meessage,
-      });
+
+      showModal()
+
+      let text = result.data.meessage.indexOf('http') < 0? 
+      result.data.meessage : result.data.meessage.substring(0,result.data.meessage.indexOf('http')) ;
+
+      let link = result.data.meessage.indexOf('http') < 0? 
+        null
+        : result.data.meessage.substring(result.data.meessage.indexOf('http'),result.data.meessage.length);
+      setAppAnswer({
+        text: text,
+        link: link
+      })
+      // AntModal.success({
+      //   content: result.data.meessage,
+      // });
       // setInProfileMOde(true)
     }
 
@@ -932,6 +963,14 @@ const MiddleBlock = ({
       setVisibleLoginRegisterDialog(true);
       return;
     }
+
+    if(index == 3){
+      AntModal.warning({
+        content: 'პროდუქტი მალე დაემატება',
+      });
+
+      return;
+    }
     console.log("productType", productType);
     setProductType(index);
     setShow1(true);
@@ -976,8 +1015,34 @@ const MiddleBlock = ({
         break;
     }
   };
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [appAnswer, setAppAnswer] = useState({});
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <S.MiddleBlock id="products">
+
+    <AntModal         
+      okText="დახურვა"
+       cancelButtonProps={{ hidden: true}}
+       visible={isModalVisible} 
+       onOk={handleOk} onCancel={handleCancel}>
+        <p>{appAnswer?.text}</p>
+        <AntdButton type="link" onClick={() => window.open(appAnswer?.link)}>{appAnswer?.link}</AntdButton>
+        {/* <a onClick={() => window.open(appAnswer?.link)}>{appAnswer?.link}</a> */}
+      </AntModal>
 
 <LoginModal 
       visibleLoginRegisterDialog={visibleLoginRegisterDialog}
@@ -1551,7 +1616,16 @@ const MiddleBlock = ({
                       </div>
                       <br></br>
 
+                      <Checkbox checked={agreeTerms} onChange={onChangeTermAgree}> ვეთანხმები </Checkbox>
+
+                      <AntdButton type="link" onClick={() => window.open('/privacy')}>
+                          წესებსა და პირობებებს
+                        </AntdButton>
+<br/>
                       <AntdButton
+                      icon={<CheckOutlined />}
+                      disabled={!agreeTerms}
+                      style={{marginTop:20}}
                         // onClick={sendStatement}
                         htmlType="submit"
                         type="primary"
