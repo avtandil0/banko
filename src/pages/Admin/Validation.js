@@ -368,13 +368,14 @@ const Validation = ({bank}) => {
             >
                 <Row gutter={[16, 24]}>
                     <Col className="gutter-row" span={8}>
-                        <div >
-                            <Input type="number" name="amountMax" value={post?.amountMax} onChange={e => handleChange(e)} placeholder="მაქსიმალური თანხა" />
+                    <div >
+                            <Input type="number" name="amountMin" value={post?.amountMin} onChange={e => handleChange(e)} placeholder="მინიმალური თანხა" />
                         </div>
+                       
                     </Col>
                     <Col className="gutter-row" span={8}>
-                        <div >
-                            <Input type="number" name="amountMin" value={post?.amountMin} onChange={e => handleChange(e)} placeholder="მინიმალური თანხა" />
+                    <div >
+                            <Input type="number" name="amountMax" value={post?.amountMax} onChange={e => handleChange(e)} placeholder="მაქსიმალური თანხა" />
                         </div>
                     </Col>
                     <Col className="gutter-row" span={8}>
