@@ -49,22 +49,75 @@ const Validation = ({bank}) => {
         {
             title: 'ბანკი',
             dataIndex: 'bankId',
+            filters: [
+                {
+                  text: 'რებანკი',
+                  value: 'რებანკი',
+                },
+                {
+                  text: 'ბაზისბანკი',
+                  value: 'ბაზისბანკი',
+                },
+                {
+                    text: 'MBC',
+                    value: 'MBC',
+                  },
+                  
+              ],
+              // specify the condition of filtering result
+              // here is that finding the name started with `value`
+            onFilter: (value, row) => getBankId(row).indexOf(value) === 0,
+            sorter: (a, b) => getBankId(a) > getBankId(b),//console.log('234223432',a,b),
+            // sortDirections: ['descend'],
             render: (item, row) => <p>{getBankId(row)}</p>,
         },
         {
             title: 'სესხის ტიპი',
             dataIndex: 'loantypeId',
+            filters: [
+                {
+                  text: 'სამომხმარებლო',
+                  value: 'სამომხმარებლო',
+                },
+                {
+                  text: 'იპოთეკური',
+                  value: 'იპოთეკური',
+                },
+                {
+                    text: 'აგრო',
+                    value: 'აგრო',
+                  },
+                  {
+                    text: 'ავტოლიზინგი',
+                    value: 'ავტოლიზინგი',
+                  },
+                  {
+                    text: 'ბიზნეს სესხი',
+                    value: 'ბიზნეს სესხი',
+                  },
+                  {
+                    text: 'ბიზნეს სესხი',
+                    value: 'ბიზნეს სესხი',
+                  },
+                  
+              ],
+              // specify the condition of filtering result
+              // here is that finding the name started with `value`
+            onFilter: (value, row) => getLoantypeId(row).indexOf(value) === 0,
+            sorter: (a, b) => getLoantypeId(a) > getLoantypeId(b),//console.log('234223432',a,b),
             render: (item, row) => <p>{getLoantypeId(row)}</p>,
 
         },
         {
             title: 'მინ. თანხა',
             dataIndex: 'amountMin',
+            sorter: (a, b) => a.amountMin - b.amountMin,//console.log('234223432',a,b),
             // render: (item, row) => <p>{getAmountMin(row)}</p>,
         },
         {
             title: 'მაქს. თანხა',
             dataIndex: 'amountMax',
+            sorter: (a, b) => a.amountMax - b.amountMax,
         },
 
 

@@ -190,6 +190,16 @@ const Bank = () => {
 
   }, []);
 
+  useEffect(() => {
+    let us = JSON.parse(localStorage.getItem("user"));
+
+    const interval = setInterval(() => {
+      console.log('aaaaa')
+      search(us)
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(async () => {
 
     let us = JSON.parse(localStorage.getItem("user"));
