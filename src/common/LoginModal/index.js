@@ -46,10 +46,10 @@ const LoginModal = ({
       setVisibleLoginRegisterDialog,
     setInProfileMOde,
     isAuthorize,
-    setIsAuthorize}) => {
+    setIsAuthorize,isModalVisible,setIsModalVisible}) => {
 
     const history = useHistory();
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    // const [isModalVisible, setIsModalVisible] = useState(false);
     const [isResetPassModalVisible, setIsPassResetModalVisible] = useState(false);
     // const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
     // useState(false);
@@ -139,8 +139,8 @@ const LoginModal = ({
 
   const handleOk = async () => {
 
-    if(!(/[0-9]/.test(passwordObject?.newPass)) 
-          || !(/[A-Z]/.test(passwordObject?.newPass)) 
+    if(!(/[0-9]/.test(passwordObject?.newPass))
+          || !(/[A-Z]/.test(passwordObject?.newPass))
           || passwordObject.newPass?.length < 8){
       message.error("პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, შეიცავდეს მინიმუმ ერთი ციფრს და ერთ დიდ ასოს",9);
       return;
@@ -216,7 +216,7 @@ const LoginModal = ({
       //   params: { ...user },
       // }
     );
-    
+
     setSendSmsLoading(false)
 
     if(result.data.isSuccess){
@@ -242,7 +242,7 @@ const LoginModal = ({
     if (result.data.token) {
       // message.success(result.data.meessage);
       localStorage.setItem("user", JSON.stringify(result.data));
-     
+
 
       if(result.data.userRoleId == 2){
         setVisibleLoginRegisterDialog(false);
@@ -355,7 +355,7 @@ const LoginModal = ({
       message.error(result.data.meessage)
     }
 
-    
+
   };
 
   const [agreeTerms, setAgreeTerms] = useState(false)
@@ -377,7 +377,7 @@ const LoginModal = ({
         <Input value={passwordObject?.reNewPass} name="reNewPass" onChange={handleChangePass} placeholder="გაიმეორეთ ახალი პაროლი" type="password"/>
       </Modal>
 
-      <Modal width={800} cancelText="დახურვა" okText="აღდგენა" confirmLoading={loginLoading} title="პაროლის აღდგენა" 
+      <Modal width={800} cancelText="დახურვა" okText="აღდგენა" confirmLoading={loginLoading} title="პაროლის აღდგენა"
       visible={isResetPassModalVisible} onOk={handleOkResetPass} onCancel={handleCancelResetPass}>
       <Row>
                 <Form.Label column lg={3}>
@@ -708,7 +708,7 @@ const LoginModal = ({
                 <AntdButton type="link" onClick={() => window.open('/terms')}>
                     წესებსა და პირობებებს
                   </AntdButton>
-                
+
                   <AntdButton disabled={!agreeTerms} style={{marginTop:20}} htmlType="submit" loading={registerLoading}>
                     რეგისტრაცია
                   </AntdButton>
@@ -722,6 +722,5 @@ const LoginModal = ({
       </div>
     );
   };
-  
+
   export default LoginModal;
-  
