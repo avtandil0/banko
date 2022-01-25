@@ -27,9 +27,50 @@ const RightBlock = ({
       <Row type="flex" justify="space-between" align="middle" id={id}>
         <Col lg={11} md={11} sm={11} xs={24}>
           <Slide left>
-            <S.ContentWrapper>
+            <S.ContentWrapper style={{marginLeft:20}}>
               <div>
-                <h6>{t(title)}</h6>
+                {/* <h6>{t(title)}</h6> */}
+                {/* <p style={{fontSize:'25px'}}>{t(title)}</p> */}
+                <p style={{fontSize:'25px'}}>
+                <span style={{
+              paddingRight: '10px',
+              color: '#FF6D00',
+              borderRadius: 13,
+              fontSize: '25px',
+              fontWeight: 590,
+              marginTop: 65,
+              marginBottom: 15,
+            }}>
+           რანკო
+            </span>
+             არის საშუამავლო პლატფორმა, რომელიც 
+                <span style={{
+              padding: '10px',
+              color: '#FF6D00',
+              borderRadius: 13,
+              fontSize: '25px',
+              fontWeight: 590,
+              marginTop: 65,
+              marginBottom: 15,
+            }}>
+              სრულიად უფასოდ 
+            </span>
+
+               
+                ეხმარება მომხმარებელს მოიძიოს სესხზე ყველაზე 
+                
+                <span style={{
+              padding: '10px',
+              color: '#FF6D00',
+              borderRadius: 13,
+              fontSize: '25px',
+              fontWeight: 590,
+              marginTop: 65,
+              marginBottom: 15,
+            }}>
+             დაბალი პროცენტი.
+            </span>
+                  </p>
 
               </div>
               <br />
@@ -62,7 +103,8 @@ const RightBlock = ({
               fontSize: '1rem',
               fontWeight: 590,
               marginTop: 65,
-              marginBottom: 15
+              marginBottom: 15,
+              marginLeft: 20
             }}>
               {t(additionalText)}
             </div>
