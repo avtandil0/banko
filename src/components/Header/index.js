@@ -143,8 +143,8 @@ const Header = ({
 
   const handleOk = async () => {
 
-    if(!(/[0-9]/.test(passwordObject?.newPass)) 
-          || !(/[A-Z]/.test(passwordObject?.newPass)) 
+    if(!(/[0-9]/.test(passwordObject?.newPass))
+          || !(/[A-Z]/.test(passwordObject?.newPass))
           || passwordObject.newPass?.length < 8){
       message.error("პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, შეიცავდეს მინიმუმ ერთი ციფრს და ერთ დიდ ასოს",9);
       return;
@@ -245,7 +245,7 @@ const Header = ({
       //   params: { ...user },
       // }
     );
-    
+
     setSendSmsLoading(false)
 
     if(result.data.isSuccess){
@@ -391,14 +391,14 @@ const Header = ({
       message.error(result.data.meessage)
     }
 
-    
+
   };
 
   const handleCancelResetPass = () => {
     setIsPassResetModalVisible(false);
   };
 
-  
+
 
   const scrollTo = (id) => {
     setInProfileMOde(false);
@@ -412,7 +412,7 @@ const Header = ({
   };
 
   const MenuItem = () => {
-    
+
 
     return (
       <Fragment>
@@ -510,20 +510,22 @@ const Header = ({
       }}
     >
 
-      <LoginModal 
+      <LoginModal
       visibleLoginRegisterDialog={visibleLoginRegisterDialog}
       setVisibleLoginRegisterDialog={setVisibleLoginRegisterDialog}
       setInProfileMOde={setInProfileMOde}
       isAuthorize={isAuthorize}
-      setIsAuthorize={setIsAuthorize}/>
-{/* 
+      setIsAuthorize={setIsAuthorize}
+      isModalVisible={isModalVisible}
+      setIsModalVisible={setIsModalVisible}/>
+{/*
       <Modal cancelText="დახურვა" okText="დადასტურება" confirmLoading={passwordObject.loading} title="პაროლის ცვლილება" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <Input value={passwordObject?.currentPass} name="currentPass" onChange={handleChangePass} placeholder="მიმდინარე პაროლი" type="password"/>
         <Input value={passwordObject?.newPass} name="newPass" onChange={handleChangePass} placeholder="ახალი პაროლი" type="password" style={{marginTop: 10, marginBottom: 10}}/>
         <Input value={passwordObject?.reNewPass} name="reNewPass" onChange={handleChangePass} placeholder="გაიმეორეთ ახალი პაროლი" type="password"/>
       </Modal>
 
-      <Modal width={800} cancelText="დახურვა" okText="აღდგენა" confirmLoading={loginLoading} title="პაროლის აღდგენა" 
+      <Modal width={800} cancelText="დახურვა" okText="აღდგენა" confirmLoading={loginLoading} title="პაროლის აღდგენა"
       visible={isResetPassModalVisible} onOk={handleOkResetPass} onCancel={handleCancelResetPass}>
       <Row>
                 <Form.Label column lg={3}>
@@ -744,7 +746,7 @@ const Header = ({
                 </Col>
               </Row>
               <br></br>
-              
+
               <Row>
                 <Form.Label column lg={3}>
                   მობილურის ნომერი
