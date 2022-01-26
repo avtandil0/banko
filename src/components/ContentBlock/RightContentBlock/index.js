@@ -43,7 +43,7 @@ const RightBlock = ({
             }}>
            რანკო
             </span>
-             არის საშუამავლო პლატფორმა, რომელიც 
+             არის საშუამავლო პლატფორმა, რომელიც
                 <span style={{
               padding: '10px',
               color: '#FF6D00',
@@ -53,12 +53,12 @@ const RightBlock = ({
               marginTop: 65,
               marginBottom: 15,
             }}>
-              სრულიად უფასოდ 
+              სრულიად უფასოდ
             </span>
 
-               
-                ეხმარება მომხმარებელს მოიძიოს სესხზე ყველაზე 
-                
+
+                ეხმარება მომხმარებელს მოიძიოს სესხზე ყველაზე
+
                 <span style={{
               padding: '10px',
               color: '#FF6D00',
@@ -95,7 +95,7 @@ const RightBlock = ({
             {/* <div style={{marginTop: '25px', fontSize: 20}}>{t(additionalText)}</div> */}
             {/* <Alert description={t(additionalText)} type="success" showIcon /> */}
             {/* <div style={{ color: '#ff7340', borderColor: 1, fontSize: 17 }}>{t(additionalText)}</div> */}
-            <div style={{
+            {/* <div style={{
               border: '2px solid #FF6D00',
               padding: '10px',
               color: '#343D48',
@@ -107,8 +107,8 @@ const RightBlock = ({
               marginLeft: 20
             }}>
               {t(additionalText)}
-            </div>
-
+            </div> */}
+          <img style={{paddingLeft:10}} width={'100%'} src="/img/icons/vol.final.png" />
           </Slide>
         </Col>
         <Col lg={11} md={11} sm={12} xs={24}>
