@@ -58,8 +58,10 @@ const Header = ({
   const [visibleProfileDialog, setVisibleProfileDialog] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState(false);
   const [visibleLoginRegisterDialog, setVisibleLoginRegisterDialog] =
     useState(false);
+
   const [formLayout, setFormLayout] = useState("horizontal");
 
   const [isNavVisible] = useState(false);
@@ -361,9 +363,10 @@ const Header = ({
   const registerFormValidate = () => {
   };
 
-  const onDialog = () => {
+  const onDialog = (activeTab) => {
     // setUser(null);
     // setTest(777777);
+    setActiveTab(activeTab)
     setVisibleLoginRegisterDialog(true);
   };
 
@@ -436,10 +439,10 @@ const Header = ({
             {/* <S.CustomNavLinkSmall onClick={() => scrollTo("team")}>
             <S.Span>{t("გუნდი")}</S.Span>
           </S.CustomNavLinkSmall> */}
-            <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
+            {/* <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
               <S.Span>{t("Contact")}</S.Span>
-            </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall style={{ width: "180px" }}>
+            </S.CustomNavLinkSmall> */}
+            <S.CustomNavLinkSmall style={{ width: "110px" }}>
               <S.Span>
                 {isAuthorize ? (
                   <Dropdown overlay={menu}>
@@ -455,10 +458,30 @@ const Header = ({
                     </div>
                   </Dropdown>
                 ) : (
-                  <Button onClick={onDialog} style={{margin:40}}>
-                    {t("SignUp")} /
-<br/>
-                    {t("SignIn")}
+                  <Button onClick={() => onDialog(1)} >
+                    {t("SignIn")} 
+                  </Button>
+                )}
+              </S.Span>
+            </S.CustomNavLinkSmall>
+            <S.CustomNavLinkSmall style={{ width: "140px" }}>
+              <S.Span>
+                {isAuthorize ? (
+                  <Dropdown overlay={menu}>
+                    <div>
+                      {currentUser?.name}{" "}
+                      <UserOutlined
+                        style={{
+                          fontSize: "30px",
+                          marginTop: "14px",
+                          color: "#08c",
+                        }}
+                      />
+                    </div>
+                  </Dropdown>
+                ) : (
+                  <Button onClick={() => onDialog(2)} style={{margin:40}}>
+                    {t("SignUp")} 
                   </Button>
                 )}
               </S.Span>
@@ -513,6 +536,7 @@ const Header = ({
       <LoginModal
       visibleLoginRegisterDialog={visibleLoginRegisterDialog}
       setVisibleLoginRegisterDialog={setVisibleLoginRegisterDialog}
+      activeTab = {activeTab}
       setInProfileMOde={setInProfileMOde}
       isAuthorize={isAuthorize}
       setIsAuthorize={setIsAuthorize}

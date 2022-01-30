@@ -44,6 +44,7 @@ const { TabPane } = Tabs;
 const LoginModal = ({
       visibleLoginRegisterDialog,
       setVisibleLoginRegisterDialog,
+      activeTab = 1,
     setInProfileMOde,
     isAuthorize,
     setIsAuthorize,isModalVisible,setIsModalVisible}) => {
@@ -187,6 +188,7 @@ const LoginModal = ({
 
   useEffect(() => {
     // Good!
+    console.log('activeTabactiveTabactiveTab',activeTab)
 
     let us = JSON.parse(localStorage.getItem("user"));
     // setUser(localStorage.getItem('user'))
@@ -296,23 +298,39 @@ const LoginModal = ({
     });//https://weblive.com.ge
     // var result = await axios.get(constants.API_PREFIX +`/api/account/${user?.smsCode}/${user?.userName}/${user?.password}`);//https://weblive.com.ge
     if (result.data.isSuccess) {
-      message.success("რეგისტრაცია წარმატებით დასრულდა, გაიარეთ ავტორიზაცია", 8);
-      setVisibleLoginRegisterDialog(false);
-      setRegisterLoading(false);
-      setUser({
-        ...user,
-        userName: "",
-        password: "",
-        phoneNumber: "",
-        rePassword: "",
-        email: "",
-        name: "",
-        lastName: "",
-        personalId: "",
-        birthDate: "",
-        address: "",
-      });
-      setValidated(false);
+      message.success("რეგისტრაცია წარმატებით დასრულდა", 8);
+
+      var resultLogin = await axios.get(
+        constants.API_PREFIX +`/api/account/authorize`,
+        {
+          params: { userName:user.userName, password: user.password },
+        }
+      );
+      if (resultLogin.data.token) {
+        // message.success(result.data.meessage);
+        localStorage.setItem("user", JSON.stringify(resultLogin.data));
+        window.location.reload();
+  
+      } else {
+        message.error("მომხმარებელი ან პაროლი არასწორია");
+      }
+
+      // setVisibleLoginRegisterDialog(false);
+      // setRegisterLoading(false);
+      // setUser({
+      //   ...user,
+      //   userName: "",
+      //   password: "",
+      //   phoneNumber: "",
+      //   rePassword: "",
+      //   email: "",
+      //   name: "",
+      //   lastName: "",
+      //   personalId: "",
+      //   birthDate: "",
+      //   address: "",
+      // });
+      // setValidated(false);
     } else {
       message.error(result.data.meessage);
       setRegisterLoading(false);
@@ -425,7 +443,7 @@ const LoginModal = ({
         footer={null}
         width={800}
       >
-        <Tabs defaultActiveKey="1">
+        <Tabs activeKey={activeTab.toString()}>
           <TabPane tab="ავტორიზაცია" key="1">
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Row>
