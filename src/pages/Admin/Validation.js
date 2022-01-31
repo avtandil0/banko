@@ -12,7 +12,7 @@ import axios from 'axios';
 const { Option } = Select;
 
 
-const Validation = ({bank}) => {
+const Validation = ({ bank , loantype}) => {
 
     const columns = [
         {
@@ -51,21 +51,21 @@ const Validation = ({bank}) => {
             dataIndex: 'bankId',
             filters: [
                 {
-                  text: 'რებანკი',
-                  value: 'რებანკი',
+                    text: 'რებანკი',
+                    value: 'რებანკი',
                 },
                 {
-                  text: 'ბაზისბანკი',
-                  value: 'ბაზისბანკი',
+                    text: 'ბაზისბანკი',
+                    value: 'ბაზისბანკი',
                 },
                 {
                     text: 'MBC',
                     value: 'MBC',
-                  },
-                  
-              ],
-              // specify the condition of filtering result
-              // here is that finding the name started with `value`
+                },
+
+            ],
+            // specify the condition of filtering result
+            // here is that finding the name started with `value`
             onFilter: (value, row) => getBankId(row).indexOf(value) === 0,
             sorter: (a, b) => getBankId(a) > getBankId(b),//console.log('234223432',a,b),
             // sortDirections: ['descend'],
@@ -76,33 +76,33 @@ const Validation = ({bank}) => {
             dataIndex: 'loantypeId',
             filters: [
                 {
-                  text: 'სამომხმარებლო',
-                  value: 'სამომხმარებლო',
+                    text: 'სამომხმარებლო',
+                    value: 'სამომხმარებლო',
                 },
                 {
-                  text: 'იპოთეკური',
-                  value: 'იპოთეკური',
+                    text: 'იპოთეკური',
+                    value: 'იპოთეკური',
                 },
                 {
                     text: 'აგრო',
                     value: 'აგრო',
-                  },
-                  {
+                },
+                {
                     text: 'ავტოლიზინგი',
                     value: 'ავტოლიზინგი',
-                  },
-                  {
+                },
+                {
                     text: 'ბიზნეს სესხი',
                     value: 'ბიზნეს სესხი',
-                  },
-                  {
+                },
+                {
                     text: 'ბიზნეს სესხი',
                     value: 'ბიზნეს სესხი',
-                  },
-                  
-              ],
-              // specify the condition of filtering result
-              // here is that finding the name started with `value`
+                },
+
+            ],
+            // specify the condition of filtering result
+            // here is that finding the name started with `value`
             onFilter: (value, row) => getLoantypeId(row).indexOf(value) === 0,
             sorter: (a, b) => getLoantypeId(a) > getLoantypeId(b),//console.log('234223432',a,b),
             render: (item, row) => <p>{getLoantypeId(row)}</p>,
@@ -133,7 +133,7 @@ const Validation = ({bank}) => {
         {
             title: 'საკრედიტო ისტორია/ ვადაგადაცილება',
             dataIndex: 'currentOverdue',
-            render: (item, row) => <p>{row?.currentOverdue ? <p style={{color: 'red'}}>აქვს ვადაგადაცილება</p>: <p >არ აქვს ვადაგადაცილება</p>}</p>,
+            render: (item, row) => <p>{row?.currentOverdue ? <p style={{ color: 'red' }}>აქვს ვადაგადაცილება</p> : <p >არ აქვს ვადაგადაცილება</p>}</p>,
 
         },
 
@@ -155,7 +155,7 @@ const Validation = ({bank}) => {
 
     const [customersToBanks, setCustomersToBanks] = useState([]);
     const [incomesource, setIncomesource] = useState([]);
-    const [loantype, setLoantype] = useState([]);
+    // const [loantype, setLoantype] = useState([]);
     const [region, setRegion] = useState([]);
     const [buttonLoading, setButtonLoading] = useState(false)
     const [tableLoading, setTableLoading] = useState(false)
@@ -184,10 +184,11 @@ const Validation = ({bank}) => {
     const confirm = async (record) => {
         setTableLoading(true);
         const result = await axios.delete(constants.API_PREFIX + `/api/RedistributionCustomersToBanks?customersToBankId=${record.id}`,
-        {
-            params: {
-              token: user?.token
-            }});
+            {
+                params: {
+                    token: user?.token
+                }
+            });
         if (result.data.isSuccess) {
             message.success(result.data.meessage);
             fetchData();
@@ -212,10 +213,11 @@ const Validation = ({bank}) => {
         // console.log("result", result, post)z
         if (!isEdit) {
             const result = await axios.post(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post,
-            {
-                params: {
-                  token: user?.token
-                }});
+                {
+                    params: {
+                        token: user?.token
+                    }
+                });
             if (result.data.isSuccess) {
                 fetchData();
                 setIsModalVisible(false);
@@ -227,10 +229,11 @@ const Validation = ({bank}) => {
         }
         else {
             const result = await axios.put(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', post,
-            {
-                params: {
-                  token: user?.token
-                }});
+                {
+                    params: {
+                        token: user?.token
+                    }
+                });
             if (result.data.isSuccess) {
                 fetchData();
                 setIsModalVisible(false);
@@ -266,39 +269,36 @@ const Validation = ({bank}) => {
 
     const fetchData = async (us) => {
         setTableLoading(true);
-        const result = await axios(constants.API_PREFIX + '/api/RedistributionCustomersToBanks',{
+        const result = await axios(constants.API_PREFIX + '/api/RedistributionCustomersToBanks', {
             params: {
-                token: us? us.token: user.token
-            }});
+                token: us ? us.token : user.token
+            }
+        });
         setCustomersToBanks(result.data)
         setTableLoading(false)
     }
 
     const fetchIncomesource = async (us) => {
-        const result = await axios(constants.API_PREFIX + '/api/IncomeSource',{
+        const result = await axios(constants.API_PREFIX + '/api/IncomeSource', {
             params: {
-              token: us? us.token: user.token
-            }});
+                token: us ? us.token : user.token
+            }
+        });
         setIncomesource(result.data)
     }
 
-    const fetchLoantype = async (us) => {
-        const result = await axios(constants.API_PREFIX + '/api/LoanType',{
-            params: {
-                token: us? us.token: user.token
-            }});
-        setLoantype(result.data)
-    }
+   
 
     const fetchRegion = async (us) => {
-        const result = await axios(constants.API_PREFIX + '/api/Region',{
+        const result = await axios(constants.API_PREFIX + '/api/Region', {
             params: {
-                token: us? us.token: user.token
-            }});
+                token: us ? us.token : user.token
+            }
+        });
         setRegion(result.data)
     }
 
-   
+
 
 
     async function showModal() {
@@ -369,7 +369,7 @@ const Validation = ({bank}) => {
 
         fetchData(us);
         fetchIncomesource(us);
-        fetchLoantype(us);
+        // fetchLoantype(us);
         fetchRegion(us);
     }, []);
 
@@ -412,13 +412,13 @@ const Validation = ({bank}) => {
             >
                 <Row gutter={[16, 24]}>
                     <Col className="gutter-row" span={8}>
-                    <div >
+                        <div >
                             <Input type="number" name="amountMin" value={post?.amountMin} onChange={e => handleChange(e)} placeholder="მინიმალური თანხა" />
                         </div>
-                       
+
                     </Col>
                     <Col className="gutter-row" span={8}>
-                    <div >
+                        <div >
                             <Input type="number" name="amountMax" value={post?.amountMax} onChange={e => handleChange(e)} placeholder="მაქსიმალური თანხა" />
                         </div>
                     </Col>
@@ -506,6 +506,21 @@ const Validation = ({bank}) => {
                         </div>
 
                     </Col>
+                    <Col className="gutter-row" span={8}>
+                        <div >
+                            <Select
+                                onChange={(value) => selectChange(value, 'incomeAccrue')}
+                                placeholder="ხელფასი ერიცხება"
+                                style={{ width: "100%" }}
+                                value={post?.incomeAccrue}
+                            >
+                                <option value="ორივე">ორივე</option>
+                                <option value="ბანკში">ბანკში</option>
+                                <option value="ხელზე">ხელზე</option>
+                            </Select>
+                        </div>
+
+                    </Col>
                 </Row>
 
             </Modal>
@@ -516,4 +531,3 @@ const Validation = ({bank}) => {
 
 export default Validation;
 
-    

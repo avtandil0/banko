@@ -21,6 +21,8 @@ const Admin = () => {
 
     const [user, setUser] = useState(null);
     const [bank, setBank] = useState([]);
+    const [loantype, setLoantype] = useState([]);
+
 
     useEffect(() => {
         let us = JSON.parse(localStorage.getItem("user"));
@@ -28,6 +30,8 @@ const Admin = () => {
         setUser(us);
 
         fetchBank(us)
+        fetchLoantype(us)
+        
     }, []);
 
     const fetchBank = async (us) => {
@@ -38,6 +42,15 @@ const Admin = () => {
         setBank(result.data)
     }
 
+    const fetchLoantype = async (us) => {
+        const result = await axios(constants.API_PREFIX + '/api/LoanType', {
+            params: {
+                token: us ? us.token : user.token
+            }
+        });
+        setLoantype(result.data)
+    }
+
 
 
     return (
@@ -45,10 +58,10 @@ const Admin = () => {
             <Button onClick={() => window.location.href = '/'} icon={<ArrowLeftOutlined />} type="text">უკან</Button>
             <Tabs defaultActiveKey="1" >
                 <TabPane tab="ვალიდაციები" key="1" >
-                <Validation bank={bank}/>
+                <Validation bank={bank} loantype={loantype}/>
                 </TabPane>
                 <TabPane tab="განცხადებები" key="2">
-                    <Statement bank={bank}/>
+                    <Statement bank={bank} loantype={loantype}/>
                 </TabPane>
 
             </Tabs>

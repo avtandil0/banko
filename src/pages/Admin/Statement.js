@@ -47,7 +47,7 @@ import { CreditCard } from '../../components/LoanTypes/CreditCard'
 
 const { Option } = Select;
 
-const Statement = ({bank}) => {
+const Statement = ({bank, loantype}) => {
 
   let history = useHistory();
 
@@ -315,6 +315,18 @@ const Statement = ({bank}) => {
     return bank.filter(r => r.id == id)[0]? bank.filter(r => r.id == id)[0].bankName : ''
   }
 
+  const getLoantypeId = (row) => {
+    const res = loantype.filter(item => item.id == row.loantypeId)[0]?.loanTypeName;
+    return res
+}
+
+const getBankId = (row) => {
+  console.log('555555', row, bank)
+  const res = bank.filter(item => item.id == row.bankId)[0]?.bankName;
+
+  console.log('rrrrrrr',res)
+  return res
+}
   const columns = [
     {
       title: "მოქმედებები",
@@ -352,7 +364,39 @@ const Statement = ({bank}) => {
       title: "ტიპი",
       dataIndex: "loantypeId",
       key: "loantypeId",
-      render: (loantypeId) => <a>{getIncomeSourceName(loantypeId)}</a>,
+      filters: [
+        {
+            text: 'სამომხმარებლო',
+            value: 'სამომხმარებლო',
+        },
+        {
+            text: 'იპოთეკური',
+            value: 'იპოთეკური',
+        },
+        {
+            text: 'აგრო',
+            value: 'აგრო',
+        },
+        {
+            text: 'ავტოლიზინგი',
+            value: 'ავტოლიზინგი',
+        },
+        {
+            text: 'ბიზნეს სესხი',
+            value: 'ბიზნეს სესხი',
+        },
+        {
+            text: 'ბიზნეს სესხი',
+            value: 'ბიზნეს სესხი',
+        },
+
+    ],
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, row) => getLoantypeId(row).indexOf(value) === 0,
+      // render: (loantypeId) => <a>{getIncomeSourceName(loantypeId)}</a>,
+      sorter: (a, b) => getLoantypeId(a) > getLoantypeId(b),//console.log('234223432',a,b),
+      render: (item, row) => <p>{getLoantypeId(row)}</p>,
     },
     {
       title: "თანხა",
@@ -385,7 +429,28 @@ const Statement = ({bank}) => {
         title: "ბანკი",
         dateCreated: "bank",
         key: "bankId",
-        render: (row) => <a>{getBankName(row.bankId)}</a>,
+        filters: [
+          {
+              text: 'რებანკი',
+              value: 'რებანკი',
+          },
+          {
+              text: 'ბაზისბანკი',
+              value: 'ბაზისბანკი',
+          },
+          {
+              text: 'MBC',
+              value: 'MBC',
+          },
+
+      ],
+      // specify the condition of filtering result
+      // here is that finding the name started with `value`
+      onFilter: (value, row) => getBankId(row)?.indexOf(value) === 0,
+      sorter: (a, b) => getBankId(a) > getBankId(b),//console.log('234223432',a,b),
+      // sortDirections: ['descend'],
+      render: (item, row) => <p>{getBankId(row)}</p>,
+        // render: (row) => <a>{getBankName(row.bankId)}</a>,
       },
     // {
     //   title: "Tags",

@@ -445,18 +445,7 @@ const Header = ({
             <S.CustomNavLinkSmall style={{ width: "110px" }}>
               <S.Span>
                 {isAuthorize ? (
-                  <Dropdown overlay={menu}>
-                    <div>
-                      {currentUser?.name}{" "}
-                      <UserOutlined
-                        style={{
-                          fontSize: "30px",
-                          marginTop: "14px",
-                          color: "#08c",
-                        }}
-                      />
-                    </div>
-                  </Dropdown>
+                 null
                 ) : (
                   <Button onClick={() => onDialog(1)} >
                     {t("SignIn")} 
