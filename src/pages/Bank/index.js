@@ -71,6 +71,7 @@ const Bank = () => {
   const [visible, setVisible] = useState(false);
   const [approvaloading, setApprovaloading] = useState(false);
   const [rejectionLoading, setRejectionLoading] = useState(false);
+  const [rejectReason, setRejectReason] = useState('');
 
   const [modal, setModal] = useState({
     visible: false,
@@ -92,11 +93,18 @@ const Bank = () => {
         return;
         break;
     }
+
+    let ob = {
+      userId: user.id,
+      statementId: statement.id,
+      statementStatusId: status,
+      // reason: rejectReason,
+    }
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
       constants.API_PREFIX +
-        `/api/Statement/${user.id}/${statement.id}/${status}`, //დამუშავების პროცესში
-      null,
+        `/api/Statement`, //დამუშავების პროცესში
+      ob,
       {
         params: {
           token: user?.token,
@@ -111,7 +119,7 @@ const Bank = () => {
     });
 
     setApprovaloading(false);
-    setRejectionLoading(false);
+    // setRejectionLoading(false);
 
     setShow1(false);
 
@@ -469,13 +477,51 @@ const Bank = () => {
     setIsModalVisible(true);
   };
 
-  const handleOkReject = () => {
-    setIsModalVisible(false);
-  };
+  const handleOkReject = async () => {
+    setRejectionLoading(true);
+    //
+    let ob = {
+      userId: user.id,
+      statementId: statement.id,
+      statementStatusId: 4,
+      reason: rejectReason,
+    }
+    var result = await axios.put(
+      // `https://weblive.com.ge/api/Home`,
+      constants.API_PREFIX +
+        `/api/Statement`, //დამუშავების პროცესში
+      ob,
+      {
+        params: {
+          token: user?.token,
+        },
+      }
+    )
 
+    message.open({
+      key: "updatable",
+      type: result.data.isSuccess ? "success" : "error",
+      content: result.data.meessage,
+    });
+
+    setRejectionLoading(false);
+
+    setShow1(false);
+
+    if (result.data.isSuccess) {
+      search();
+    }
+
+  setIsModalVisible(false);
+}
   const handleCancelReject = () => {
     setIsModalVisible(false);
   };
+
+  const handleChangeRejectReason = (e) => {
+    console.log('ee',e.target.value)
+    setRejectReason(e.target.value)
+  }
   return (
     <div>
       <Modal show={show1} onHide={() => setShow1(false)} size="lg">
@@ -597,7 +643,7 @@ const Bank = () => {
                   danger
                   size="large"
                   icon={<CloseOutlined />}
-                  loading={rejectionLoading}
+                 
                   onClick={() => changeStatus(4)}
                 >
                   უარყოფა
@@ -626,8 +672,9 @@ const Bank = () => {
         okText="დადასტურება"
         cancelText="გაუქმება"
         onCancel={handleCancelReject}
+        okButtonProps={{loading: rejectionLoading}}
       >
-       <TextArea rows={4} />
+       <TextArea onChange={handleChangeRejectReason} rows={4} />
       </AntModal>
 
       <AntModal
