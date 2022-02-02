@@ -287,7 +287,7 @@ const Validation = ({ bank , loantype}) => {
         setIncomesource(result.data)
     }
 
-   
+
 
     const fetchRegion = async (us) => {
         const result = await axios(constants.API_PREFIX + '/api/Region', {
@@ -514,7 +514,7 @@ const Validation = ({ bank , loantype}) => {
                                 style={{ width: "100%" }}
                                 value={post?.incomeAccrue}
                             >
-                                <option value="ორივე">ორივე</option>
+                                <option value="ყველა">ყველა</option>
                                 <option value="ბანკში">ბანკში</option>
                                 <option value="ხელზე">ხელზე</option>
                             </Select>
