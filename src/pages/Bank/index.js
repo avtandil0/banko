@@ -52,7 +52,6 @@ import { CreditCard } from "../../components/LoanTypes/CreditCard";
 const { Option } = Select;
 const { TextArea } = Input;
 
-
 const Bank = () => {
   let history = useHistory();
 
@@ -71,7 +70,7 @@ const Bank = () => {
   const [visible, setVisible] = useState(false);
   const [approvaloading, setApprovaloading] = useState(false);
   const [rejectionLoading, setRejectionLoading] = useState(false);
-  const [rejectReason, setRejectReason] = useState('');
+  const [rejectReason, setRejectReason] = useState("");
 
   const [modal, setModal] = useState({
     visible: false,
@@ -81,14 +80,14 @@ const Bank = () => {
   });
 
   const changeStatus = async (status) => {
-    console.log('statusstatusstatus',status)
+    console.log("statusstatusstatus", status);
     switch (status) {
       case 3:
         setApprovaloading(true);
         break;
       case 4:
         // setRejectionLoading(true);
-        setShow1(false)
+        setShow1(false);
         setIsModalVisible(true);
         return;
         break;
@@ -99,11 +98,10 @@ const Bank = () => {
       statementId: statement.id,
       statementStatusId: status,
       // reason: rejectReason,
-    }
+    };
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      constants.API_PREFIX +
-        `/api/Statement`, //დამუშავების პროცესში
+      constants.API_PREFIX + `/api/Statement`, //დამუშავების პროცესში
       ob,
       {
         params: {
@@ -151,7 +149,7 @@ const Bank = () => {
     var result = await axios.post(
       // `https://weblive.com.ge/api/Home`,
       constants.API_PREFIX +
-        `/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`,
+      `/api/Statement/${user.id}/${modal.id}/${modal.type}/${modal.amount}`,
       null,
       {
         params: {
@@ -232,9 +230,8 @@ const Bank = () => {
 
     var result = await axios.get(
       constants.API_PREFIX +
-        `/api/Home?userId=${us ? us.id : user?.id}&token=${
-          us ? us.token : user?.token
-        }`
+      `/api/Home?userId=${us ? us.id : user?.id}&token=${us ? us.token : user?.token
+      }`
     );
     setStatements(result.data);
     setStatementLoading(false);
@@ -245,10 +242,18 @@ const Bank = () => {
     setVisible(true);
     message.loading({ content: "Loading...", key: "updatable" });
 
+    let ob = {
+      userId: user.id,
+      statementId: statement.id,
+      statementStatusId: 4,
+      reason: rejectReason,
+    };
+
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      constants.API_PREFIX + `/api/Statement/${user.id}/${item.id}/${2}`, //დამუშავების პროცესში
-      null,
+      // constants.API_PREFIX + `/api/Statement/${user.id}/${item.id}/${2}`, //დამუშავების პროცესში
+      constants.API_PREFIX + `/api/Statement`, //დამუშავების პროცესში
+      ob,
       {
         params: {
           token: user?.token,
@@ -485,18 +490,17 @@ const Bank = () => {
       statementId: statement.id,
       statementStatusId: 4,
       reason: rejectReason,
-    }
+    };
     var result = await axios.put(
       // `https://weblive.com.ge/api/Home`,
-      constants.API_PREFIX +
-        `/api/Statement`, //დამუშავების პროცესში
+      constants.API_PREFIX + `/api/Statement`, //დამუშავების პროცესში
       ob,
       {
         params: {
           token: user?.token,
         },
       }
-    )
+    );
 
     message.open({
       key: "updatable",
@@ -512,16 +516,16 @@ const Bank = () => {
       search();
     }
 
-  setIsModalVisible(false);
-}
+    setIsModalVisible(false);
+  };
   const handleCancelReject = () => {
     setIsModalVisible(false);
   };
 
   const handleChangeRejectReason = (e) => {
-    console.log('ee',e.target.value)
-    setRejectReason(e.target.value)
-  }
+    console.log("ee", e.target.value);
+    setRejectReason(e.target.value);
+  };
   return (
     <div>
       <Modal show={show1} onHide={() => setShow1(false)} size="lg">
@@ -532,7 +536,7 @@ const Bank = () => {
           <Form
             noValidate
             validated={validated}
-            // onSubmit={sendStatement}
+          // onSubmit={sendStatement}
           >
             <div>
               {productType == 4 ? (
@@ -626,31 +630,32 @@ const Bank = () => {
             </div>
             <br></br>
 
-            {statement.statementStatus == 2 ?
-            <div style={{ margin: "auto", width: "50%" }}>
-              <Space size="large">
-                <Button
-                  style={{ color: "green" }}
-                  size="large"
-                  icon={<CheckOutlined style={{ color: "green" }} />}
-                  loading={approvaloading}
-                  onClick={() => changeStatus(3)}
-                >
-                  დამტკიცება
-                </Button>
+            {statement.statementStatus == 2 ? (
+              <div style={{ margin: "auto", width: "50%" }}>
+                <Space size="large">
+                  <Button
+                    style={{ color: "green" }}
+                    size="large"
+                    icon={<CheckOutlined style={{ color: "green" }} />}
+                    loading={approvaloading}
+                    onClick={() => changeStatus(3)}
+                  >
+                    დამტკიცება
+                  </Button>
 
-                <Button
-                  danger
-                  size="large"
-                  icon={<CloseOutlined />}
-                 
-                  onClick={() => changeStatus(4)}
-                >
-                  უარყოფა
-                </Button>
-              </Space>
-            </div>
-            : ''}
+                  <Button
+                    danger
+                    size="large"
+                    icon={<CloseOutlined />}
+                    onClick={() => changeStatus(4)}
+                  >
+                    უარყოფა
+                  </Button>
+                </Space>
+              </div>
+            ) : (
+              ""
+            )}
 
             {/* <AntdButton
               // onClick={sendStatement}
@@ -672,9 +677,9 @@ const Bank = () => {
         okText="დადასტურება"
         cancelText="გაუქმება"
         onCancel={handleCancelReject}
-        okButtonProps={{loading: rejectionLoading}}
+        okButtonProps={{ loading: rejectionLoading }}
       >
-       <TextArea onChange={handleChangeRejectReason} rows={4} />
+        <TextArea onChange={handleChangeRejectReason} rows={4} />
       </AntModal>
 
       <AntModal

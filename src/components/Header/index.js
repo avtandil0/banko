@@ -422,19 +422,19 @@ const Header = ({
         <div style={{ display: "flex" }}>
           <div>
             <S.CustomNavLinkSmall onClick={() => scrollTo("intro")}>
-              <S.Span>{t("Home")}</S.Span>
+              <S.Span style={{fontSize:18}}>{t("Home")}</S.Span>
             </S.CustomNavLinkSmall>
             <S.CustomNavLinkSmall onClick={() => scrollTo("products")}>
-              <S.Span>{t("Product")}</S.Span>
+              <S.Span style={{fontSize:18}}>{t("Product")}</S.Span>
             </S.CustomNavLinkSmall>
             <S.CustomNavLinkSmall onClick={() => scrollTo("about")}>
-              <S.Span>{t("HowItWorks")}</S.Span>
+              <S.Span style={{fontSize:18}}>{t("HowItWorks")}</S.Span>
             </S.CustomNavLinkSmall>
             {/* <S.CustomNavLinkSmall onClick={() => scrollTo("mission")}>
               <S.Span>{t("LoanCalculator")}</S.Span>
             </S.CustomNavLinkSmall> */}
             <S.CustomNavLinkSmall onClick={() => scrollTo("product")}>
-              <S.Span>{t("About")}</S.Span>
+              <S.Span style={{fontSize:18}}>{t("About")}</S.Span>
             </S.CustomNavLinkSmall>
             {/* <S.CustomNavLinkSmall onClick={() => scrollTo("team")}>
             <S.Span>{t("გუნდი")}</S.Span>
@@ -442,18 +442,18 @@ const Header = ({
             {/* <S.CustomNavLinkSmall onClick={() => scrollTo("contact")}>
               <S.Span>{t("Contact")}</S.Span>
             </S.CustomNavLinkSmall> */}
-            <S.CustomNavLinkSmall style={{ width: "110px" }}>
+            <S.CustomNavLinkSmall style={{ width: "10px", marginTop:30 }}>
               <S.Span>
-                {isAuthorize ? (
+                {/* {isAuthorize ? (
                  null
                 ) : (
                   <Button onClick={() => onDialog(1)} >
-                    {t("SignIn")} 
+                    {t("SignIn")}
                   </Button>
-                )}
+                )} */}
               </S.Span>
             </S.CustomNavLinkSmall>
-            <S.CustomNavLinkSmall style={{ width: "140px" }}>
+            <S.CustomNavLinkSmall style={{ width: "100px", marginRight: 150 }}>
               <S.Span>
                 {isAuthorize ? (
                   <Dropdown overlay={menu}>
@@ -469,9 +469,37 @@ const Header = ({
                     </div>
                   </Dropdown>
                 ) : (
-                  <Button onClick={() => onDialog(2)} style={{margin:40}}>
-                    {t("SignUp")} 
-                  </Button>
+                  <div style={{display: 'flex'}}>
+                    <span 
+                    onClick={() => onDialog(1)}
+                    style={{marginRight: 12,fontSize: 20,fontWeight: 1200, color: '#ff6d01',
+                    border: 'solid',
+                    borderRadius: '25% 10%',
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                    paddingRight: 10,
+                    paddingLeft: 10,
+                    }}> 
+                    <span style={{color:'#2e186a'}}>{t("SignIn")}</span></span>
+                    {/* <span style={{marginRight: 4, color:'#ff6d01'}}>/ </span> */}
+                    <span
+                    onClick={() => onDialog(2)}
+                    style={{marginRight: 18,fontSize: 20,fontWeight: 1200, color: '#ff6d01',
+                   border: 'solid',
+                   borderRadius: '25% 10%',
+                   paddingTop: 5,
+                    paddingBottom: 5,
+                    paddingRight: 10,
+                    paddingLeft: 10,
+                    
+                   }}>
+                          <span style={{color:'#2e186a',display: 'inline-block',
+                    minWidth: '80px' }}> {t("SignUp")} </span></span>
+                    
+                  </div>
+                  // <Button onClick={() => onDialog(2)} style={{margin:40}}>
+                  //   {t("SignUp")}
+                  // </Button>
                 )}
               </S.Span>
             </S.CustomNavLinkSmall>
