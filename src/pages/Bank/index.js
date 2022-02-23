@@ -244,9 +244,9 @@ const Bank = () => {
 
     let ob = {
       userId: user.id,
-      statementId: statement.id,
-      statementStatusId: 4,
-      reason: rejectReason,
+      statementId: item.id,
+      statementStatusId: 2,
+      reason: null,
     };
 
     var result = await axios.put(
