@@ -442,6 +442,18 @@ const getBankId = (row) => {
               text: 'MBC',
               value: 'MBC',
           },
+          {
+            text: 'კრედო ბანკი',
+            value: 'კრედო ბანკი',
+        },
+          {
+            text: 'თიბისი ბანკი',
+            value: 'თიბისი ბანკი',
+        },
+          {
+            text: 'საქართველოს ბანკი',
+            value: 'საქართველოს ბანკი',
+        },
 
       ],
       // specify the condition of filtering result
