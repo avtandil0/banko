@@ -221,6 +221,8 @@ const Bank = () => {
     }
   }, [user]);
 
+
+
   const showPopconfirm = () => {
     setVisible(true);
   };
@@ -233,6 +235,8 @@ const Bank = () => {
       `/api/Home?userId=${us ? us.id : user?.id}&token=${us ? us.token : user?.token
       }`
     );
+
+    console.log('resultresult',result)
     setStatements(result.data);
     setStatementLoading(false);
   };
@@ -449,6 +453,14 @@ const Bank = () => {
         <a>{t.dateCreated ? t.dateCreated.substring(0, 10) : ""}</a>
       ),
     },
+    {
+      title: "უარყოფის მიზეზი",
+      dateCreated: "t",
+      key: "t",
+      render: (t) => (
+        <a>{t.rejectReason}</a>
+      ),
+    },
     // {
     //   title: "Tags",
     //   key: "tags",
@@ -478,12 +490,22 @@ const Bank = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  useEffect(async () => {
+    document.body.style.overflowY = "scroll";
+    document.body.style.overflow = 'auto';
+    document.body.style.height = 'auto';
+    console.log('document.body.style.overflowY',document.body.style.overflowY)
+  }, [isModalVisible]);
+
+
   const showModalReject = () => {
     setIsModalVisible(true);
   };
 
   const handleOkReject = async () => {
     setRejectionLoading(true);
+
+
     //
     let ob = {
       userId: user.id,
@@ -517,9 +539,22 @@ const Bank = () => {
     }
 
     setIsModalVisible(false);
+
+    console.log('document.getElementsByTagName(body)',document.getElementsByTagName('body'))
+
+    if (document.getElementsByTagName('body')[0].hasAttribute('style'))
+    {
+       document.getElementsByTagName('body')[0].removeAttribute('style');
+   }
+
   };
   const handleCancelReject = () => {
     setIsModalVisible(false);
+
+    document.body.style.overflow = 'auto';
+    document.body.style.height = 'auto';
+    document.body.style.overflow = 'auto';
+    document.body.style.height = 'auto';
   };
 
   const handleChangeRejectReason = (e) => {
@@ -670,7 +705,35 @@ const Bank = () => {
         <Modal.Footer></Modal.Footer>
       </Modal>
 
-      <AntModal
+
+      <Modal show={isModalVisible} onHide={handleCancelReject} >
+        <Modal.Header closeButton>
+          <Modal.Title>გაუქმება</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+        <TextArea onChange={handleChangeRejectReason} rows={4} />
+        </Modal.Body>
+        <Modal.Footer>
+
+        <Button
+                    onClick={handleCancelReject}
+                  >
+                    დახურვა
+                  </Button>
+
+                  <Button
+                     type="primary"
+                     loading={rejectionLoading}
+                    onClick={handleOkReject}
+                  >
+                    შენახვა
+                  </Button>
+
+        </Modal.Footer>
+      </Modal>
+
+      {/* <AntModal
         title="უარყოფის მიზეზი"
         visible={isModalVisible}
         onOk={handleOkReject}
@@ -680,7 +743,7 @@ const Bank = () => {
         okButtonProps={{ loading: rejectionLoading }}
       >
         <TextArea onChange={handleChangeRejectReason} rows={4} />
-      </AntModal>
+      </AntModal> */}
 
       <AntModal
         width={600}

@@ -66,6 +66,9 @@ const Statement = ({bank, loantype}) => {
   const [visible, setVisible] = useState(false);
   const [approvaloading, setApprovaloading] = useState(false);
   const [rejectionLoading, setRejectionLoading] = useState(false);
+  const [statementCount, setStatementCount] = useState(0);
+  const [approvedCount, setApprovedCount] = useState(0);
+  const [approvedAmount, setApprovedAmount] = useState(0);
 
 
   const [modal, setModal] = useState({
@@ -192,6 +195,11 @@ const Statement = ({bank, loantype}) => {
     }
   }, [user]);
 
+  useEffect(async () => {
+
+    console.log('statementsstatementsstatements',statements)
+
+  }, [statements]);
   const showPopconfirm = () => {
     setVisible(true);
   };
@@ -201,7 +209,12 @@ const Statement = ({bank, loantype}) => {
 
     var result = await axios.get(
       constants.API_PREFIX + `/api/Home?userId=${us ? us.id : user?.id}&token=${us ? us.token : user?.token}`);
+
+    console.log('resultresultresult',result)
     setStatements(result.data);
+    setStatementCount(result.data?.length)
+    setApprovedCount(result.data?.filter(r => r.statementStatus == 3).length)
+    setApprovedAmount(sumBy(result.data?.filter(r => r.statementStatus == 3), function(o) { return o.requestedAmount; }))
     setStatementLoading(false);
   }
 
@@ -321,10 +334,8 @@ const Statement = ({bank, loantype}) => {
 }
 
 const getBankId = (row) => {
-  console.log('555555', row, bank)
   const res = bank.filter(item => item.id == row.bankId)[0]?.bankName;
 
-  console.log('rrrrrrr',res)
   return res
 }
   const columns = [
@@ -335,16 +346,16 @@ const getBankId = (row) => {
       render: (id, row) => (
         <>
           <Space>
-           
 
 
-        
+
+
             <Tooltip placement="bottom" title="ნახვა">
               <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
 
-           
+
           </Space>
 
         </>
@@ -458,11 +469,20 @@ const getBankId = (row) => {
       ],
       // specify the condition of filtering result
       // here is that finding the name started with `value`
-      onFilter: (value, row) => getBankId(row)?.indexOf(value) === 0,
+      onFilter: (value, row) => handleBankFilter(value, row),
       sorter: (a, b) => getBankId(a) > getBankId(b),//console.log('234223432',a,b),
       // sortDirections: ['descend'],
       render: (item, row) => <p>{getBankId(row)}</p>,
         // render: (row) => <a>{getBankName(row.bankId)}</a>,
+      },
+
+      {
+        title: "უარყოფის მიზეზი",
+        dateCreated: "t",
+        key: "t",
+        render: (t) => (
+          <a>{t.rejectReason}</a>
+        ),
       },
     // {
     //   title: "Tags",
@@ -490,6 +510,10 @@ const getBankId = (row) => {
     //   key: "actualAddress",
     // },
   ];
+
+  const handleBankFilter = (value, row) =>{
+    return getBankId(row)?.indexOf(value) === 0
+  }
 
   const data = [
     {
@@ -675,15 +699,15 @@ const getBankId = (row) => {
               {/* <Statistic title="Status" value="Pending" /> */}
               <Statistic
                 title="სულ განცხადებები"
-                value={statements.length}
+                value={statementCount}//
                 style={{
                   margin: '0 32px',
                 }}
               />
-              <Statistic title="დამტკიც. რაოდენობა" 
-                value={statements.filter(r => r.statementStatus == 3).length} />
-              <Statistic title="დამტკიც. თანხა" prefix="₾" 
-              value={sumBy(statements.filter(r => r.statementStatus == 3), function(o) { return o.requestedAmount; })} style={{
+              <Statistic title="დამტკიც. რაოდენობა"
+                value={approvedCount} />
+              <Statistic title="დამტკიც. თანხა" prefix="₾"
+              value={approvedAmount} style={{
                   margin: '0 32px',
                 }}/>
             </Row>
@@ -711,7 +735,7 @@ const getBankId = (row) => {
               {loanTypesOptions.map((option) => (
                 <Option value={option.value}>{option.text}</Option>
               ))}
-             
+
             </Select>
             <Select defaultValue="რეგიონი" style={{ width: 200 }}>
 
@@ -731,6 +755,14 @@ const getBankId = (row) => {
             columns={columns}
             dataSource={statements}
             pagination={{ pageSize: 50 }}
+            onChange={(pag, filter, sorter, extra) => {
+             console.log('onFilteronFilteronFilteronFilter',extra)
+             setStatementCount(extra.currentDataSource.length)
+             setApprovedCount(extra.currentDataSource.filter(r => r.statementStatus == 3).length)
+             setApprovedAmount(sumBy(extra.currentDataSource.filter(r => r.statementStatus == 3), function(o) { return o.requestedAmount; }))
+             setStatementLoading(false);
+            }}
+
           />
           <br></br>
           <br></br>
