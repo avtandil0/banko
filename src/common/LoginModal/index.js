@@ -229,7 +229,7 @@ const LoginModal = ({
       message.success('შეტყობინება წარმატებით გაიგზავნა');
     }
     else{
-      message.error(result.data.message);
+      message.error(result.data.meessage);
     }
   }
 
