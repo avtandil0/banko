@@ -3,7 +3,7 @@ import React, { useState, Fragment, lazy, useEffect } from "react";
 import { ArrowDownOutlined,
    CheckOutlined, EditOutlined, FundViewOutlined,
    FilePdfOutlined,
-    CloseOutlined, ArrowLeftOutlined,SyncOutlined } from '@ant-design/icons';
+    CloseOutlined, ArrowLeftOutlined,SyncOutlined,FileExcelOutlined } from '@ant-design/icons';
 
 import {
   Modal as AntModal,
@@ -44,6 +44,9 @@ import { AgroLoan } from '../../components/LoanTypes/AgroLoan'
 import { MortgageLoan } from '../../components/LoanTypes/MortgageLoan'
 import { AutoLeasing } from '../../components/LoanTypes/AutoLeasing'
 import { CreditCard } from '../../components/LoanTypes/CreditCard'
+
+// let xlsx = require("json-as-xlsx")
+import xlsx from "json-as-xlsx";
 
 const { Option } = Select;
 
@@ -515,6 +518,35 @@ const getBankId = (row) => {
     return getBankId(row)?.indexOf(value) === 0
   }
 
+  const downloadExcel =()=>{
+    console.log('aa',statements)
+
+    let data = [
+      {
+        sheet: "განცხადებები",
+        columns: [
+          { label: "სტატუსი", value: ( row) => getStatementStatus(row.statementStatus) }, // Top level data
+          { label: "სესხის ტიპი", value: (row) => getLoantypeId(row) }, // Custom format
+          { label: "სესხის თანხა", value: (row) => (row.requestedAmount) }, // Run functions
+          { label: "სახელი/გვარი", value: (row) => (row.user ? `${row.user?.name} ${row.user?.lastName}`  : "") }, // Run functions
+          { label: "მობ. ნომერი", value: (row) => (row.user ? row.user?.phoneNumber : "") }, // Run functions
+          { label: "შევსების თარიღი", value: (row) => (row.dateCreated ? row.dateCreated.substring(0,10) || "" : "") }, // Run functions
+          { label: "ბანკი", value: (row) => getBankId(row) }, // Run functions
+          { label: "უარყოფის მიზეზი", value: (row) => row.rejectReason }, // Run functions
+        ],
+        content: statements,
+      },
+    ]
+    
+    let settings = {
+      fileName: "განცხადებები", // Name of the resulting spreadsheet
+      extraLength: 3, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    }
+    
+    xlsx(data, settings) 
+  }
+
   const data = [
     {
       key: "1",
@@ -748,6 +780,7 @@ const getBankId = (row) => {
           <br></br>
           <br></br>
           <Button onClick={() => search()} icon={<SyncOutlined spin={statementLoading}/>} type="primary">Sync</Button>
+          <Button disabled={!statements.length} style={{marginLeft: 15}} onClick={() => downloadExcel()} icon={<FileExcelOutlined />} type="primary">ექსპორტი</Button>
           <br></br>
           <br></br>
           <Table

@@ -195,6 +195,10 @@ const LoginModal = ({
     setCurrentUser(us);
   }, []);
 
+  const passValidation = () => {
+    return (/[0-9]/.test(user?.password)) || !(/[A-Z]/.test(user?.password)) || user?.password?.length < 8
+  }
+
   const sendSms = async () => {
     if (!user?.phoneNumber) {
       message.error("მიუთითეთ მობილურის ნომერი ! ");
@@ -550,9 +554,13 @@ const LoginModal = ({
                     placeholder="გაიმეორეთ პაროლი"
                     value={user?.rePassword}
                     onChange={handleChangeInput}
+                    isInvalid={
+                      user?.rePassword && (user?.password != user?.rePassword
+                      || (!(/[0-9]/.test(user?.password)) || !(/[A-Z]/.test(user?.password)) || user?.password?.length < 8))
+                    }
                   />
                   <Form.Control.Feedback type="invalid">
-                    გაიმეორეთ პაროლი.
+                  პაროლი უნდა შედგებოდეს მინიმუმ 8 სიმბოლოსგან, შეიცავდეს მინიმუმ ერთი ციფრს და ერთ დიდ ასოს
                   </Form.Control.Feedback>
                 </Col>
               </Row>

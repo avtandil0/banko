@@ -9,6 +9,7 @@ import {
   CloseOutlined,
   ArrowLeftOutlined,
   SyncOutlined,
+  FileExcelOutlined
 } from "@ant-design/icons";
 
 import {
@@ -48,6 +49,8 @@ import { AgroLoan } from "../../components/LoanTypes/AgroLoan";
 import { MortgageLoan } from "../../components/LoanTypes/MortgageLoan";
 import { AutoLeasing } from "../../components/LoanTypes/AutoLeasing";
 import { CreditCard } from "../../components/LoanTypes/CreditCard";
+import xlsx from "json-as-xlsx";
+
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -78,6 +81,17 @@ const Bank = () => {
     amount: 0,
     loading: false,
   });
+
+  const [bank, setBank] = useState([]);
+
+
+  const fetchBank = async (us) => {
+    const result = await axios(constants.API_PREFIX + '/api/Bank',{
+        params: {
+            token: us? us.token: user.token
+        }});
+    setBank(result.data)
+}
 
   const changeStatus = async (status) => {
     console.log("statusstatusstatus", status);
@@ -561,6 +575,45 @@ const Bank = () => {
     console.log("ee", e.target.value);
     setRejectReason(e.target.value);
   };
+
+
+  const getBankId = (row) => {
+    const res = bank.filter(item => item.id == row.bankId)[0]?.bankName;
+  
+    return res
+  }
+
+  const downloadExcel =()=>{
+    console.log('aa',statements)
+
+    let data = [
+      {
+        sheet: "განცხადებები",
+        columns: [
+          { label: "სტატუსი", value: ( row) => getStatementStatus(row.statementStatus) }, // Top level data
+          { label: "სესხის ტიპი", value: (row) => getIncomeSourceName(row.loantypeId) }, // Custom format
+          { label: "სესხის თანხა", value: (row) => (row.requestedAmount) }, // Run functions
+          { label: "სახელი/გვარი", value: (row) => (row.user ? `${row.user?.name} ${row.user?.lastName}`  : "") }, // Run functions
+          { label: "მობ. ნომერი", value: (row) => (row.user ? row.user?.phoneNumber : "") }, // Run functions
+          { label: "შევსების თარიღი", value: (row) => (row.dateCreated ? row.dateCreated.substring(0,10) || "" : "") }, // Run functions
+          // { label: "ბანკი", value: (row) => getBankId(row) }, // Run functions
+          { label: "უარყოფის მიზეზი", value: (row) => row.rejectReason }, // Run functions
+        ],
+        content: statements,
+      },
+    ]
+    
+    let settings = {
+      fileName: "განცხადებები", // Name of the resulting spreadsheet
+      extraLength: 3, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    }
+    
+    xlsx(data, settings) 
+  }
+
+
+
   return (
     <div>
       <Modal show={show1} onHide={() => setShow1(false)} size="lg">
@@ -873,6 +926,8 @@ const Bank = () => {
           >
             Sync
           </Button>
+          <Button disabled={!statements.length} style={{marginLeft: 15}} onClick={() => downloadExcel()} icon={<FileExcelOutlined />} type="primary">ექსპორტი</Button>
+
           <br></br>
           <br></br>
           <Table
