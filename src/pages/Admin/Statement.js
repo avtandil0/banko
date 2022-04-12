@@ -3,7 +3,7 @@ import React, { useState, Fragment, lazy, useEffect } from "react";
 import { ArrowDownOutlined,
    CheckOutlined, EditOutlined, FundViewOutlined,
    FilePdfOutlined,
-    CloseOutlined, ArrowLeftOutlined,SyncOutlined } from '@ant-design/icons';
+    CloseOutlined, ArrowLeftOutlined,SyncOutlined,FileExcelOutlined } from '@ant-design/icons';
 
 import {
   Modal as AntModal,
@@ -45,9 +45,12 @@ import { MortgageLoan } from '../../components/LoanTypes/MortgageLoan'
 import { AutoLeasing } from '../../components/LoanTypes/AutoLeasing'
 import { CreditCard } from '../../components/LoanTypes/CreditCard'
 
+// let xlsx = require("json-as-xlsx")
+import xlsx from "json-as-xlsx";
+
 const { Option } = Select;
 
-const Statement = ({bank}) => {
+const Statement = ({bank, loantype}) => {
 
   let history = useHistory();
 
@@ -66,6 +69,9 @@ const Statement = ({bank}) => {
   const [visible, setVisible] = useState(false);
   const [approvaloading, setApprovaloading] = useState(false);
   const [rejectionLoading, setRejectionLoading] = useState(false);
+  const [statementCount, setStatementCount] = useState(0);
+  const [approvedCount, setApprovedCount] = useState(0);
+  const [approvedAmount, setApprovedAmount] = useState(0);
 
 
   const [modal, setModal] = useState({
@@ -192,6 +198,11 @@ const Statement = ({bank}) => {
     }
   }, [user]);
 
+  useEffect(async () => {
+
+    console.log('statementsstatementsstatements',statements)
+
+  }, [statements]);
   const showPopconfirm = () => {
     setVisible(true);
   };
@@ -201,7 +212,12 @@ const Statement = ({bank}) => {
 
     var result = await axios.get(
       constants.API_PREFIX + `/api/Home?userId=${us ? us.id : user?.id}&token=${us ? us.token : user?.token}`);
+
+    console.log('resultresultresult',result)
     setStatements(result.data);
+    setStatementCount(result.data?.length)
+    setApprovedCount(result.data?.filter(r => r.statementStatus == 3).length)
+    setApprovedAmount(sumBy(result.data?.filter(r => r.statementStatus == 3), function(o) { return o.requestedAmount; }))
     setStatementLoading(false);
   }
 
@@ -315,6 +331,16 @@ const Statement = ({bank}) => {
     return bank.filter(r => r.id == id)[0]? bank.filter(r => r.id == id)[0].bankName : ''
   }
 
+  const getLoantypeId = (row) => {
+    const res = loantype.filter(item => item.id == row.loantypeId)[0]?.loanTypeName;
+    return res
+}
+
+const getBankId = (row) => {
+  const res = bank.filter(item => item.id == row.bankId)[0]?.bankName;
+
+  return res
+}
   const columns = [
     {
       title: "მოქმედებები",
@@ -323,16 +349,16 @@ const Statement = ({bank}) => {
       render: (id, row) => (
         <>
           <Space>
-           
 
 
-        
+
+
             <Tooltip placement="bottom" title="ნახვა">
               <Button type="primary" onClick={() => handleView(row)} icon={<FundViewOutlined style={{ color: 'white' }} />}>
               </Button>
             </Tooltip>
 
-           
+
           </Space>
 
         </>
@@ -352,7 +378,39 @@ const Statement = ({bank}) => {
       title: "ტიპი",
       dataIndex: "loantypeId",
       key: "loantypeId",
-      render: (loantypeId) => <a>{getIncomeSourceName(loantypeId)}</a>,
+      filters: [
+        {
+            text: 'სამომხმარებლო',
+            value: 'სამომხმარებლო',
+        },
+        {
+            text: 'იპოთეკური',
+            value: 'იპოთეკური',
+        },
+        {
+            text: 'აგრო',
+            value: 'აგრო',
+        },
+        {
+            text: 'ავტოლიზინგი',
+            value: 'ავტოლიზინგი',
+        },
+        {
+            text: 'ბიზნეს სესხი',
+            value: 'ბიზნეს სესხი',
+        },
+        {
+            text: 'საკრედიტო ბარათები',
+            value: 'საკრედიტო ბარათები',
+        },
+
+    ],
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, row) => getLoantypeId(row).indexOf(value) === 0,
+      // render: (loantypeId) => <a>{getIncomeSourceName(loantypeId)}</a>,
+      sorter: (a, b) => getLoantypeId(a) > getLoantypeId(b),//console.log('234223432',a,b),
+      render: (item, row) => <p>{getLoantypeId(row)}</p>,
     },
     {
       title: "თანხა",
@@ -385,7 +443,49 @@ const Statement = ({bank}) => {
         title: "ბანკი",
         dateCreated: "bank",
         key: "bankId",
-        render: (row) => <a>{getBankName(row.bankId)}</a>,
+        filters: [
+          {
+              text: 'რებანკი',
+              value: 'რებანკი',
+          },
+          {
+              text: 'ბაზისბანკი',
+              value: 'ბაზისბანკი',
+          },
+          {
+              text: 'MBC',
+              value: 'MBC',
+          },
+          {
+            text: 'კრედო ბანკი',
+            value: 'კრედო ბანკი',
+        },
+          {
+            text: 'თიბისი ბანკი',
+            value: 'თიბისი ბანკი',
+        },
+          {
+            text: 'საქართველოს ბანკი',
+            value: 'საქართველოს ბანკი',
+        },
+
+      ],
+      // specify the condition of filtering result
+      // here is that finding the name started with `value`
+      onFilter: (value, row) => handleBankFilter(value, row),
+      sorter: (a, b) => getBankId(a) > getBankId(b),//console.log('234223432',a,b),
+      // sortDirections: ['descend'],
+      render: (item, row) => <p>{getBankId(row)}</p>,
+        // render: (row) => <a>{getBankName(row.bankId)}</a>,
+      },
+
+      {
+        title: "უარყოფის მიზეზი",
+        dateCreated: "t",
+        key: "t",
+        render: (t) => (
+          <a>{t.rejectReason}</a>
+        ),
       },
     // {
     //   title: "Tags",
@@ -413,6 +513,39 @@ const Statement = ({bank}) => {
     //   key: "actualAddress",
     // },
   ];
+
+  const handleBankFilter = (value, row) =>{
+    return getBankId(row)?.indexOf(value) === 0
+  }
+
+  const downloadExcel =()=>{
+    console.log('aa',statements)
+
+    let data = [
+      {
+        sheet: "განცხადებები",
+        columns: [
+          { label: "სტატუსი", value: ( row) => getStatementStatus(row.statementStatus) }, // Top level data
+          { label: "სესხის ტიპი", value: (row) => getLoantypeId(row) }, // Custom format
+          { label: "სესხის თანხა", value: (row) => (row.requestedAmount) }, // Run functions
+          { label: "სახელი/გვარი", value: (row) => (row.user ? `${row.user?.name} ${row.user?.lastName}`  : "") }, // Run functions
+          { label: "მობ. ნომერი", value: (row) => (row.user ? row.user?.phoneNumber : "") }, // Run functions
+          { label: "შევსების თარიღი", value: (row) => (row.dateCreated ? row.dateCreated.substring(0,10) || "" : "") }, // Run functions
+          { label: "ბანკი", value: (row) => getBankId(row) }, // Run functions
+          { label: "უარყოფის მიზეზი", value: (row) => row.rejectReason }, // Run functions
+        ],
+        content: statements,
+      },
+    ]
+    
+    let settings = {
+      fileName: "განცხადებები", // Name of the resulting spreadsheet
+      extraLength: 3, // A bigger number means that columns will be wider
+      writeOptions: {}, // Style options from https://github.com/SheetJS/sheetjs#writing-options
+    }
+    
+    xlsx(data, settings) 
+  }
 
   const data = [
     {
@@ -598,15 +731,15 @@ const Statement = ({bank}) => {
               {/* <Statistic title="Status" value="Pending" /> */}
               <Statistic
                 title="სულ განცხადებები"
-                value={statements.length}
+                value={statementCount}//
                 style={{
                   margin: '0 32px',
                 }}
               />
-              <Statistic title="დამტკიც. რაოდენობა" 
-                value={statements.filter(r => r.statementStatus == 3).length} />
-              <Statistic title="დამტკიც. თანხა" prefix="₾" 
-              value={sumBy(statements.filter(r => r.statementStatus == 3), function(o) { return o.requestedAmount; })} style={{
+              <Statistic title="დამტკიც. რაოდენობა"
+                value={approvedCount} />
+              <Statistic title="დამტკიც. თანხა" prefix="₾"
+              value={approvedAmount} style={{
                   margin: '0 32px',
                 }}/>
             </Row>
@@ -634,7 +767,7 @@ const Statement = ({bank}) => {
               {loanTypesOptions.map((option) => (
                 <Option value={option.value}>{option.text}</Option>
               ))}
-             
+
             </Select>
             <Select defaultValue="რეგიონი" style={{ width: 200 }}>
 
@@ -647,6 +780,7 @@ const Statement = ({bank}) => {
           <br></br>
           <br></br>
           <Button onClick={() => search()} icon={<SyncOutlined spin={statementLoading}/>} type="primary">Sync</Button>
+          <Button disabled={!statements.length} style={{marginLeft: 15}} onClick={() => downloadExcel()} icon={<FileExcelOutlined />} type="primary">ექსპორტი</Button>
           <br></br>
           <br></br>
           <Table
@@ -654,6 +788,14 @@ const Statement = ({bank}) => {
             columns={columns}
             dataSource={statements}
             pagination={{ pageSize: 50 }}
+            onChange={(pag, filter, sorter, extra) => {
+             console.log('onFilteronFilteronFilteronFilter',extra)
+             setStatementCount(extra.currentDataSource.length)
+             setApprovedCount(extra.currentDataSource.filter(r => r.statementStatus == 3).length)
+             setApprovedAmount(sumBy(extra.currentDataSource.filter(r => r.statementStatus == 3), function(o) { return o.requestedAmount; }))
+             setStatementLoading(false);
+            }}
+
           />
           <br></br>
           <br></br>

@@ -81,11 +81,12 @@ const Router = () => {
         {
           JSON.parse(localStorage.getItem('user'))?.userRoleId == 1?  <Admin /> : ''
         }
-       
+
       </Route>
       <Route exact path="/bank">
-       {isAuthorize && JSON.parse(localStorage.getItem('user'))?.userRoleId == 2 
-       && JSON.parse(localStorage.getItem('user'))?.bankId? <Bank /> : null} 
+       {isAuthorize && JSON.parse(localStorage.getItem('user'))?.userRoleId == 2
+       && JSON.parse(localStorage.getItem('user'))?.bankId? <Bank /> : null}
+
       </Route>
 
       <Route exact  path="/detail/:id">
