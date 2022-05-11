@@ -82,7 +82,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
             return
         }
         if (statement.currency == "GEL") {
-            if (statement?.monthlyAverageIncome < 1000) {
+            if (statement?.monthlyAverageIncome < 1500) {
                 // setValidated(true)
                 let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 25 / 100;
 
@@ -97,7 +97,7 @@ export function ConsumerLoan({ statement, setStatement, setValidated, disabled }
                 setMonthlyAverageIncomeValidate(valid)
             }
         } else {
-            if (statement?.monthlyAverageIncome < 1000) {
+            if (statement?.monthlyAverageIncome < 1500) {
                 // setValidated(true)
                 let monthlyAverageIncomePart = statement?.monthlyAverageIncome * 20 / 100;
 
