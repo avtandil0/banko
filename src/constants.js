@@ -5,6 +5,7 @@
 // const API_PREFIX = 'http://avtandil-002-site3.ftempurl.com'
 // const API_PREFIX = 'http://avtandil-002-site3.itempurl.com'
 const API_PREFIX = 'https://back.banko.ge'
+
 // const API_PREFIX = 'http://ranko-prod.eu-central-1.elasticbeanstalk.com'
 // const API_PREFIX = 'https://main.d3ip4su9ylspny.amplifyapp.com'
 
