@@ -940,13 +940,13 @@ const MiddleBlock = ({
       return;
     }
 
-    if(index == 3){
-      AntModal.warning({
-        content: 'პროდუქტი მალე დაემატება',
-      });
+    // if(index == 3){
+    //   AntModal.warning({
+    //     content: 'პროდუქტი მალე დაემატება',
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
     setProductType(index);
     setShow1(true);
 
