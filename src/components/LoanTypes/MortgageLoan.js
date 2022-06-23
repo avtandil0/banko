@@ -1,4 +1,4 @@
-import { useState, Fragment, lazy, useEffect } from "react";
+import React, { useState, Fragment, lazy, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
