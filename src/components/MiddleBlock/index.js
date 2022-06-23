@@ -1,4 +1,4 @@
-import { useState, Fragment, lazy, useEffect } from "react";
+import React,{ useState, Fragment, lazy, useEffect } from "react";
 import {
   Row,
   message,
