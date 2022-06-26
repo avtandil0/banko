@@ -4,7 +4,7 @@ import { withTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
 // import Sonnet from 'react-bootstrap/Sonnet';
 // import { Menu, Dropdown } from "antd";
