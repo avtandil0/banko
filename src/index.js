@@ -6,6 +6,7 @@ import "antd/dist/antd.css";
 import Router from "./router";
 import i18n from "./translation";
 import * as serviceWorker from "./serviceWorker";
+import "bootstrap/dist/css/bootstrap.min.css";
 import './index.css';
 import axios from 'axios';
 
