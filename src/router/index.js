@@ -73,6 +73,7 @@ const Router = () => {
 
           <Footer />
 
+
       </Route>
       <Route exact path="/profile">
         <Profile isAuthorize={isAuthorize} setIsAuthorize={setIsAuthorize} />
