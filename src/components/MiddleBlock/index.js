@@ -1,4 +1,4 @@
-import { useState, Fragment, lazy, useEffect } from "react";
+import React,{ useState, Fragment, lazy, useEffect } from "react";
 import {
   Row,
   message,
@@ -940,13 +940,13 @@ const MiddleBlock = ({
       return;
     }
 
-    if(index == 3){
-      AntModal.warning({
-        content: 'პროდუქტი მალე დაემატება',
-      });
+    // if(index == 3){
+    //   AntModal.warning({
+    //     content: 'პროდუქტი მალე დაემატება',
+    //   });
 
-      return;
-    }
+    //   return;
+    // }
     setProductType(index);
     setShow1(true);
 

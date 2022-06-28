@@ -6,7 +6,7 @@
 // };
 
 // export default Calculation;
-import { useState, Fragment, lazy, useEffect } from "react";
+import React,{ useState, Fragment, lazy, useEffect } from "react";
 
 import { Row, Col } from "antd";
 import { withTranslation } from "react-i18next";

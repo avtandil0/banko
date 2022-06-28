@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useEffect } from "react";
+import React,{ lazy, Suspense, useState, useEffect } from "react";
 
 import { Switch, Route } from "react-router-dom";
 
@@ -72,6 +72,7 @@ const Router = () => {
         )}
 
           <Footer />
+
 
       </Route>
       <Route exact path="/profile">

@@ -1,4 +1,4 @@
-import { lazy, Fragment } from "react";
+import React, { lazy, Fragment } from "react";
 import { Row, Col } from "antd";
 import i18n from "i18next";
 import { withTranslation } from "react-i18next";

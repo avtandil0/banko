@@ -1,4 +1,4 @@
-import { lazy, useEffect } from "react";
+import React, { lazy, useEffect } from "react";
 
 import IntroContent from "../../content/IntroContent.json";
 import MiddleBlockContent from "../../content/MiddleBlockContent.json";
