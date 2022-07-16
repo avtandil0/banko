@@ -426,6 +426,26 @@ const Bank = () => {
       title: "სტატუსი",
       dataIndex: "statementStatus",
       key: "statementStatus",
+      filters: [
+        {
+            text: 'ახალი',
+            value: 'ახალი',
+        },
+        {
+            text: 'დამუშვების პროცესში',
+            value: 'დამუშვების პროცესში',
+        },
+        {
+            text: 'დაკმაყოფილდა',
+            value: 'დაკმაყოფილდა',
+        },
+        {
+            text: 'უარი ეთქვა',
+            value: 'უარი ეთქვა',
+        },
+
+    ],
+    onFilter: (value, row) => getStatementStatus(row.statementStatus).indexOf(value) === 0,
       render: (statementStatus) => (
         <>
           <Tag color="cyan">{getStatementStatus(statementStatus)}</Tag>
@@ -436,6 +456,34 @@ const Bank = () => {
       title: "ტიპი",
       dataIndex: "loantypeId",
       key: "loantypeId",
+      filters: [
+        {
+            text: 'სამომხმარებლო',
+            value: 'სამომხმარებლო',
+        },
+        {
+            text: 'იპოთეკური',
+            value: 'იპოთეკური',
+        },
+        {
+            text: 'აგრო',
+            value: 'აგრო',
+        },
+        {
+            text: 'ავტოლიზინგი',
+            value: 'ავტოლიზინგი',
+        },
+        {
+            text: 'ბიზნეს სესხი',
+            value: 'ბიზნეს სესხი',
+        },
+        {
+            text: 'საკრედიტო ბარათები',
+            value: 'საკრედიტო ბარათები',
+        },
+
+    ],
+    onFilter: (value, row) => getIncomeSourceName(row.loantypeId).indexOf(value) === 0,
       render: (loantypeId) => <a>{getIncomeSourceName(loantypeId)}</a>,
     },
     {
