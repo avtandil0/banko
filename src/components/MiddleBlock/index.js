@@ -921,6 +921,19 @@ const MiddleBlock = ({
     );
   };
   const onDialog = (index) => {
+     AntModal.info({
+      title: 'This is a notification message',
+      content: (
+        <div>
+          <p>some messages...some messages...</p>
+          <p>some messages...some messages...</p>
+        </div>
+      ),
+      onOk() {},
+      okText: 'დახურვა'
+    });
+
+    return;
     if (!isAuthorize) {
       // message.warning('განცხადების შესატანად გაიარეთ ავტორიზაცია');
       // notification['info']({
