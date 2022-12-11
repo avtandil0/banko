@@ -922,11 +922,10 @@ const MiddleBlock = ({
   };
   const onDialog = (index) => {
      AntModal.info({
-      title: 'This is a notification message',
+      title: 'შეტყობინება',
       content: (
         <div>
-          <p>some messages...some messages...</p>
-          <p>some messages...some messages...</p>
+          <p>მიმდინარეობს საიტის განახლება...</p>
         </div>
       ),
       onOk() {},
